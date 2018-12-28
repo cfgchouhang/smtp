@@ -1,0 +1,365 @@
+Delivered-To: cfgchouhang@gmail.com
+Received: by 2002:a17:90a:9202:0:0:0:0 with SMTP id m2-v6csp4248350pjo;
+        Tue, 25 Dec 2018 01:23:48 -0800 (PST)
+X-Google-Smtp-Source: ALg8bN4gxAh9ZIw4WpdxG1PawO+uzMmFI69iiGB3suqE3fV5AH31TqBnFL6HYPVgax1eHqyvprqC
+X-Received: by 2002:a25:1f0b:: with SMTP id f11mr5781956ybf.133.1545729828041;
+        Tue, 25 Dec 2018 01:23:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1545729828; cv=none;
+        d=google.com; s=arc-20160816;
+        b=EXqHv0PoN6xh406/xiS9U5yPMIFeNkzIqqVnuBUxpQBYZqo7Wm5nkYwRSVb2wyJgF5
+         CjuolRk5NYN34esx6fsvTF3x6hfkeDraoshhmg0Bk/Qk5GjiLle3Fbpb2ymZCqaAidYT
+         pBVLjhTQ2PnIzbE+Gsf8uahKu7TGVB6t6XsrGG1vJBKGToOxqolW0K1VU9wSl6q+iBcJ
+         G3XNDXvWIxzjHBhP/f/yF2Kq5A2By79XRV+YZlFYbcEAqwMU9/iW0ll2Uigmjg3BoxzY
+         3nsGtZq80Zj3hfmWdPiHl3dHl3RMvMISsgToEQ6Ym9MzMX6LOYzMMKTX3jhGSIuUfTrn
+         jmfw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:message-id:list-id:mime-version:list-unsubscribe:date
+         :subject:to:from:dkim-signature;
+        bh=wnXDVtY2NmzgScwLGNLiSFiZ26HBMV6Ey6jGzWBsaV4=;
+        b=srJlcxKqjXXKrptxAnK/+jPpLo05mhyHxxAl5qqJTpA4k5N284yTmhtkd3NOUKy/As
+         gdZNG6qEAMPyLS2jSqIizpEBLUJMZG2uAAKt717orzAgMHvhxkcq+JZWe0chT5TP5f4n
+         I+ZjtZweVX0j7I9wOl0t5gUJASinWhW19qyS1+wkYbdQS3+84BCOGBY6Rm2e7bBtGrTV
+         7AI8++lld+qiamLRulfd3LMQqD77Ugx3+VXklD+flWQ0GPSYzRKd5NBFMdiIsYjWpPxZ
+         /fSw8KqB3uv8w/dTf2UHZM8HviOdHxDwGhmeC6qLEbrHaK6PkFYVabuXh8CupcYWev3q
+         VuBw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ccg.nintendo.com header.s=200608 header.b=Izg3oopc;
+       spf=pass (google.com: domain of bounce-672_html-57917887-728470-7230701-16@bounce.ccg.nintendo.com designates 136.147.185.63 as permitted sender) smtp.mailfrom=bounce-672_HTML-57917887-728470-7230701-16@bounce.ccg.nintendo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nintendo.com
+Return-Path: <bounce-672_HTML-57917887-728470-7230701-16@bounce.ccg.nintendo.com>
+Received: from mta12.ccg.nintendo.net (mta12.ccg.nintendo.net. [136.147.185.63])
+        by mx.google.com with ESMTPS id b6si13436818ybj.90.2018.12.25.01.23.47
+        for <cfgchouhang@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Dec 2018 01:23:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce-672_html-57917887-728470-7230701-16@bounce.ccg.nintendo.com designates 136.147.185.63 as permitted sender) client-ip=136.147.185.63;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@ccg.nintendo.com header.s=200608 header.b=Izg3oopc;
+       spf=pass (google.com: domain of bounce-672_html-57917887-728470-7230701-16@bounce.ccg.nintendo.com designates 136.147.185.63 as permitted sender) smtp.mailfrom=bounce-672_HTML-57917887-728470-7230701-16@bounce.ccg.nintendo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nintendo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=200608; d=ccg.nintendo.com;
+ h=From:To:Subject:Date:List-Unsubscribe:MIME-Version:List-ID:Message-ID:
+ Content-Type; i=nintendo-noreply@ccg.nintendo.com;
+ bh=wnXDVtY2NmzgScwLGNLiSFiZ26HBMV6Ey6jGzWBsaV4=;
+ b=Izg3oopccvO2CmWa14xQ/eCs0GB1VAUCvEH06PFcfs3TbiNT4KMZof8ZWhqINVIKz/yPxhC3+Mba
+   pmvAt1Mn/uggkV6UzhTtjVOoArhnLW8BOvX8UaJDoy1SeZai/4N+uds8EhuF4Qsr6fRwWJ58RWXB
+   Kd02X3hyCk4lfUTaWEI=
+Received: by mta12.ccg.nintendo.net id h47ri62fmd4f for <cfgchouhang@gmail.com>; Tue, 25 Dec 2018 09:23:45 +0000 (envelope-from <bounce-672_HTML-57917887-728470-7230701-16@bounce.ccg.nintendo.com>)
+From: "Nintendo" <nintendo-noreply@ccg.nintendo.com>
+To: <cfgchouhang@gmail.com>
+Subject: =?UTF-8?B?UGV0ZXLmp5gg44CO5aSn5Lmx6ZeY44K544Oe44OD44K344Ol44OW?=
+ =?UTF-8?B?44Op44K244O844K6IFNQRUNJQUzjgI/jga7jg4bjgq/jg4vjg4Pjgq/mg4U=?=
+ =?UTF-8?B?5aCx44CB6Zai6YCj44Kw44OD44K644CB44Kk44OZ44Oz44OI5oOF5aCx44KS?=
+ =?UTF-8?B?44GK5bGK44GR44GX44G+44GZ?=
+Date: Tue, 25 Dec 2018 03:23:43 -0600
+List-Unsubscribe: <mailto:leave-fd4c1277770b5c392848-fe4b11777c6503757d13-fec313727d60037d-fe9b13727664037d74-ff981576@leave.ccg.nintendo.com>
+MIME-Version: 1.0
+List-ID: <7207004.xt.local>
+X-CSA-Complaints: whitelistcomplaints@eco.de
+x-job: 7230701_728470
+Message-ID: <db9a0c41-dcf6-48a8-a24b-cc4c5630f8ce@atl1s07mta778.xt.local>
+Feedback-ID: 7230701:728470:136.147.185.63:sfmktgcld
+Content-Type: multipart/alternative;
+	boundary="E9nMGF0nmQqj=_?:"
+
+This is a multi-part message in MIME format.
+
+--E9nMGF0nmQqj=_?:
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+Peter 様
+
+『大乱闘スマッシュブラザーズ SPECIAL』をプレイいただきありがとうございます。
+ゲームで使えるテクニック情報、イベント情報などをお届けいたします。
+
+■□━━━━━━━━━
+ゲームをもっと楽しむ
+使えるテクニック・情報のご紹介（中級編）
+━━━━━━━━━■□
+●ショップの商品のグレードアップ
+ショップは商品を買えば買うほど、置いてある商品が最大4段階までグレードアップします。割引セールが行われることもあります。
+
+
+●ファイターの湯気
+ファイターから湯気が立ってくると、補正がかかって相手を「ふっとばす力」が増加している状態となります。
+
+
+●スピリッツボードの対策おすすめ
+スピリッツボードの対策おすすめでは、毒の床などバトル中要素や、相手の属性に対して有利になるスピリッツがセットされます。最強のセットではなく、ある程度ごほうびがもらえるように、相手とのパワーバランスを見て、選択されます。
+
+
+●サウンドテストを画面のOFFで！
+サウンドテストは画面をオフにしても音楽は聞けます。サウンドプレーヤーのように持ち運ぶことも可能です。
+
+
+
+■□━━━━━━━━━
+マイニンテンドーストア
+関連グッズのご紹介
+━━━━━━━━━■□
+対応もamiiboや「Nintendo Switch Proコントローラー」をマイニンテンドーストアで販売中
+
+
+▼購入はこちら（マイニンテンドーストア）
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbf4229e96db7b6056862475cb5fe9393da4d4855e4235ab0fde19e1d26ae66290e5a0a5803927944fb6e18041d83716108
+
+
+
+■□━━━━━━━━━
+参加してみよう！
+随時開催のイベント情報
+━━━━━━━━━■□
+大乱闘スマッシュブラザーズでは、随時いろいろな場所で大会などのイベントを開催中！
+
+▼最新のイベント情報をチェック
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbffaf71038bc9837b411e2c08dcbebdbd877a50788e39d10ed4594bb6f4a21d1a88b67e995bd37e32b9b332f4e072d4788
+
+
+
+━＜PICK UP!＞━━━━
+▼この冬、あのタイトルを始めてみよう！ Nintendo Switchに『Minecraft』と『フォートナイト バトルロイヤル』の本体セットが登場！↓
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbfa3aee19c8f1603db3497323e7a1133e895438f96ca2734cdeb6c811873cff93282c352f3ee48d3d2cd4682697d3acdab
+
+▼この冬、あのタイトルを始めてみよう！ Nintendo Switchに『Minecraft』と『フォートナイト バトルロイヤル』の本体セットが登場！ ↓
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbf92a4fe05f63220223cf18737d35cf5bc35b983b44f09439a4e677c2c1623b03ed7491f53e2f264664999f5dcbf7352fd
+
+
+
+〓〓〓〓〓〓〓〓〓〓〓
+▽配信停止はこちら
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbf039fdd640577777da8d17f65e18633a4c781c20aeb34b9d54798862eeaf960eb84b9960216d90f1e65f341a4184126aa
+▽オンラインお問い合わせ窓口
+http://click.ccg.nintendo.com/?qs=3fa3446689102fbf633dcf992abb356bdbe7e8d19e65e8d2a19553d6f8b07543171c51816e93b0da14ed9f080d56c88fbb86039faf7c77a0
+▽お客様ご相談窓口：0570-011-120
+※IP電話、携帯電話の定額通話をご利用の方は：075-662-9611
+※土・日・祝日・会社設定休日を除く
+〓〓〓〓〓〓〓〓〓〓〓
+配信元：任天堂株式会社　京都市南区上鳥羽鉾立町11-1
+
+
+--E9nMGF0nmQqj=_?:
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="format-detection" content="telephone=no,address=no,email=no,date=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>任天堂からのおしらせ</title>
+<style type="text/css"><!--
+body { margin:0;padding:0; }
+img { border:0;line-height:0; }
+--></style>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="background-color:#ffffff;font-family:'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif'" bgcolor="#ffffff">
+<table border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td width="640" colspan="2"><span style="color:#ffffff;font-size:0;line-height:0;">ゲームのテクニック情報、イベント情報など！</span></td>
+</tr>
+<tr>
+<td width="320" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="320" height="10" alt="" border="0" style="display:block;" /></td>
+<td width="320" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="320" height="10" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="width:auto;color:#666666;">
+<tr>
+<td width="640" align="left" style="font-size:13px;line-height:120%;">Peter 様</td>
+</tr>
+<tr>
+<td width="640" align="right" style="font-size:11px;line-height:130%;">※うまく表示されない方は<a href="http://view.ccg.nintendo.com/?qs=2edf45e62055dd7265d53e61442a6dc7ae936b42f507b869b47c7d8722c13fe2df93c69b837402243848027022d27449b6d2e38faa4f80502ad39856a402e7009ff5222746e4c8ef7cc5ad075aaac4d1" target="_blank" style="color:#4284d2;" >こちら</a>をご覧ください。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="10" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbfc675920582eefe886eb49b428e1fc44806505ef0da4a22d7a37a4d02a870059147cadd9267568206744f77c7bb9fa793" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_logo01.jpg" width="162" height="47" border="0" style="font-size:13px;" alt="NINTENDO SWITCH" /></a><!--
+--><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img00.jpg" width="376" height="47" border="0" style="font-size:13px;" alt="" /><!--
+--><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbf5cc1769e88b649c212a82e48a1829cd04f9afd3f5ab02b5b4a1117e32cf523bfdfae239fc7106e7625d634843f02644e" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_logo02.jpg" width="102" height="47" border="0" style="font-size:13px;" alt="Nintendo" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img01.jpg" width="640" height="513" border="0" style="display:block;font-size:13px;" alt="大乱闘スマッシュブラザーズ SPECIALをお楽しみの皆様へ THANK YOU FOR PLAYING!" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img02.jpg" width="640" height="210" border="0" style="display:block;font-size:13px;" alt="使えるテクニック・情報のご紹介 中級編" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img03.jpg" width="640" height="466" border="0" style="display:block;font-size:13px;" alt="ショップは商品を買えば買うほど、置いてある品物が最大4段階までグレードアップしていきます。割引セールが行われることもあります。" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img04.jpg" width="640" height="438" border="0" style="display:block;font-size:13px;" alt="ファイターから湯気が上がってくると、補正がかかってふっとび量が増加している状態となります。" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img05.jpg" width="640" height="526" border="0" style="display:block;font-size:13px;" alt="スピリッツボードの対策おすすめでは、毒の床などのバトル中要素や、相手の属性に対して有利になるスピリッツがセットされます。最強のセットではなく、ある程度ごほうびがもらえるように、相手とのパワーバランスを見て、選択されます。" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img06.jpg" width="640" height="466" border="0" style="display:block;font-size:13px;" alt="サウンドテストは画面をオフにしても音楽は聴けます。サウンドプレイヤーのように持ち運ぶことも可能です。" /></td>
+</tr>
+
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img10.jpg" width="640" height="35" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img11.jpg" width="640" height="161" border="0" style="display:block;font-size:13px;" alt="関連グッズのご紹介　対応のamiiboやProコンをマイニンテンドーストアで販売中" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img12.jpg" width="640" height="438" border="0" style="display:block;font-size:13px;" alt="amiibo" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img13.jpg" width="640" height="424" border="0" style="display:block;font-size:13px;" alt="Nintendo Switch Proコントローラー" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbf279071b89987403780b692baba1cb193042b9f8035fd29a37a60745f8017c1543a259fa2b53e09bf3f4b52c9973ba2ba" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_btn02.jpg" width="640" height="62" border="0" style="font-size:13px;" alt="My Nintendo Storeへ" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img14.jpg" width="640" height="40" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img15.jpg" width="640" height="592" border="0" style="display:block;font-size:13px;" alt="参加してみよう！随時開催の大会情報　大乱闘スマッシュブラザーズでは、随時いろいろな場所で大会を開催中！" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbf5ba2824396580fd729b274a483ddf9a06a22f49df4d234f302a8b0df6fc65bf1d8b67f0b5f9e1f859424156d76d211db" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_btn03.jpg" width="640" height="62" border="0" style="font-size:13px;" alt="最新のイベント情報をチェック" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img16.jpg" width="640" height="35" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img17.jpg" width="640" height="374" border="0" style="display:block;font-size:13px;" alt="WEB番組始動！スマッシュボール杯スマブラSP東日本リーグ・スマッシュボール杯スマブラSP西日本リーグ" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbf49373d9a1b50d5c59c939ff738d44d631d94221f97d5f065e442192a5ca11d5186a452eb53e805001e19190ac56e5f28" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_btn04.jpg" width="640" height="62" border="0" style="font-size:13px;" alt="くわしくはこちら" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img18.jpg" width="640" height="30" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+
+
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img20.jpg" width="640" height="58" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbfdfd55a573fd2188bbd263a2b3024d68726c615cc3519220b5be23c3f3400cfcf93444d6b9804b1c56c0e5ce6d374c843" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img21.jpg" width="640" height="212" border="0" style="display:block;font-size:13px;" alt="大乱闘スマッシュブラザーズの最新情報はこちらから 公式ツイッター（@SmashBrosJP）" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1812_3_img22.jpg" width="640" height="182" border="0" style="display:block;font-size:13px;" alt="&copy; 2018 Nintendo Original Game: &copy; Nintendo / HAL Laboratory, Inc. Characters:  &copy; Nintendo / HAL Laboratory, Inc. / Pok&eacute;mon. / Creatures Inc. / GAME FREAK inc. / SHIGESATO ITOI / APE inc. / INTELLIGENT SYSTEMS / Konami Digital Entertainment / SEGA / CAPCOM CO., LTD. / BANDAI NAMCO Entertainment Inc. / MONOLITHSOFT / CAPCOM U.S.A., INC. / SQUARE ENIX CO., LTD." /></td>
+</tr>
+<!-- ▼PICK UPここから▼ -->
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/1/spacer_5.gif" width="1" height="10" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/1/mn_201701pick_b0.jpg" width="640" height="62" border="0" style="display:block;font-size:13px;" alt="PICK UP!" /></td>
+</tr>
+<tr>
+<td><table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td width="15" style="font-size:0;"><img src="http://image.ccg.nintendo.net/lib/fe9513727563067d7d/m/4/spacer_4.gif" width="15" height="1" border="0" style="display:block;font-size:13px;" alt="" /></td>
+<td width="300" style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=e20ce6964c41a7ace50de99dbdb670e6de742d097e6c890f3686f1c9def8d92d4e3679056015523b4a9d421a899f367075202d5e213aebed" target="_blank" ><img src="https://topics.nintendo.co.jp/export/sites/nintendo_topics/images/thumbnail/extra_large/00001334_820_461.jpg" width="300" border="0" style="display:block;font-size:13px;" alt="この冬、あのタイトルを始めてみよう！ Nintendo Switchに『Minecraft』と『フォートナイト バトルロイヤル』の本体セットが登場！"></a></td>
+<td width="10" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/1/spacer_3.gif" width="10" height="1" border="0" style="display:block;font-size:13px;" alt="" /></td>
+<td width="300" style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=e20ce6964c41a7ac7b5dd93994ff4b71da4ef032a10a2d45707d84f6b03dbc397ad0cfc5a5d0c18334612cf928e959728aaa6c369e4d13b2" target="_blank" ><img src="https://topics.nintendo.co.jp/export/sites/nintendo_topics/images/thumbnail/extra_large/00001334_820_461.jpg" width="300" border="0" style="display:block;font-size:13px;" alt="この冬、あのタイトルを始めてみよう！ Nintendo Switchに『Minecraft』と『フォートナイト バトルロイヤル』の本体セットが登場！"></a></td>
+
+<td width="15" style="font-size:0;"><img src="http://image.ccg.nintendo.net/lib/fe9513727563067d7d/m/4/spacer_4.gif" width="15" height="1" border="0" style="display:block;font-size:13px;" alt="" /></td>
+</tr>
+</table></td>
+</tr>
+<!-- ▲PICK UPここまで▲ -->
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="40" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td><table width="640" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td colspan="5" bgcolor="#DDDDDD" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="1" bgcolor="#DDDDDD" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="8" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="8" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="622"><table cellspacing="0" border="0" align="left" cellpadding="0" style="font-size:13px; color:#666666; line-height:120%;">
+<tr>
+<td colspan="2" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="8" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="17" valign="top">○</td>
+<td width="605">このメールは、ニンテンドーアカウントを登録し、おしらせメールの設定を「受け取ります」にされたお客様に配信しています。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="17" alt="" border="0" style="display:block;" /></td>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td valign="top">○</td>
+<td>今後、任天堂からのおしらせの配信を希望されない場合は<a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbfa81a08ec1a38e857717b1815f68caef7d22e8005d2ee2c63dbe18f05a80ac2aa26512b5a44780f6c95264e8a7d4cec0b" target="_blank" style="color:#4284d2;" >こちら</a>より解除をしてください。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="17" alt="" border="0" style="display:block;" /></td>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td valign="top">○</td>
+<td>このメールアドレスには返信できません。<br />
+ご不明な点等がございましたら、下記までお問い合わせください。<br />
+<table cellspacing="0" border="0" align="left" cellpadding="0" style="font-size:13px; color:#666666;">
+<tr>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="17" /></td>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="1" /></td>
+</tr>
+<tr>
+<td>▽</td>
+<td width="100%">インターネット（PC、スマートフォン）で</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><a href="http://click.ccg.nintendo.com/?qs=3fa3446689102fbfde79591530bef870911bb1161b510b39bac94f4cdb862ac2b785d2eaa59cce4244929818661cf8c9fee916e70dbdc26d" target="_blank" style="color:#4284d2;" >オンラインお問い合わせ窓口</a></td>
+</tr>
+<tr>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="17" /></td>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="1" /></td>
+</tr>
+<tr>
+<td>▽</td>
+<td>お電話で</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="line-height:140%">・お客様ご相談窓口：0570-011-120<br />
+※IP電話、携帯電話の定額通話をご利用の方は：075-662-9611<br />
+・受付時間　10:00～18:00（土・日・祝日・会社設定休日を除く）</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td colspan="2" align="center" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/line_10.gif" width="613" height="23" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td colspan="2" style="font-size:13px; color:#666666; line-height:150%;">配信元：任天堂株式会社<br />
+住所：京都市南区上鳥羽鉾立町11-1</td>
+</tr>
+<tr>
+<td colspan="2" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="8" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table></td>
+<td width="8" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="8" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="1" bgcolor="#DDDDDD" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td colspan="5" bgcolor="#DDDDDD" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="10" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="640" style="font-size:13px; color:#8d8d8d; line-height:120%; text-align:center;">&copy; 2018 Nintendo</td>
+</tr>
+</table>
+<img src="http://click.ccg.nintendo.com/open.aspx?ffcb10-fec313727d60037d-fe3315717c63057f731471-fe9b13727664037d74-ff60127777-fe4b11777c6503757d13-ff981576" width="1" height="1">
+</body>
+</html>
+
+--E9nMGF0nmQqj=_?:--
+
