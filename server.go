@@ -5,15 +5,17 @@ import (
 	"log"
 	"net"
 	"os"
+	"os/signal"
 	"regexp"
 	"strings"
 	"time"
 )
 
 type SessionInfo struct {
-	from, rcpt        string
+	from, rcpt string
 	greeting, dataing bool
-	mail              *os.File
+	needReset bool
+	mail *os.File
 }
 
 var (
@@ -21,7 +23,7 @@ var (
 	logger     = log.New(logFile, "", 0)
 )
 
-const CRLF = "\n"
+const CRLF = "\r\n"
 
 func main() {
 	service := ":1031"
@@ -30,6 +32,15 @@ func main() {
 	defer logFile.Close()
 
 	logger.Println("server starts")
+
+	sigc := make(chan os.Signal, 1)
+	signal.Notify(sigc, os.Interrupt)
+	go func() {
+		<-sigc
+		logger.Println("server closed")
+		fmt.Println("server closed")
+		os.Exit(0)
+	}()
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err, true)
@@ -43,20 +54,28 @@ func main() {
 	}
 }
 
-func handleClient(conn net.Conn) {
-	conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
-	request := make([]byte, 1024)
-	defer conn.Close()
+func resetSession(info *SessionInfo) {
+	info.from = ""
+	info.rcpt = ""
+	info.dataing = false
+	info.needReset = false
 
 	t := time.Now()
 	mailFile, err := os.Create(t.Format("20060102_150405.000000"))
 	if err != nil {
 		logger.Println("cannot open mail file to write")
-		return
+		os.Exit(1)
 	}
-	defer mailFile.Close()
+	info.mail = mailFile
+}
 
-	info := SessionInfo{"", "", false, false, mailFile}
+func handleClient(conn net.Conn) {
+	conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
+	request := make([]byte, 1024)
+	defer conn.Close()
+	
+	info := SessionInfo{"", "", false, false, false, nil}
+	resetSession(&info)
 	conn.Write([]byte("220 smtp service\n"))
 	for {
 		readLen, err := conn.Read(request)
@@ -72,7 +91,7 @@ func handleClient(conn net.Conn) {
 
 		cmd, param, msg := parseRequest(string(request[:readLen]), &info)
 		if msg != "" {
-			logger.Println(msg)
+			logger.Print(msg)
 			conn.Write([]byte(msg))
 			continue
 		}
@@ -81,14 +100,14 @@ func handleClient(conn net.Conn) {
 
 		msg = checkRequest(cmd, param, &info)
 		if msg != "" {
-			logger.Println(msg)
+			logger.Print(msg)
 			conn.Write([]byte(msg))
 			continue
 		}
 
 		msg = doRequest(cmd, param, &info)
 		conn.Write([]byte(msg))
-		logger.Println(msg)
+		logger.Print(msg)
 		if cmd == "quit" {
 			break
 		}
@@ -102,25 +121,27 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 		info.greeting = true
 		msg = "250 service starts\n"
 	} else if cmd == "rset" {
-		info.from = ""
-		info.rcpt = ""
-		info.dataing = false
+		resetSession(info)
 	} else if cmd == "mail from" {
-		info.from = strings.Trim(param, ": <>")
+		info.from = strings.Trim(param, ": ")
 		msg = "250 OK\n"
 	} else if cmd == "rcpt to" {
-		info.rcpt = strings.Trim(param, ": <>")
+		info.rcpt = strings.Trim(param, ": ")
 		msg = "250 OK\n"
 	} else if cmd == "data" {
-		if info.dataing {
+		if !info.dataing {
 			info.dataing = true
+			msg = "354 Start mail input\n"
 		} else {
-			// output to email file
+			info.mail.WriteString(param+"\r\n")
 		}
-		msg = "250 OK\n"
+	} else if cmd == "end" {
+		info.needReset = true
+		info.dataing = false
+		info.mail.Close()
+		msg = "250 Mail data transfer completed\n"
 	} else if cmd == "quit" {
 		msg = "221 close connection"
-	} else if cmd == "."+CRLF {
 	}
 	return msg
 }
@@ -181,7 +202,7 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	cmd, param, msg := "", "", ""
 	tmp := strings.ToLower(request)
 	cmdSet := []string{"helo", "mail from", "rcpt to",
-		"data", "." + CRLF, "rset", "quit"}
+		"data", "rset", "quit"}
 
 	if !strings.HasSuffix(request, CRLF) {
 		msg = "555 Syntax error\n"
@@ -189,7 +210,10 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	}
 
 	if info.dataing {
-		return "data", request, ""
+		if tmp != "."+CRLF {
+			return "data", request, ""
+		}
+		return "end", "", ""
 	}
 
 	for _, c := range cmdSet {
@@ -206,6 +230,9 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 		} else {
 			msg = "502 Unrecognized coomand\n"
 		}
+	}
+	if info.needReset && cmd != "rset" {
+		msg = "503 Reset session first\n"
 	}
 
 END:
