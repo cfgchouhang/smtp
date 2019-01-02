@@ -2,22 +2,23 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"regexp"
 	"strings"
 	"time"
-	"log"
 )
 
 type SessionInfo struct {
 	from, rcpt        string
 	greeting, dataing bool
+	mail              *os.File
 }
 
 var (
-	logFile,_ = os.OpenFile("./smtp.log", os.O_CREATE | os.O_APPEND, 0666)
-	logger = log.New(logFile, "", 0)
+	logFile, _ = os.OpenFile("smtp.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	logger     = log.New(logFile, "", 0)
 )
 
 const CRLF = "\n"
@@ -27,6 +28,8 @@ func main() {
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err, true)
 	defer logFile.Close()
+
+	logger.Println("server starts")
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err, true)
@@ -45,7 +48,15 @@ func handleClient(conn net.Conn) {
 	request := make([]byte, 1024)
 	defer conn.Close()
 
-	info := SessionInfo{"", "", false, false}
+	t := time.Now()
+	mailFile, err := os.Create(t.Format("20060102_150405.000000"))
+	if err != nil {
+		logger.Println("cannot open mail file to write")
+		return
+	}
+	defer mailFile.Close()
+
+	info := SessionInfo{"", "", false, false, mailFile}
 	conn.Write([]byte("220 smtp service\n"))
 	for {
 		readLen, err := conn.Read(request)
@@ -126,13 +137,13 @@ func checkRequest(cmd string, param string, info *SessionInfo) string {
 		}
 		fmt.Println("client from " + strings.TrimSpace(param))
 	} else if cmd == "mail from" {
-		msg = checkAddress(param)
+		msg = checkAddress(param, true)
 	} else if cmd == "rcpt to" {
 		if info.from == "" {
 			msg = "503 bad sequence of commands\n"
 			goto END
 		}
-		msg = checkAddress(param)
+		msg = checkAddress(param, false)
 	} else if cmd == "data" {
 		if info.from == "" {
 			msg = "503 MAIL first\n"
@@ -145,7 +156,7 @@ END:
 	return msg
 }
 
-func checkAddress(param string) string {
+func checkAddress(param string, canEmpty bool) string {
 	re := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 	if !strings.HasPrefix(param, ":") {
@@ -158,7 +169,8 @@ func checkAddress(param string) string {
 	}
 
 	param = strings.Trim(param, "<>")
-	if !re.MatchString(param) {
+	if canEmpty && param == "" {
+	} else if !re.MatchString(param) {
 		return "550 Invalid address\n"
 	}
 
@@ -169,7 +181,7 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	cmd, param, msg := "", "", ""
 	tmp := strings.ToLower(request)
 	cmdSet := []string{"helo", "mail from", "rcpt to",
-		"data", "." + CRLF, "rset"}
+		"data", "." + CRLF, "rset", "quit"}
 
 	if !strings.HasSuffix(request, CRLF) {
 		msg = "555 Syntax error\n"
