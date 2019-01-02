@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"log"
 )
 
 type SessionInfo struct {
@@ -14,12 +15,18 @@ type SessionInfo struct {
 	greeting, dataing bool
 }
 
+var (
+	logFile,_ = os.OpenFile("./smtp.log", os.O_CREATE | os.O_APPEND, 0666)
+	logger = log.New(logFile, "", 0)
+)
+
 const CRLF = "\n"
 
 func main() {
 	service := ":1031"
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err, true)
+	defer logFile.Close()
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err, true)
@@ -34,7 +41,7 @@ func main() {
 }
 
 func handleClient(conn net.Conn) {
-	conn.SetReadDeadline(time.Now().Add(1 * time.Minute))
+	conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
 	request := make([]byte, 1024)
 	defer conn.Close()
 
@@ -43,6 +50,7 @@ func handleClient(conn net.Conn) {
 	for {
 		readLen, err := conn.Read(request)
 		fmt.Println("request: " + string(request[:readLen]))
+		logger.Println("request: " + string(request[:readLen]))
 		if err != nil {
 			checkError(err, false)
 			break
@@ -53,31 +61,54 @@ func handleClient(conn net.Conn) {
 
 		cmd, param, msg := parseRequest(string(request[:readLen]), &info)
 		if msg != "" {
+			logger.Println(msg)
 			conn.Write([]byte(msg))
 			continue
 		}
 		fmt.Printf("cmd:%s, param:%s, msg:%s\n", cmd, param, msg)
+		logger.Printf("cmd:%s, param:%s, msg:%s\n", cmd, param, msg)
 
 		msg = checkRequest(cmd, param, &info)
 		if msg != "" {
+			logger.Println(msg)
 			conn.Write([]byte(msg))
 			continue
 		}
 
-		/*msg = doRequest(cmd, param, &info)
-		  conn.Write([]byte(msg))*/
+		msg = doRequest(cmd, param, &info)
+		conn.Write([]byte(msg))
+		logger.Println(msg)
+		if cmd == "quit" {
+			break
+		}
 	}
-	fmt.Print("connection close\n")
+	fmt.Println("client close")
 }
 
 func doRequest(cmd string, param string, info *SessionInfo) string {
 	msg := ""
 	if cmd == "helo" {
+		info.greeting = true
+		msg = "250 service starts\n"
 	} else if cmd == "rset" {
+		info.from = ""
+		info.rcpt = ""
+		info.dataing = false
 	} else if cmd == "mail from" {
+		info.from = strings.Trim(param, ": <>")
+		msg = "250 OK\n"
 	} else if cmd == "rcpt to" {
+		info.rcpt = strings.Trim(param, ": <>")
+		msg = "250 OK\n"
 	} else if cmd == "data" {
+		if info.dataing {
+			info.dataing = true
+		} else {
+			// output to email file
+		}
+		msg = "250 OK\n"
 	} else if cmd == "quit" {
+		msg = "221 close connection"
 	} else if cmd == "."+CRLF {
 	}
 	return msg
@@ -98,10 +129,16 @@ func checkRequest(cmd string, param string, info *SessionInfo) string {
 		msg = checkAddress(param)
 	} else if cmd == "rcpt to" {
 		if info.from == "" {
-			msg = ""
+			msg = "503 bad sequence of commands\n"
 			goto END
 		}
 		msg = checkAddress(param)
+	} else if cmd == "data" {
+		if info.from == "" {
+			msg = "503 MAIL first\n"
+		} else if info.rcpt == "" {
+			msg = "503 RCPT first\n"
+		}
 	}
 
 END:
