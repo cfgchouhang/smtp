@@ -87,16 +87,16 @@ func handleClient(conn net.Conn) {
 	logger.Print("incoming client:", conn.RemoteAddr())
 	for {
 		readLen, err := conn.Read(request)
-		fmt.Println("request: " + string(request[:readLen]))
-		logger.Println("request: " + string(request[:readLen]))
 		if err != nil {
 			checkError(err, false)
 			break
 		}
+		fmt.Println("request: " + string(request[:readLen]))
+		logger.Println("request: " + string(request[:readLen]))
+		
 		if readLen == 0 {
 			break
 		}
-
 		cmd, param, msg := parseRequest(string(request[:readLen]), &info)
 		if msg != "" {
 			logger.Print(msg)
@@ -120,6 +120,7 @@ func handleClient(conn net.Conn) {
 			break
 		}
 	}
+	logger.Println("client close")
 	fmt.Println("client close")
 }
 
