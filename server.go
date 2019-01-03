@@ -12,21 +12,28 @@ import (
 )
 
 type SessionInfo struct {
-	from, rcpt string
+	from, rcpt        string
 	greeting, dataing bool
-	needReset bool
-	mail *os.File
+	needReset         bool
+	mail              *os.File
 }
 
 var (
 	logFile, _ = os.OpenFile("smtp.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	logger     = log.New(logFile, "", 0)
+	dir        = ""
 )
 
-const CRLF = "\r\n"
+const CRLF = "\n"
 
 func main() {
-	service := ":1031"
+	if len(os.Args) < 3 {
+		fmt.Println("usage: ./go port mail_dir")
+		return
+	}
+
+	service := ":" + os.Args[1]
+	dir = os.Args[2]
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err, true)
 	defer logFile.Close()
@@ -61,9 +68,9 @@ func resetSession(info *SessionInfo) {
 	info.needReset = false
 
 	t := time.Now()
-	mailFile, err := os.Create(t.Format("20060102_150405.000000"))
+	mailFile, err := os.Create(dir + "/" + t.Format("20060102_150405.000000.eml"))
 	if err != nil {
-		logger.Println("cannot open mail file to write")
+		logger.Println("Cannot open mail file to write")
 		os.Exit(1)
 	}
 	info.mail = mailFile
@@ -73,10 +80,11 @@ func handleClient(conn net.Conn) {
 	conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
 	request := make([]byte, 1024)
 	defer conn.Close()
-	
+
 	info := SessionInfo{"", "", false, false, false, nil}
 	resetSession(&info)
 	conn.Write([]byte("220 smtp service\n"))
+	logger.Print("incoming client:", conn.RemoteAddr())
 	for {
 		readLen, err := conn.Read(request)
 		fmt.Println("request: " + string(request[:readLen]))
@@ -122,6 +130,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 		msg = "250 service starts\n"
 	} else if cmd == "rset" {
 		resetSession(info)
+		msg = "250 OK, session reset\n"
 	} else if cmd == "mail from" {
 		info.from = strings.Trim(param, ": ")
 		msg = "250 OK\n"
@@ -133,7 +142,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 			info.dataing = true
 			msg = "354 Start mail input\n"
 		} else {
-			info.mail.WriteString(param+"\r\n")
+			info.mail.WriteString(param + "\n")
 		}
 	} else if cmd == "end" {
 		info.needReset = true
@@ -141,7 +150,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 		info.mail.Close()
 		msg = "250 Mail data transfer completed\n"
 	} else if cmd == "quit" {
-		msg = "221 close connection"
+		msg = "221 Close connection\n"
 	}
 	return msg
 }
@@ -149,7 +158,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 func checkRequest(cmd string, param string, info *SessionInfo) string {
 	msg := ""
 
-	if !info.greeting && cmd != "helo" {
+	if !info.greeting && cmd != "helo" && cmd != "quit" {
 		msg = "503 HELO first\n"
 	} else if cmd == "helo" {
 		if param == "" || !strings.HasPrefix(param, " ") {
@@ -211,7 +220,8 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 
 	if info.dataing {
 		if tmp != "."+CRLF {
-			return "data", request, ""
+			param = request[:len(request)-len(CRLF)]
+			return "data", param, ""
 		}
 		return "end", "", ""
 	}
@@ -231,7 +241,7 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 			msg = "502 Unrecognized coomand\n"
 		}
 	}
-	if info.needReset && cmd != "rset" {
+	if info.needReset && cmd != "rset" && cmd != "quit" {
 		msg = "503 Reset session first\n"
 	}
 

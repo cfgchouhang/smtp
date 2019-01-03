@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import socket, dns.resolver
 import sys, os
+import ipaddress
 
 def get_mx(domain):
     min = 5000
@@ -30,31 +31,32 @@ if __name__ == '__main__':
     with open(data) as f:
         data = f.read()
     
-    mx = get_mx(rcpt[rcpt.find('@')+1:])
-
-    ip = socket.gethostbyname(mx)
     print('F %s\nR %s' % (From, rcpt))
-    print(mx, ip)
-
+    mx = get_mx(rcpt[rcpt.find('@')+1:])
+    ip = socket.gethostbyname(mx)
+    port = 25
+    print(mx)
+        
     commands = [
         b'HELO openfind.com\r\n',
         'MAIL FROM:<{0}>\r\n'.format(From).encode(),
         'RCPT TO:<{0}>\r\n'.format(rcpt).encode(),
         b'DATA\r\n',
     ]
+    print(ip, port)
 
     #data = 'From:""<sender@mydomain.com>\r\nTo:""< friend@example.com>\r\nSubject: test\r\n\r\nhello test\r\n'
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((ip, 25))
+        s.connect((ip, port))
         resp = s.recv(1024)
-        print(resp)
+        print('S: %s' % resp.decode())
 
         for act in commands:
-            print('C: %s' % act)
+            print('C: %s' % act.decode())
             s.send(act)
             resp = s.recv(1024)
-            print('S: %s' % resp)
+            print('S: %s' % resp.decode())
         
         for line in data.split('\r\n'):
             s.send('{0}\r\n'.format(line).encode())
