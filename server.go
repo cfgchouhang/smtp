@@ -37,14 +37,13 @@ func main() {
 	checkError(err, true)
 	defer logFile.Close()
 
-	logger.Println("server starts")
+	printLog("server starts")
 
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, os.Interrupt)
 	go func() {
 		<-sigc
-		logger.Println("server closed")
-		fmt.Println("server closed")
+		printLog("server closed")
 		os.Exit(0)
 	}()
 
@@ -65,14 +64,7 @@ func resetSession(info *SessionInfo) {
 	info.rcpt = ""
 	info.dataing = false
 	info.needReset = false
-
-	t := time.Now()
-	mailFile, err := os.Create(dir + "/" + t.Format("20060102_150405.000000.eml"))
-	if err != nil {
-		logger.Println("Cannot open mail file to write")
-		os.Exit(1)
-	}
-	info.mail = mailFile
+	info.mail = nil
 }
 
 func handleClient(conn net.Conn) {
@@ -82,70 +74,85 @@ func handleClient(conn net.Conn) {
 	info := SessionInfo{"", "", false, false, false, nil}
 	resetSession(&info)
 	conn.Write([]byte("220 smtp service\n"))
-	logger.Print("incoming client:", conn.RemoteAddr())
-	fmt.Println("incoming client:", conn.RemoteAddr())
+	printLog("incoming client: " + conn.RemoteAddr().String())
+
 	reader := bufio.NewReader(conn)
 	for {
 		request, err := reader.ReadString('\n')
 		if err != nil {
+			printLog(err.Error())
 			break
 		}
+		printLog("client request:" + request)
 
 		cmd, param, msg := parseRequest(request, &info)
 		if msg != "" {
-			logger.Print(msg)
-			conn.Write([]byte(msg))
+			printLog(msg)
+			conn.Write([]byte(msg + "\n"))
 			continue
 		}
-		fmt.Printf("cmd:%s, param:%s, msg:%s\n", cmd, param, msg)
 		logger.Printf("cmd:%s, param:%s, msg:%s\n", cmd, param, msg)
 
 		msg = checkRequest(cmd, param, &info)
 		if msg != "" {
-			logger.Print(msg)
-			conn.Write([]byte(msg))
+			printLog(msg)
+			conn.Write([]byte(msg + "\n"))
 			continue
 		}
 
 		msg = doRequest(cmd, param, &info)
-		conn.Write([]byte(msg))
-		logger.Print(msg)
+		if msg != "" {
+			printLog(msg)
+			conn.Write([]byte(msg + "\n"))
+		}
 		if cmd == "quit" {
 			break
 		}
 	}
-	logger.Println("client close")
-	fmt.Println("client close")
+	printLog("client closed session")
+	if info.mail != nil {
+		printLog("delete non-completed data: " + info.mail.Name())
+		os.Remove(info.mail.Name())
+	}
 }
 
 func doRequest(cmd string, param string, info *SessionInfo) string {
 	msg := ""
 	if cmd == "helo" {
 		info.greeting = true
-		msg = "250 service starts\n"
+		printLog("client greeting" + strings.TrimSpace(param))
+		msg = "250 service starts"
 	} else if cmd == "rset" {
 		resetSession(info)
-		msg = "250 OK, session reset\n"
+		msg = "250 OK, session reset"
 	} else if cmd == "mail from" {
 		info.from = strings.Trim(param, ": ")
-		msg = "250 OK\n"
+		msg = "250 OK"
 	} else if cmd == "rcpt to" {
 		info.rcpt = strings.Trim(param, ": ")
-		msg = "250 OK\n"
+		msg = "250 OK"
 	} else if cmd == "data" {
 		if !info.dataing {
 			info.dataing = true
-			msg = "354 Start mail input\n"
+			msg = "354 Start mail input"
+			mailFile, err := os.Create(dir + "/" + time.Now().Format("20060102_150405.000000.eml"))
+			if err != nil {
+				checkError(err, true)
+			}
+			info.mail = mailFile
+			fmt.Fprintf(info.mail, "MAIL FROM:%s\n%RCPT TO:%s\n", info.from, info.rcpt)
 		} else {
+			logger.Println(param)
 			info.mail.WriteString(param + "\r\n")
 		}
 	} else if cmd == "end" {
 		info.needReset = true
 		info.dataing = false
 		info.mail.Close()
-		msg = "250 Mail data transfer completed\n"
+		info.mail = nil
+		msg = "250 Mail data transfer completed"
 	} else if cmd == "quit" {
-		msg = "221 Close connection\n"
+		msg = "221 Close connection"
 	}
 	return msg
 }
@@ -154,26 +161,25 @@ func checkRequest(cmd string, param string, info *SessionInfo) string {
 	msg := ""
 
 	if !info.greeting && cmd != "helo" && cmd != "quit" {
-		msg = "503 HELO first\n"
+		msg = "503 HELO first"
 	} else if cmd == "helo" {
-		if param == "" || !strings.HasPrefix(param, " ") {
-			msg = "501 Invalid argument\n"
+		if !strings.HasPrefix(param, " ") || strings.TrimSpace(param) == "" {
+			msg = "501 Invalid argument"
 			goto END
 		}
-		fmt.Println("client from " + strings.TrimSpace(param))
 	} else if cmd == "mail from" {
 		msg = checkAddress(param, true)
 	} else if cmd == "rcpt to" {
 		if info.from == "" {
-			msg = "503 bad sequence of commands\n"
+			msg = "503 bad sequence of commands"
 			goto END
 		}
 		msg = checkAddress(param, false)
 	} else if cmd == "data" {
 		if info.from == "" {
-			msg = "503 MAIL first\n"
+			msg = "503 MAIL first"
 		} else if info.rcpt == "" {
-			msg = "503 RCPT first\n"
+			msg = "503 RCPT first"
 		}
 	}
 
@@ -185,18 +191,18 @@ func checkAddress(param string, canEmpty bool) string {
 	re := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 
 	if !strings.HasPrefix(param, ":") {
-		return "555 Syntax error\n"
+		return "555 Syntax error"
 	}
 
 	param = strings.Trim(param, ": ")
 	if param[0] != '<' || param[len(param)-1] != '>' {
-		return "555 Syntax error\n"
+		return "555 Syntax error"
 	}
 
 	param = strings.Trim(param, "<>")
 	if canEmpty && param == "" {
 	} else if !re.MatchString(param) {
-		return "550 Invalid address\n"
+		return "550 Invalid address"
 	}
 
 	return ""
@@ -210,7 +216,7 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 
 	if !strings.HasSuffix(request, "\r\n") &&
 		!strings.HasSuffix(request, "\n") {
-		msg = "555 Syntax error\n"
+		msg = "555 Syntax error"
 		goto END
 	}
 
@@ -232,13 +238,13 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	if cmd == "" {
 		if strings.Contains(tmp, "mail") ||
 			strings.Contains(tmp, "rcpt") {
-			msg = "555 Syntax error\n"
+			msg = "555 Syntax error"
 		} else {
-			msg = "502 Unrecognized coomand\n"
+			msg = "502 Unrecognized coomand"
 		}
 	}
 	if info.needReset && cmd != "rset" && cmd != "quit" {
-		msg = "503 Reset session first\n"
+		msg = "503 Reset session first"
 	}
 
 END:
@@ -252,4 +258,9 @@ func checkError(err error, fatal bool) {
 			os.Exit(1)
 		}
 	}
+}
+
+func printLog(msg string) {
+	fmt.Println(msg)
+	logger.Println(msg)
 }
