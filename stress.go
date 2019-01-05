@@ -86,12 +86,15 @@ func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
 	defer file.Close()
 
 	reader := bufio.NewReader(file)
+	i := 0
 	for {
 		line, err := reader.ReadString('\n')
 		if err != nil {
 			break
 		}
-		conn.Write([]byte(strings.Trim(line, "\n") + "\r\n"))
+		conn.Write([]byte(strings.Trim(line, "\r\n") + "\r\n"))
+		fmt.Print(i, line)
+		i++
 	}
 	conn.Write([]byte(".\r\n"))
 	n, _ = conn.Read(resp)

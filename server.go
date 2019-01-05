@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net"
@@ -23,8 +24,6 @@ var (
 	logger     = log.New(logFile, "", 0)
 	dir        = ""
 )
-
-const CRLF = "\n"
 
 func main() {
 	if len(os.Args) < 3 {
@@ -78,26 +77,21 @@ func resetSession(info *SessionInfo) {
 
 func handleClient(conn net.Conn) {
 	conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
-	request := make([]byte, 1024)
 	defer conn.Close()
 
 	info := SessionInfo{"", "", false, false, false, nil}
 	resetSession(&info)
 	conn.Write([]byte("220 smtp service\n"))
 	logger.Print("incoming client:", conn.RemoteAddr())
+	fmt.Println("incoming client:", conn.RemoteAddr())
+	reader := bufio.NewReader(conn)
 	for {
-		readLen, err := conn.Read(request)
+		request, err := reader.ReadString('\n')
 		if err != nil {
-			checkError(err, false)
 			break
 		}
-		fmt.Println("request: " + string(request[:readLen]))
-		logger.Println("request: " + string(request[:readLen]))
-		
-		if readLen == 0 {
-			break
-		}
-		cmd, param, msg := parseRequest(string(request[:readLen]), &info)
+
+		cmd, param, msg := parseRequest(request, &info)
 		if msg != "" {
 			logger.Print(msg)
 			conn.Write([]byte(msg))
@@ -143,7 +137,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 			info.dataing = true
 			msg = "354 Start mail input\n"
 		} else {
-			info.mail.WriteString(param + "\n")
+			info.mail.WriteString(param + "\r\n")
 		}
 	} else if cmd == "end" {
 		info.needReset = true
@@ -214,14 +208,15 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	cmdSet := []string{"helo", "mail from", "rcpt to",
 		"data", "rset", "quit"}
 
-	if !strings.HasSuffix(request, CRLF) {
+	if !strings.HasSuffix(request, "\r\n") &&
+		!strings.HasSuffix(request, "\n") {
 		msg = "555 Syntax error\n"
 		goto END
 	}
 
 	if info.dataing {
-		if tmp != "."+CRLF {
-			param = request[:len(request)-len(CRLF)]
+		if tmp != ".\r\n" && tmp != ".\n" {
+			param = strings.Trim(request, "\r\n")
 			return "data", param, ""
 		}
 		return "end", "", ""
@@ -230,7 +225,7 @@ func parseRequest(request string, info *SessionInfo) (string, string, string) {
 	for _, c := range cmdSet {
 		if strings.HasPrefix(tmp, c) {
 			cmd = c
-			param = request[len(c) : len(request)-len(CRLF)]
+			param = strings.Trim(request[len(c):], "\r\n")
 		}
 	}
 
