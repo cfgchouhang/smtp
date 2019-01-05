@@ -11,9 +11,15 @@ import (
 	"sync"
 )
 
-//const MAXCONN = 4
+const MAX_CHAN = 4
 
 var wg sync.WaitGroup
+
+type Job struct {
+	tcpAddr *net.TCPAddr
+	mail    string
+	rcpt    string
+}
 
 func main() {
 	if len(os.Args) < 4 {
@@ -32,18 +38,30 @@ func main() {
 	dir := os.Args[4] + "/"
 	rcpt := os.Args[3]
 
+	jobChan := make(chan Job, MAX_CHAN)
+
+	wg.Add(1)
+	go worker(jobChan)
+
 	for _, file := range files {
 		if file.IsDir() {
 			continue
 		}
-		wg.Add(1)
-		go sendMail(tcpAddr, dir+file.Name(), rcpt)
+		jobChan <- Job{tcpAddr, dir + file.Name(), rcpt}
 	}
+	close(jobChan)
+
 	wg.Wait()
 }
 
-func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
+func worker(jobChan <-chan Job) {
 	defer wg.Done()
+	for job := range jobChan {
+		sendMail(job.tcpAddr, job.mail, job.rcpt)
+	}
+}
+
+func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
 	var conn *net.TCPConn
 	var err error
 	resp := make([]byte, 1024)
