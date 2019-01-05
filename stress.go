@@ -7,11 +7,10 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 )
-
-const MAX_CHAN = 4
 
 var wg sync.WaitGroup
 
@@ -22,8 +21,9 @@ type Job struct {
 }
 
 func main() {
-	if len(os.Args) < 4 {
-		fmt.Println("usgae: ./go ip port rcpt mail_dir")
+	max_chan := 4
+	if len(os.Args) < 5 {
+		fmt.Println("usgae: ./go ip port rcpt mail_dir [max_threads]")
 		return
 	}
 	service := os.Args[1] + ":" + os.Args[2]
@@ -37,8 +37,11 @@ func main() {
 
 	dir := os.Args[4] + "/"
 	rcpt := os.Args[3]
+	if len(os.Args) == 6 {
+		max_chan, _ = strconv.Atoi(os.Args[5])
+	}
 
-	jobChan := make(chan Job, MAX_CHAN)
+	jobChan := make(chan Job, max_chan)
 
 	wg.Add(1)
 	go worker(jobChan)
@@ -111,7 +114,7 @@ func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
 			break
 		}
 		conn.Write([]byte(strings.Trim(line, "\r\n") + "\r\n"))
-		fmt.Print(i, line)
+		//fmt.Print(i, line)
 		i++
 	}
 	conn.Write([]byte(".\r\n"))
