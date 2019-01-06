@@ -1,0 +1,165 @@
+Delivered-To: cfgchouhang@gmail.com
+Received: by 2002:a17:90a:9202:0:0:0:0 with SMTP id m2-v6csp652799pjo;
+        Fri, 4 Jan 2019 06:40:09 -0800 (PST)
+X-Google-Smtp-Source: ALg8bN4bPOcjzhj8jruIuIN/5fsiDrsHk1aWdhPgnplYSX0zQxoaLqyLd+JeXeO71U7hkUbOFz7C
+X-Received: by 2002:a5e:c601:: with SMTP id f1mr1871659iok.178.1546612809900;
+        Fri, 04 Jan 2019 06:40:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1546612809; cv=none;
+        d=google.com; s=arc-20160816;
+        b=y1x9LfvUwq++xvPyOp595k62rAciRRAtQY68QweAZ/658ST36V6m3y+OqqlVDh8NqW
+         cDBalbYYdAYm0UhnXkWJUZ4bXUNolacBD33rd4NOLg1020e7+2iaayNVEptAlCWGTBsa
+         WuYXnlj2WpGjhzDnbQmfQgm+0GkGm9SMr1mYi1gYAL6h8goVW9hzCXY7eWKHIsljI9gT
+         olcgFjDs3f+2vyabc4f8tQ2cMr00b2KmwgywB6gesjqYrmS9d53wI9w/6o8/+zec+q9C
+         Rg0NfeEHSD145QflSZxWyw2VneuP8AcueExhZ9/lXDC2KSKlHzyAejmzUU02gkmW/MBt
+         9w0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:mime-version:to:from:subject:message-id:date
+         :domainkey-signature:dkim-signature;
+        bh=SDkycO/oRwkjr9X/QPrqN5pTqJY8r8Ri2f0gpGTRJdQ=;
+        b=tfTTYBUsxMcEf7hxD2SGvGU5uzzh13eI9TKKGyVFPNqQSIYxzutbzS4F6sLltKvMfn
+         fVty38F5iwEZ5kofH2/eyj5pDMJ1t67tgG8y7P2OqkBIoEA4KtpVf3HgawyxNcKRU0yL
+         VDSTE05qsc/dFrq2RAx2Sgnw9YHzAHPdMX2bYRtjwtN5aasB9sskI6outUGNzQp4nxeY
+         e8XbJogcPxfxKk1EmN3Q/InXMrry6kFMqcEYz1QkLbr+Vrc1yE8NjWpv/ICxvqtUtzwo
+         XMzkQ8gruPp1SVDrhWVYuJVi0MkbQnA0DzOXIwJJNXjq4ucWyHTNVovYeAlS1KSc5TeZ
+         5Nkw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@transglobe.com.tw header.s=s1024 header.b="ndW3/j3o";
+       spf=pass (google.com: domain of return.eide237df.job@click.transglobe.com.tw designates 61.63.11.175 as permitted sender) smtp.mailfrom=Return.EIDe237df.Job@click.transglobe.com.tw;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=transglobe.com.tw
+Return-Path: <Return.EIDe237df.Job@click.transglobe.com.tw>
+Received: from sender5.transglobe.com.tw (sender5.transglobe.com.tw. [61.63.11.175])
+        by mx.google.com with ESMTPS id x4si612487itk.136.2019.01.04.06.40.09
+        for <cfgchouhang@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 Jan 2019 06:40:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of return.eide237df.job@click.transglobe.com.tw designates 61.63.11.175 as permitted sender) client-ip=61.63.11.175;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@transglobe.com.tw header.s=s1024 header.b="ndW3/j3o";
+       spf=pass (google.com: domain of return.eide237df.job@click.transglobe.com.tw designates 61.63.11.175 as permitted sender) smtp.mailfrom=Return.EIDe237df.Job@click.transglobe.com.tw;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=transglobe.com.tw
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; q=dns/txt; 
+	d=transglobe.com.tw; s=s1024; 
+	h=date:message-id:from:mime-version; 
+	bh=sooqd1J5x110dCKrBHl/nl7v2tE=; 
+	b=ndW3/j3oZYmuuen6lC7cBnTgh1i3pFsFuSlsCmElojcJ0/6uPVHGcS24Euo0arUozbHE
+	tzwRw0zB8sImhXqMpwGIA1LsU4+PHqkPZesV+c+NWfjcyOYq7q7Wk70M5dwG5Ow1xe1u5j
+	NRjOJ/q71VKvpIQliwNz6T4xuZvqj9BSM=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; 
+	d=transglobe.com.tw; s=s1024; 
+	h=date:message-id:from:mime-version; 
+	b=lzcET1D0RBLsRgyMxAJ/KQIuxCpNOpzz+OaDw/OTm2fN021y1e45f/H79kDVCpGT6zJe
+	dz1m3LbZKgGlMNWjpocAWpSFSH1cP668MMoqKOVDQwZvV+okoLNRGkjo1FP27EBf9FO3Tx
+	cEocTaEzsLH71t8iMt8opid0eoDuq6fXY=
+Date: Fri, 4 Jan 2019 22:40:06 +0800
+Message-ID: <0Ge237dfG88128eG1f4721G1f48a9G1e5698G8G1311G0G2.0Ge237df@transglobe.com.tw>
+Subject: =?utf-8?B?44CK5YWo55CD5Lq65aO95L+d5oi2ZeWIii0yMDE45Yas44CB5paw5bm06Jmf44CL5YWo55CD5Lq65aO9MjXlkajlubTvvIzpgoDoq4vmgqjkuIDotbfpu57plrHlgrPmhJvlgZrlhaznm4rvvIzmlrDlubTlv6vmqIJ+?=
+From: "=?utf-8?B?5YWo55CD5Lq65aO96Zu75a2Q5aCx?="<predm@transglobe.com.tw>
+To: <cfgchouhang@gmail.com>
+MIME-Version: 1.0
+List-Unsubscribe: <http://click.transglobe.com.tw/AspWeb/Unsubscribe/AutoUnsubscribe.asp?ECode=0Ge237dfG88128eG1f4721G1f48a9G1e5698G8G1311G0G2>
+Content-Type: multipart/alternative; boundary=0004366ab7b-6b22-41f1-9289-dde744aef47a
+
+--0004366ab7b-6b22-41f1-9289-dde744aef47a
+Content-Type: text/plain; charset=big5
+Content-Transfer-Encoding: quoted-printable
+
+<http://click.transglobe.com.tw/HL/dfca0/e237df/88128e/1f4721/1f48a9/1e5698=
+/8/131
+1/800/2.htm>
+<http://click.transglobe.com.tw/HL/dfca1/e237df/88128e/1f4721/1f48a9/1e5698=
+/8/131
+1/800/2.htm>
+
+
+--0004366ab7b-6b22-41f1-9289-dde744aef47a
+Content-Type: text/html; charset=big5
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv=3D"Content-Type" name=3D"viewport" content=3D"charset=
+=3DUTF-8; width=3Ddevice-width; initial-scale=3D1.0; text/html">
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge,chrome=3D1">
+    <meta name=3D"format-detection" content=3D"telephone=3Dno">
+    <title>=E5=85=A8=E7=90=83E=E5=88=8A-email</title>
+    <style type=3D"text/css">
+
+   =20
+   =20
+    body {
+        width: 100% !important;
+        margin: 0;
+        padding: 0;
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+    }
+   =20
+    table {
+        max-width: 600px;
+    }
+   =20
+    table td {
+        border-collapse: collapse;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+        font-family: '=E5=BE=AE=E8=BB=9F=E6=AD=A3=E9=BB=91=E9=AB=94';
+    }
+   =20
+    p {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 0;
+    }
+   =20
+    ul {
+        margin: 0;
+    }
+   =20
+    a,img {
+        border: none;
+    }
+   =20
+    a {
+        color: #245081;
+    }
+   =20
+   =20
+   =20
+    </style>
+</head>
+<!--[if !mso]><!-->
+
+<body bgcolor=3D"#FFFFFF">
+    <!--<![endif]-->
+    <!-- Page container -->
+    <table width=3D"100%" height=3D"auto" border=3D"0" cellspacing=3D"0" ce=
+llpadding=3D"0" align=3D"center" bgcolor=3D"#fff" style=3D"border: 1px soli=
+d #ccc;">
+        <tbody>
+            <tr>
+              <td align=3D"center" class=3D"float-left">
+                  <a href=3D"http://click.transglobe.com.tw/HL/dfca0/e237df=
+/88128e/1f4721/1f48a9/1e5698/8/1311/800/2.htm" style=3D"display: block;">
+                        <img border=3D"0" width=3D"700" src=3D"http://click=
+=2Etransglobe.com.tw/HL/0/e237df/88128e/1f4721/1f48a9/1e5698/8/1311/2000/2.=
+png" style=3D"width: 100%;"> =20
+                    </a>             =20
+                </td>
+            </tr>
+            <tr>
+              <td align=3D"center" class=3D"float-left">
+                  <a href=3D"http://click.transglobe.com.tw/HL/dfca1/e237df=
+/88128e/1f4721/1f48a9/1e5698/8/1311/800/2.htm" style=3D"display: block;">
+                        <img border=3D"0" width=3D"700" src=3D"http://www.t=
+ransglobe.com.tw/transglobe-web/activity/ebook2018Q3/img/global-ebook-email=
+-cancel.png" style=3D"width: 100%;"> =20
+                    </a>             =20
+                </td>
+              </tr>
+        </tbody>
+    </table>
+     =20
+   =20
+</body>
+</html>
+--0004366ab7b-6b22-41f1-9289-dde744aef47a--

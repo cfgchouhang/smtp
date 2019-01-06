@@ -1,0 +1,2677 @@
+Delivered-To: cfgchouhang@gmail.com
+Received: by 2002:a17:90a:9202:0:0:0:0 with SMTP id m2-v6csp6804822pjo;
+        Thu, 27 Dec 2018 17:10:21 -0800 (PST)
+X-Google-Smtp-Source: AFSGD/U9YvJRU6KUTvsKj5JwvDOMbABD03vL47iit5/Gzgn58JWRHfaj9GHV5+mgoR2QlDH1xvbU
+X-Received: by 2002:a81:52c5:: with SMTP id g188mr26818867ywb.252.1545959421183;
+        Thu, 27 Dec 2018 17:10:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1545959421; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Wpns+eeojv0/8ClgsJi6iWJZ4LX1XQ7aiPYrIinktZTjTyqqssXFDs0tnOOoYY6mqb
+         IVMpMA6vMF276UwVhYHOCDvdWidKXZ+G8bXs6bXumqVaSPxKdqrthc+OKdUgHAt2Eqnz
+         WR0phae6qGk3iDHl5GeHPg1QjPKT+BW4BhXKDr1Wr6tsnN04Ab3Lhb474Fg+DTuNWvWa
+         WeIGYaN7wCFVKVytrFL6E1UI6zG/Lb7tgD9AKO9ExHHSA3Llt3qTQ6Wz/zcuWcM+RkDP
+         2i3dDtmw9ZryuOPox4W2DVEPsLjvBqelKJ+eYlTUjl/A5KX3Reg2jPCct8zV4LOJx4Bt
+         bxFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=date:to:from:subject:reply-to:feedback-id:mime-version:message-id
+         :list-unsubscribe:dkim-signature;
+        bh=jnj8aYgZdBcOW/ST+N6lO7u3EKeHZZ+Ctwnju+QMFEY=;
+        b=i6BRmZtZ+kfABBF4Rt84WBL6y+C/UAmUk1aUAEJpJwXH68SX2awkigXH3wNuot2ujL
+         TL7JhZtVZEw/71hzt4g83SZoTjgRK/cZUkIyKtzmEIgsZJuayQhVburUDyMazKVwhP1v
+         jYBEzTGkyrGjCJa6c429FyxZo19voNiU5i+UUR1j6IY+fuNpIvn3nIlElJIkXQrZS/j+
+         2Om+sXYO6j+rCgdW00tCVbwqzsFQm3xMyvJ5olA8PnBWvReQIRksC7m5tEohDftZxCjf
+         i600DNc3lx7cfMRFwZmGx9yL7Z7kONk+6bw6aass0pfeK+Frd+Mr5P6/bGno2UwzqR8J
+         Lyuw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@mail.paypal.com header.s=pp-epsilon1 header.b=gV3wUzeH;
+       spf=pass (google.com: domain of paypal@mail.paypal.com designates 142.54.244.127 as permitted sender) smtp.mailfrom=paypal@mail.paypal.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=paypal.com
+Return-Path: <paypal@mail.paypal.com>
+Received: from mta127b.pmx1.epsl1.com (mta127b.pmx1.epsl1.com. [142.54.244.127])
+        by mx.google.com with ESMTPS id l20si23373271ywc.393.2018.12.27.17.10.20
+        for <cfgchouhang@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Dec 2018 17:10:21 -0800 (PST)
+Received-SPF: pass (google.com: domain of paypal@mail.paypal.com designates 142.54.244.127 as permitted sender) client-ip=142.54.244.127;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@mail.paypal.com header.s=pp-epsilon1 header.b=gV3wUzeH;
+       spf=pass (google.com: domain of paypal@mail.paypal.com designates 142.54.244.127 as permitted sender) smtp.mailfrom=paypal@mail.paypal.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=paypal.com
+Return-Path: <paypal@mail.paypal.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.paypal.com;
+	s=pp-epsilon1; t=1545959342;
+	bh=jnj8aYgZdBcOW/ST+N6lO7u3EKeHZZ+Ctwnju+QMFEY=;
+	h=MIME-Version:Subject:From:To:Date:Content-Type;
+	b=gV3wUzeHEyIAHOutKlKAohQlwGKKpJSxtbAfUX0e9vJGcG3wXsBqrXd8jXFHQfTGZ
+	 8BuTtkF3M6pVzLfbgldWHbksO4O/72KDXAXV+X9S9E8wUC/oRST5rjt9XaInKXF56E
+	 q2aYXZXo4kBMxaDhlQeR+RFTpPbm4TfCv3iEKgI2r/gKP7PnY9zKUMPcu+zkQSFRnt
+	 dglOWvc9B14jQIfU9RxSS5+2b0q8oPu8k7L/+mrFmKrsJs9CzX1BIqQcGYAdNoH3EL
+	 FCV2tvtmmCHEXK4regrNJwvMOabU8JWv04+K7iNVBns3mbXLr9MCaDmkj1zsAmCJ+5
+	 yyACspuyBRN6w==
+Received: from [10.233.18.47] ([10.233.18.47:43540])
+	by pc1udsmtn1n12 (envelope-from <paypal@mail.paypal.com>)
+	(ecelerity 3.6.9.48312 r(Core:3.6.9.0)) with ECSTREAM
+	id 1E/E0-10853-EA7752C5; Fri, 28 Dec 2018 01:09:02 +0000
+List-Unsubscribe: <mailto:paypal-HP2v400000167f25a8eccc34dc66e96c566a0049@mail.paypal.com?subject=list-unsubscribe>
+Message-ID: <HP2v400000167f25a8eccc34dc66e96c566a0049@mail.paypal.com>
+MIME-Version: 1.0
+Feedback-ID: 7f5da715-b881-4b53-b3a2-4ffdd670c7dc:5002c1b5-892e-4270-a5a0-bfccdf993125:email:epslh1
+X-NSS: 7f5da715-b881-4b53-b3a2-4ffdd670c7dc
+Reply-To: "noreply@mail.paypal.com"
+ <noreply-HP2v400000167f25a8eccc34dc66e96c566a0049@mail.paypal.com>
+Subject: =?UTF-8?B?5ZGoIOmfk++8jOiri+afpemWseS9oOeahCA=?=
+ =?UTF-8?B?MTIg5pyI5Lu95biz5oi25pyI57WQ5Zau?=
+From: PayPal  <paypal@mail.paypal.com>
+To: cfgchouhang@gmail.com
+Date: Fri, 28 Dec 2018 01:09:01 +0000
+Content-Type: multipart/alternative;
+ boundary="-=Part.9f646c5.f493532c601e8f0a.167f25b7f5a.1d6026ccda660f6d=-"
+
+---=Part.9f646c5.f493532c601e8f0a.167f25b7f5a.1d6026ccda660f6d=-
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+PayPal
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+=E5=91=A8 =E9=9F=93 =E6=82=A8=E5=A5=BD:
+
+
+=E6=88=91=E5=80=91=E5=98=97=E8=A9=A6=E4=BB=A5 HTML (=E5=9C=96=E6=96=87) =
+=E5=BD=A2=E5=BC=8F=E5=AF=84=E9=80=81=E6=AD=A4=E5=B0=81=E9=9B=BB=E5=AD=90=E9=
+=83=B5=E4=BB=B6=E7=B5=A6=E6=82=A8=EF=BC=8C=E4=BD=86=E5=8D=BB=E7=84=A1=E6=B3=
+=95=E6=88=90=E5=8A=9F=2E
+=E7=82=BA=E4=BA=86=E8=AE=93=E6=82=A8=E7=9C=8B=E5=88=B0=E6=88=91=E5=80=91=
+=E7=B2=BE=E5=BF=83=E5=91=88=E7=8F=BE=E7=9A=84=E9=9B=BB=E5=AD=90=E9=83=B5=E4=
+=BB=B6=E5=85=A7=E5=AE=B9=EF=BC=8C=E8=AB=8B=E9=BB=9E=E9=81=B8=E4=B8=8B=E5=88=
+=97=E7=B6=B2=E5=9D=80=EF=BC=8C=E7=B7=9A=E4=B8=8A=E8=A7=80=E7=9C=8B:
+
+https://epl=2Epaypal-communication=2Ecom/H/2/v400000167f25a8eccc34dc66e96c=
+566a0/7f5da715-b881-4b53-b3a2-4ffdd670c7dc/HTML
+
+=E6=AD=A4=E8=87=B4,
+PayPal=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+=E7=82=BA=E7=A2=BA=E4=BF=9D=E4=BD=A0=E5=8F=AF=E6=94=B6=E5=88=B0 PayPal =E7=
+=9A=84=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=EF=BC=8C=E8=AB=8B=E5=B0=87 @mail=
+=2Epaypal=2Ecom =E6=96=B0=E5=A2=9E=E8=87=B3=E4=BD=A0=E7=9A=84=E5=AE=89=E5=
+=85=A8=E5=AF=84=E4=BB=B6=E8=80=85=E6=B8=85=E5=96=AE=E3=80=82=E6=9B=B4=E5=A4=
+=9A=E8=A9=B3=E6=83=85=EF=BC=8C=E8=AB=8B=E6=8C=89=E6=AD=A4=E3=80=82
+https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c56=
+6a0/7f5da715b8814b530000021ef3a0bcc2/7f5da715-b881-4b53-b3a2-4ffdd670c7dc
+
+=E6=AD=A4=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E8=A2=AB=E5=AF=84=E8=87=B3 c=
+fgchouhang@gmail=2Ecom=EF=BC=8C =E5=9B=A0=E7=82=BA=E4=BD=A0=E5=9C=A8=E9=9B=
+=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E9=80=9A=E7=9F=A5=E5=81=8F=E5=A5=BD=E8=A8=AD=
+=E5=AE=9A=E4=B8=AD=E9=81=B8=E6=93=87=E6=8E=A5=E6=94=B6 PayPal =E6=9C=8D=E5=
+=8B=99=E7=9A=84=E6=96=B0=E8=81=9E=E7=A8=BF=E5=92=8C=E6=9B=B4=E6=96=B0=E3=80=
+=82=E5=A6=82=E4=BD=A0=E8=A6=81=E6=9B=B4=E6=94=B9=E9=9B=BB=E5=AD=90=E9=83=B5=
+=E4=BB=B6=E9=80=9A=E7=9F=A5=E5=81=8F=E5=A5=BD=E8=A8=AD=E5=AE=9A=EF=BC=8C=E8=
+=AB=8B=E6=8C=89=E6=AD=A4=E3=80=82
+https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c56=
+6a0/7f5da715b8814b530000021ef3a0bcc3/7f5da715-b881-4b53-b3a2-4ffdd670c7dc
+
+=E6=AD=A4=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E6=98=AF=E7=94=B1 PayPal =E7=
+=B3=BB=E7=B5=B1=E8=87=AA=E5=8B=95=E7=94=A2=E7=94=9F=E8=88=87=E7=99=BC=E9=80=
+=81,=E8=AB=8B=E5=8B=BF=E7=9B=B4=E6=8E=A5=E5=9B=9E=E8=A6=86=E3=80=82=E8=8B=
+=A5=E4=BD=A0=E6=9C=89=E4=BB=BB=E4=BD=95=E7=96=91=E5=95=8F=E9=9C=80=E8=A6=81=
+=E5=8D=B3=E6=99=82=E8=A7=A3=E7=AD=94=EF=BC=8C=E8=AB=8B=E9=BB=9E=E9=81=B8 Pa=
+yPal =E7=B6=B2=E7=AB=99=E4=BB=BB=E4=B8=80=E9=A0=81=E9=9D=A2=E4=B8=8B=E6=96=
+=B9=E7=9A=84=E3=80=8C=E6=9F=A5=E8=A9=A2=E4=B8=AD=E5=BF=83=E5=8F=8A=E8=81=AF=
+=E7=B5=A1=E6=88=91=E5=80=91=E3=80=8D=E5=B0=8B=E6=89=BE=E7=AD=94=E6=A1=88=E3=
+=80=82
+
+=E6=95=AC=E5=91=8A=E6=B6=88=E8=B2=BB=E8=80=85 =E2=80=94 PayPal Pte=2E Ltd=
+=2E =E6=98=AF PayPal =E5=84=B2=E5=80=BC=E5=B7=A5=E5=85=B7=E7=9A=84=E6=8C=81=
+=E6=9C=89=E8=80=85=EF=BC=8C=E7=84=A1=E9=A0=88=E7=B6=93=E9=81=8E=E6=96=B0=E5=
+=8A=A0=E5=9D=A1=E9=87=91=E8=9E=8D=E7=AE=A1=E7=90=86=E5=B1=80=E7=9A=84=E6=A0=
+=B8=E5=87=86=E3=80=82=E5=BB=BA=E8=AD=B0=E7=94=A8=E6=88=B6=E4=BB=94=E7=B4=B0=
+=E9=96=B1=E8=AE=80=E6=A2=9D=E6=AC=BE=E5=92=8C=E7=B4=B0=E5=89=87=E3=80=82
+https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c56=
+6a0/7f5da715b8814b530000021ef3a0bcc4/7f5da715-b881-4b53-b3a2-4ffdd670c7dc
+
+=E7=89=88=E6=AC=8A=E6=89=80=E6=9C=89 (C) 2018 PayPal=E3=80=82=E4=BF=9D=E7=
+=95=99=E6=89=80=E6=9C=89=E6=AC=8A=E5=88=A9=E3=80=82 
+---=Part.9f646c5.f493532c601e8f0a.167f25b7f5a.1d6026ccda660f6d=-
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset=UTF-8
+
+<!-- If you see this message, please enable HTML e-mail -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1=2E0 Transitional//EN" "http://w=
+ww=2Ew3=2Eorg/TR/xhtml1/DTD/xhtml1-transitional=2Edtd">
+<!-- 20814_CPT011_15352_New_CONS_THEMATIC_TRANSACTION_zh_TW_1_R_Active_C_A=
+ctive_NoBal_757306 -->
+<html>
+  <head>
+    <title>=E5=91=A8 =E9=9F=93=EF=BC=8C=E8=AB=8B=E6=9F=A5=E9=96=B1=E4=BD=
+=A0=E7=9A=84 12 =E6=9C=88=E4=BB=BD=E5=B8=B3=E6=88=B6=E6=9C=88=E7=B5=90=E5=
+=96=AE</title>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html;charset=3DUTF-8=
+">
+    <meta charset=3D"UTF-8">
+		<link rel=3D"shortcut icon" type=3D"image/x-icon" href=3D"https://www=2E=
+paypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/ed=
+m_baseplate/_common/favicon=2Eico">
+    <meta name=3D"viewport" content=3D"initial-scale=3D1=2E0,minimum-scale=
+=3D1=2E0,maximum-scale=3D1=2E0,width=3Ddevice-width,height=3Ddevice-height,=
+target-densitydpi=3Ddevice-dpi,user-scalable=3Dno">
+	=09
+    <style type=3D"text/css">
+      =2EExternalClass,
+      =2EReadMsgBody {
+        width: 100%;
+        background-color: #ffffff;
+      }
+      =2EExternalClass,
+      =2EExternalClass div,
+      =2EExternalClass font,
+      =2EExternalClass p,
+      =2EExternalClass span,
+      =2EExternalClass td {
+        line-height: 100%;
+      }
+	 =20
+	    =2Ecolspace img{
+			height: 1px!important;
+			min-height: 1px!important;
+			max-height: 1px!important;
+		}
+	 =20
+	  =2Etwo-column-320 =2Ecol1 {
+	  width:46=2E875%;
+	  }
+	  =2Etwo-column-320 =2Ecol2 {
+	  width:50%;
+	  }
+	  =2Etwo-column-320 =2Ecolspace {
+	  width:3=2E125%;
+	  }
+	  =2Etwo-column-320 =2Ebtn-space {
+	  width:3=2E28125%;
+	  }
+	  =2Etwo-col-307 =2Ecol1 {
+      width:50%;
+      }
+      =2Etwo-col-307 =2Ecol2 {
+      width:49=2E84375%;
+      }
+      =2Etwo-col-307 =2Ecolspace {
+      width:0=2E15625%;
+      }
+	  =2Esix-columns {
+				width:16=2E66%;
+				min-width:16=2E66%;
+				max-width:16=2E66%;
+				}
+	 =20
+	 =20
+      body {
+        -webkit-text-size-adjust: none;
+        -ms-text-size-adjust: none;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }		=09
+=09
+=2Enodesktop {
+   display: none;
+   overflow: hidden;
+   visibility: hidden;
+   max-width: 0;
+  /*max-height: 0;*/
+  font-size: 0;
+  position: absolute;
+  }
+		table=2Enodesktop {
+		  overflow: visible;
+		  visibility: visible;
+		  max-width: none;
+		  max-height: none;
+		  font-size: inherit;
+		}
+		* {
+
+        margin: 0;
+        padding: 0;
+      }
+      table {
+        border-spacing: 0;
+        border-collapse: collapse;
+        mso-table-lspace: 0;
+        mso-table-rspace: 0;
+      }
+      table td {
+        border-collapse: collapse;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+      table=2Econtents td a {
+        font-family: Helvetica, Arial, sans-serif;
+        color: #009cde;
+        font-size: 13px;
+        text-decoration: none !important;
+      }
+      table=2Econtents td ul {
+        list-style-position: outside !important;
+        padding-left:15px !important;
+      }
+     =20
+      table=2Etable-rightborder {
+        border-right: 1px solid #fff;
+        border-bottom: 0 solid #fff;
+      }
+      img {
+        border: 0;
+      }
+      html {
+        width: 100%;
+        height: 100%;
+      }
+      =2Esafesender {
+				color: inherit !important;
+			}
+			=2Efooter-utility =2Eutility_nav  span {
+				word-break: keep-all;
+			}
+      =2EappleLinks,
+      =2EappleLinks a,
+      =2EappleLinks div,
+      =2EappleLinks span,
+      =2EappleLinks b,
+      =2EappleLinks i
+      {color:#666666 !important;}
+
+      =2EappleLinksWhite,
+      =2EappleLinksWhite a
+      =2EappleLinksWhite div,
+      =2EappleLinksWhite span,
+      =2EappleLinksWhite b,
+      =2EappleLinksWhite i
+      {color:#ffffff !important;}
+
+      /* Clickable phone numbers */
+      a[href^=3D"sms"],
+      a[href^=3D"tel"] {
+        text-decoration: none;
+        color: #767676;
+        pointer-events: none;
+        cursor: default;
+      }
+      =2Emobile_link a[href^=3D"sms"],
+      =2Emobile_link a[href^=3D"tel"] {
+        text-decoration: default;
+        color: #767676 !important;
+        pointer-events: auto;
+        cursor: default;
+      }
+
+      /* Module Specifc */
+	  =2Etable=2Econtents=2Eb009c td a {
+        color: #fff !important;
+      }
+      =2Etable=2Econtents=2Eb018 td a {
+        color: #fff !important;
+      }
+	 =20
+	  =2Etable=2Econtents=2Eb012 td,
+      =2Etable=2Econtents=2Eb012 td a,
+      =2Etable=2Econtents=2Eb012 td p,
+	  =2Etable=2Econtents=2Eb012 td div,
+      =2Etable=2Econtents=2Eb012 td span,
+      =2Etable=2Econtents=2Eb012a td,
+      =2Etable=2Econtents=2Eb012a td a,
+      =2Etable=2Econtents=2Eb012a td p,
+	  =2Etable=2Econtents=2Eb012a td div,
+      =2Etable=2Econtents=2Eb012a td span {
+        color: #fff !important;
+      }
+	 =20
+	  table=2Econtents td li {padding-top: 10px !important}
+	 =20
+	  =2Eautowidth {
+			overflow: hidden;
+    }
+    =2Emob-two-col,
+    =2Efour-columns {
+			width: 25%;
+			min-width: 25%;
+			max-width: 100%;
+    }
+    =2Ethree-columns {
+			width: 33=2E3%;
+			min-width: 33=2E3%;
+			max-width: 100%;
+    }
+    =2Efive-columns {
+			width: 20%;
+			min-width: 20%;
+			max-width: 100%;
+    }
+	=09
+		=2Etwo-column-403 =2Ecol1 {
+			width: 62=2E96875%;
+    }
+    =2Etwo-column-403 =2Ecol2 {
+			width: 30=2E3125%;
+    }
+    =2Etwo-column-414 =2Ecol1 {
+			width: 64=2E6875%;
+    }
+    =2Etwo-column-414 =2Ecol2 {
+			width: 30=2E3125%;
+    }
+    =2Etwo-column-374 =2Ecol1 {
+			width: 58=2E4375%;
+    }
+    =2Etwo-column-374 =2Ecol2 {
+			width: 36=2E875%;
+    }
+    =2Etwo-column-462 =2Ecol1 {
+			width: 72=2E1875%;
+    }
+    =2Etwo-column-462 =2Ecol2 {
+			width: 21=2E5625%;
+    }
+		=2Etwo-column-403 =2Ebtn-space {
+			width: 16=2E25%;
+		}
+		=2Etwo-column-414 =2Ebtn-space {
+			width: 17=2E96875%;
+		}
+		=2Etwo-column-473 =2Ecol1 {
+			width: 73=2E90625%;
+		}
+		=2Etwo-column-473 =2Ecol2 {
+			width: 21=2E5625%;
+		}
+		=2Etwo-column-473 =2Ebtn-space {
+			width: 27=2E1875%;
+		}
+	=09
+    =2Econtainer {
+			width: 700px;
+    }
+
+    @media yahoo {
+      =2Econtainer {
+        width: 700px;
+      }
+    }
+	=09
+		@media only screen and (min-width : 600px ) {
+			=2Econtainer {
+				width: 700px!important;
+			}
+			=2Enodesktop{
+				position: absolute;
+				display: none;
+				overflow: hidden;
+				visibility: hidden;
+				max-width: 0;
+				max-height: 0;
+				font-size: 0;
+
+			}
+
+		=09
+		}
+	 =20
+			/* Media Queries */
+			@media only screen and (max-width : 599px ) {
+				=2Eshow {
+	width: 108px !important;
+	height: auto !important;
+}
+			=09
+				=2Esix-columns,=2Emob-two-col {
+				 width: 50%!important;
+				 min-width: 50%!important;
+				 max-width: 100%!important;
+				 }
+							=09
+				=2Efont13mb { font-size: 13px!important }
+				/* Default */
+				/* {
+					line-height: normal!important;
+				}*/
+			=09
+				=2Econtainer {
+					width: 100% !important;
+				}
+				=2Eautowidth {
+					width: 100%!important;
+					min-width: 100%!important;
+					max-width: 100%!important;
+				}
+				=2Emob-two-col {
+					width: 50%!important;
+					min-width: 50%!important;
+					max-width: 100%!important;
+				}
+				=2Eshowmobile {
+					display: block!important;
+				}			=09
+				=2Esocial_nav td{
+					padding-left: 7px!important;
+				}
+	=09
+        body {
+          width: auto!important;
+        }
+        body =2Enomob {
+          display: none !important;
+        }
+        body =2Enobg {
+          background: none !important;
+        }
+        body =2Enopadding {
+          padding: 0 !important;
+        }
+        body =2Enopaddinglc {
+          padding: 0 !important;
+          text-align: center !important;
+        }
+        body =2Enoheight {
+          height: auto !important;
+        }
+	=09
+		=2Enodesktop {
+			position: relative!important;
+			display: block!important;
+			overflow: visible!important;
+			visibility: visible!important;
+			max-height: none!important;
+			/*max-width: initial!important;*/
+			font-size: inherit!important;
+			width: auto!important;
+		}
+	=09
+		table=2Enodesktop, =2Enodesktop table  {
+			display: table!important;
+			max-width: inherit!important;
+        }
+	=09
+
+        /* Adjust table widths at smaller screen sizes */
+        body =2Etable {
+          width: 100% !important;
+          border: none !important;
+        }
+        body =2Etable200 {
+          width: 54% !important;
+          border: none !important;
+        }
+        body =2Etable30 {
+          width: 100% !important;
+          border: none !important;
+          padding: 30px !important;
+        }
+        body =2EtableH {
+          width: 100% !important;
+          height: 1px !important;
+          border: none !important;
+        }
+        body =2EtableH21 {
+          width: 100% !important;
+          height: 21px !important;
+          border: none !important;
+        }
+        body =2Etablepad10 {
+          width: 100% !important;
+          height: 10px !important;
+          border: none !important;
+        }
+        /* Adjust max table width */
+        body =2Etable95per {
+          width: 95% !important;
+          border: none !important;
+        }
+        body =2Etable95perac {
+          width: 95% !important;
+          border: none !important;
+        }
+        body =2EwhiteMod {
+          width: 100% !important;
+          display: block !important;
+          background-color: #FFFFFF !important;
+          border: 1px solid #e3e3e3 !important;
+          -webkit-border-radius: 5px!important;
+          -moz-border-radius: 5px!important;
+          border-radius: 5px!important;
+        }
+        /* Adjust table heights at smaller screen sizes */
+
+        /* Header */
+        body =2Esubjectline {
+          width: 100% !important;
+          text-align: left !important;
+          float: left !important;
+          padding-top: 15px !important;
+        }
+		body =2Eviewonline {
+          width: 100% !important;
+          text-align: left !important;
+          float: left !important;
+          padding-top: 15px !important;
+        }
+        body =2Efloatleft {
+          width: 100% !important;
+          text-align: left !important;
+          float: left !important;
+          margin-top: 0 !important;
+          padding-top: 5px !important;
+        }
+        /* Body Content*/
+        body =2Epadding15px {
+          padding: 0 15px !important;
+        }
+        body =2Epadding19TB {
+          padding: 19px 0 !important;
+        }
+        body =2Epadding10top {
+          padding: 10px 0 0 !important;
+        }
+        body =2Epadding30px {
+          padding: 0 30px !important;
+        }
+        body =2Epadding15 {
+          padding: 15px !important;
+        }
+        body =2Epadding15T {
+          padding: 25px 15px !important;
+
+        }
+        body =2Epadding1520b {
+          padding: 20px 15px 15px !important;
+        }
+        body =2Epadding30 {
+          padding: 30px !important;
+        }
+        body =2Epadding1520 {
+          padding: 20px 0 15px !important;
+        }
+        body =2Epad15t20b {
+          padding: 15px 0 25px !important;
+        }
+        body =2Epad15t30b {
+          padding: 15px 0 30px !important;
+        }
+        body =2Epadsmall15 {
+          padding: 15px 30px 30px !important;
+        }
+        body =2Epad30LR {
+          padding: 15px 30px !important;
+        }
+        body =2Efont16 {
+          -webkit-text-size-adjust: none !important;
+          -webkit-font-smoothing: antialiased !important;
+          font-size: 16px !important;
+          font-weight: bold !important;
+          line-height: 24px !important;
+          height: auto !important;
+        }
+        body =2Efont30 {
+          -webkit-text-size-adjust: none !important;
+          -webkit-font-smoothing: antialiased !important;
+          font-size: 30px !important;
+          line-height: 36px !important;
+        }
+        body =2Efont28 {
+          -webkit-text-size-adjust: none !important;
+          -webkit-font-smoothing: antialiased !important;
+          font-size: 28px !important;
+          line-height: 36px !important;
+        }
+        body =2Efont25 {
+          -webkit-text-size-adjust: none !important;
+          -webkit-font-smoothing: antialiased !important;
+          font-size: 25px !important;
+          line-height: 36px !important;
+        }
+        body =2EheroImg {
+          width: 100% !important;
+          height: auto !important;
+        }
+        body =2Ebutimg {
+          width: 100% !important;
+          height: auto !important;
+        }
+
+        body table=2Etable-rightborder {
+          border-right: 0 solid #fff;
+          border-bottom: 1px solid #fff;
+        }
+
+        /* Footer */
+        body =2Eshow_in_mob {
+          display: block!important;
+          max-height: none !important;
+          height: auto!important;
+          width: 100%!important;
+        }
+        body =2Eimage_resize {
+          width: 100% !important;
+          height: auto !important;
+        }
+        body =2EfooterLinks {
+          width: 100% !important;
+          margin-bottom: 8px !important;
+          padding: 10px 0 !important;
+          display: block !important;
+          background-color: #d5d5d5 !important;
+          -webkit-border-radius: 5px!important;
+          -moz-border-radius: 5px!important;
+          border-radius: 5px!important;
+          text-align: center !important;
+        }
+        body =2Eresize12h {
+          height: 12px !important;
+        }
+        body =2Efont11 {
+          -webkit-text-size-adjust: none;
+          -webkit-font-smoothing: antialiased;
+          font-size: 11px !important;
+          line-height: 16px !important;
+          text-decoration: none !important;
+        }
+        body =2Efont14 {
+          -webkit-text-size-adjust: none;
+          -webkit-font-smoothing: antialiased;
+          font-size: 14px !important;
+          line-height: 21px !important;
+          text-decoration: none !important;
+        }
+        body =2Eutility_nav span {
+          -webkit-text-size-adjust: none;
+          -webkit-font-smoothing: antialiased;
+          font-size: 11px !important;
+					line-height: 13px !important;
+          text-align: center !important;
+          width: 100% !important;
+        }
+        body =2Eultility_nav_padding {
+          padding: 19px 0 21px !important;
+          text-align: center;
+          width: 320px !important;
+        }
+        body =2Eultility_nav_top_padding {
+          padding: 19px 0 !important;
+          text-align: center !important;
+          width: 320px !important;
+        }
+        body =2Eultility_nav_btm_padding {
+          padding: 0 0 19px !important;
+          text-align: center !important;
+          width: 320px !important;
+        }
+
+        body =2Econtents table {
+          width: 100%;
+          text-align: center;
+        }
+        body table=2Efooter_c2 {
+          width: 100%;
+          text-align: center;
+        }
+
+        /* Module Specifc */
+        body table=2Econtents=2Eb012 =2EleftRightMargin28 {
+          width: 0;
+        }
+        body table=2Econtents=2Eb018 =2EleftRightMargin20 {
+          width: 55px!important;
+        }
+        body table=2Econtents=2Eb019 =2Eimage {
+          width: 324px!important;
+        }
+
+        /* hero */
+        *[class=3Dresize_main4] {
+          width: 320px !important;
+          height: 277px !important;
+        }
+        *[class=3Dresize_main41] {
+          width: 320px !important;
+          height: 277px !important;
+          display: block !important;
+        }
+        /** Logo **/
+        body =2Elogoresize {
+          background-size: 108px 27px !important;
+          width: 108px !important;
+          height: 27px !important;
+          display: block !important;
+        }
+        table[class=3Dresize_button] {
+          width: 299px !important;
+        }
+
+        /* ------ BUTTON CONTROLS ------ */
+        *[class=3Dbutton_style] {
+          border-radius: 7px !important;
+          -webkit-border-radius: 7px !important;
+          -moz-border-radius: 7px !important;
+          -o-border-radius: 7px !important;
+          -ms-border-radius: 7px !important;
+        }
+        *[class=3Dbutton_style]:active {
+          background: #008bdb !important;
+        }
+        *[class=3Dbutton_style]:hover {
+          background: #008bdb !important;
+        }
+        *[class=3Dmobile_button] {
+          width: 240px !important;
+        }
+      }
+		=09
+			body=2Eth_TH,
+			body=2Eth_TH a,
+			body=2Eth_TH p,
+			body=2Eth_TH span,
+			body=2Eth_TH div,
+			body=2Eth_TH table td
+			{
+				font-family: Tahoma, 'Unicode Arial MS', Helvetica, Arial, sans-serif =
+!important;
+			}
+			body=2Ezh_HK,
+			body=2Ezh_HK a,
+			body=2Ezh_HK p,
+			body=2Ezh_HK span,
+			body=2Ezh_HK div,
+			body=2Ezh_HK table td
+			{
+				font-family: 'Microsoft JhengHei', Helvetica, Arial, sans-serif !impor=
+tant;
+			}
+			body=2Ezh_TW,
+			body=2Ezh_TW a,
+			body=2Ezh_TW p,
+			body=2Ezh_TW span,
+			body=2Ezh_TW div,
+			body=2Ezh_TW table td
+			{
+				font-family: 'Microsoft JhengHei', Helvetica, Arial, sans-serif !impor=
+tant;
+			}
+			body=2Eko_KR,
+			body=2Eko_KR a,
+			body=2Eko_KR p,
+			body=2Eko_KR span,
+			body=2Eko_KR div,
+			body=2Eko_KR table td
+			{
+				font-family: '=EB=82=98=EB=88=94=EB=B0=94=EB=A5=B8=EA=B3=A0=EB=94=95',=
+ Nanum Barun Gothic, Helvetica, Arial, sans-serif !important;
+				word-break: break-all;
+			}
+			body=2Eja_JP,
+			body=2Eja_JP a,
+			body=2Eja_JP p,
+			body=2Eja_JP span,
+			body=2Eja_JP div,
+			body=2Eja_JP table td
+			{
+				font-family: '=E3=83=A1=E3=82=A4=E3=83=AA=E3=82=AA', Meiryo, '=E3=83=
+=92=E3=83=A9=E3=82=AE=E3=83=8E=E8=A7=92=E3=82=B4 Pro W3', 'Hiragino Kaku Go=
+thic Pro', Osaka, '=EF=BC=AD=EF=BC=B3 =EF=BC=B0=E3=82=B4=E3=82=B7=E3=83=83=
+=E3=82=AF', 'MS PGothic', Verdana, Arial, Helvetica, sans-serif !important;
+			}
+			</style>
+		=09
+			<!--[if gte mso 9]>
+			<style type=3D"text/css">
+			table=2Enodesktop,=2Enodesktop {
+        max-height: 0;
+        mso-hide: all;
+			}
+		=09
+			body=2Eth_TH,
+			body=2Eth_TH a,
+			body=2Eth_TH p,
+			body=2Eth_TH span,
+			body=2Eth_TH div,
+			body=2Eth_TH table td
+			{
+				word-break: break-all;
+			}
+			body=2Ezh_HK,
+			body=2Ezh_HK a,
+			body=2Ezh_HK p,
+			body=2Ezh_HK span,
+			body=2Ezh_HK div,
+			body=2Ezh_HK table td
+			{
+				word-break: break-all;
+			}
+			body=2Ezh_TW,
+			body=2Ezh_TW a,
+			body=2Ezh_TW p,
+			body=2Ezh_TW span,
+			body=2Ezh_TW div,
+			body=2Ezh_TW table td
+			{
+				word-break: break-all;
+			}
+			body=2Eko_KR,
+			body=2Eko_KR a,
+			body=2Eko_KR p,
+			body=2Eko_KR span,
+			body=2Eko_KR div,
+			body=2Eko_KR table td
+			{
+				word-break: break-all;
+			}
+			body=2Eja_JP,
+			body=2Eja_JP a,
+			body=2Eja_JP p,
+			body=2Eja_JP span,
+			body=2Eja_JP div,
+			body=2Eja_JP table td
+			{
+				word-break: break-all;
+			}
+			</style>
+			<![endif]-->
+
+
+  </head>
+
+  <body class=3D"zh_TW" style=3D"width:100% !important; color:#767676; bac=
+kground:#f2f2f2; font-family: Helvetica, Arial, sans-serif; font-size:14px;=
+ margin:0; padding:0;" yahoo=3D"fix">
+
+    <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ align=3D"center" bgcolor=3D"#f2f2f2" style=3D"width:100% !important; margi=
+n:0; padding:0; border-collapse:collapse; mso-table-lspace:0pt; mso-table-r=
+space:0pt;">
+      <tr>
+        <td align=3D"center" valign=3D"top">
+	=09
+		  <!-- Main Container -->
+		 =20
+		  <!--[if mso]><table width=3D"700" border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0" align=3D"center" style=3D"width:700px"><tr><td valign=3D"top" =
+width=3D"700"><![endif]-->
+	=09
+          <table width=3D"700" border=3D"0" align=3D"center" cellpadding=
+=3D"0" cellspacing=3D"0" class=3D"container table95per" style=3D"max-width:=
+ 700px; width: 100%">
+            <tbody>
+              <tr>
+                <td align=3D"left" valign=3D"top" style=3D"padding:10px 0;=
+">
+                  <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" =
+align=3D"left">
+                    <tbody>
+                      <tr>
+                        <td style=3D"font-family: Helvetica,Arial,sans-ser=
+if; font-size: 12px; color:#666666; text-decoration: none; line-height: 19p=
+x;">
+                          <span class=3D"preheader-text" style=3D"font-wei=
+ght:normal;text-decoration:none; color:#666;"><strong>=E5=91=A8 =E9=9F=93</=
+strong> - PayPal =E5=B8=B3=E6=88=B6=E6=9C=88=E7=B5=90=E5=96=AE</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" =
+align=3D"right" style=3D"max-width:100%; width:-webkit-calc(288000px - 6000=
+0%); width:calc(288000px - 60000%);" class=3D"autowidth">
+                    <tbody>
+                      <tr>
+                        <td align=3D"left" style=3D"font-family: Helvetica=
+, Arial, sans-serif; font-size: 12px; color:#666666; text-decoration: none;=
+ line-height: 19px;white-space: nowrap">
+                          <a href=3D"https://epl=2Epaypal-communication=2E=
+com/H/2/v400000167f25a8eccc34dc66e96c566a0/7f5da715-b881-4b53-b3a2-4ffdd670=
+c7dc/HTML" style=3D"font-family:  Helvetica, Arial, sans-serif; font-size: =
+12px; color:#666666; text-decoration: underline; line-height: 19px;" target=
+=3D"_blank">=E7=B7=9A=E4=B8=8A=E6=9F=A5=E7=9C=8B</a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td align=3D"left" valign=3D"top"><img src=3D"https://www=
+=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content=
+/edm_baseplate/_common/spacer=2Egif" width=3D"1" height=3D"5" alt=3D"PayPal=
+" style=3D"display:block; border:none; outline:none; text-decoration:none;"=
+></td>
+              </tr>
+              <tr>
+                <td align=3D"left" valign=3D"top" style=3D"overflow:hidden=
+">
+			=09
+				  <!-- Content Container -->
+                  <table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0">
+				 =20
+				    <!-- Content: Top Border -->
+                    <tr>
+                      <td align=3D"left" valign=3D"top" width=3D"100%" hei=
+ght=3D"9" style=3D"font-size:0px; line-height:0px;">
+                        <table width=3D"100%" border=3D"0" align=3D"center=
+" cellpadding=3D"0" cellspacing=3D"0" style=3D"width: 100%; max-width: 700p=
+x;" bgcolor=3D"#fff">
+                          <tr>
+                            <td align=3D"left" valign=3D"top" width=3D"5" =
+height=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <img src=3D"https://www=2Epaypalobjects=2Eco=
+m/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_commo=
+n/main-border-top-left=2Ejpg" width=3D"5" height=3D"9" alt=3D"PayPal" style=
+=3D"display:block; border:none; outline:none; text-decoration:none; width: =
+5px; height: 9px;">
+                            </td>
+                            <td align=3D"center" valign=3D"bottom" height=
+=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <table width=3D"100%" border=3D"0" align=3D"=
+center" cellpadding=3D"0" cellspacing=3D"0" bgcolor=3D"#ffffff" style=3D"wi=
+dth: 100%; border-top: 1px solid #E8E8E8;background-color:#ffffff">
+                                <tr>
+                                  <td align=3D"center" valign=3D"bottom" h=
+eight=3D"8" style=3D"font-size:0px; line-height:0px;">
+
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td align=3D"right" valign=3D"top" width=3D"5"=
+ height=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <img src=3D"https://www=2Epaypalobjects=2Eco=
+m/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_commo=
+n/main-border-top-right=2Ejpg" width=3D"5" height=3D"9" alt=3D"PayPal" styl=
+e=3D"display:block; border:none; outline:none; text-decoration:none; width:=
+ 5px; height: 9px;">
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+					<!-- //Content: Top Border -->
+
+                    <tr>
+                      <td align=3D"left" valign=3D"top">
+                        <table width=3D"100%" border=3D"0" cellspacing=3D"=
+0" cellpadding=3D"0">
+                          <tr>
+						    <td align=3D"left" valign=3D"top" bgcolor=3D"#ffffff" style=3D"b=
+order-left: 1px solid #e3e3e3; border-right: 1px solid #e3e3e3;">
+                              <table width=3D"100%" border=3D"0" cellspaci=
+ng=3D"0" cellpadding=3D"0" class=3D"table" style=3D"max-width: 698px;">
+                                <tr>
+                                  <td style=3D"padding: 21px 0px 0px 0px;"=
+>                                   =20
+																		<!-- Content: Logo -->
+                                    <table width=3D"100%" border=3D"0" cel=
+lspacing=3D"0" cellpadding=3D"0" class=3D"table">
+                                      <tr>
+                                       <td width=3D"30" align=3D"left" val=
+ign=3D"top" bgcolor=3D"#ffffff"><table border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0">
+											<tbody>
+											  <tr>
+												<td width=3D"30" style=3D"font-size:0px; line-height:0px;"><im=
+g src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplat=
+e_and_common_content/edm_baseplate/_common/spacer=2Egif" width=3D"30" heigh=
+t=3D"1" alt=3D"" style=3D"display:block; border:none; outline:none; text-de=
+coration:none;"></td>
+											  </tr>
+											</tbody>
+										  </table></td>
+                                      =20
+                                       <td align=3D"left" valign=3D"top" b=
+gcolor=3D"#ffffff"><table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0">
+                                        <tbody>
+                                          <tr>
+                                            <td align=3D"left" valign=3D"t=
+op" bgcolor=3D"#ffffff"><a href=3D"https://epl=2Epaypal-communication=2Ecom=
+/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcc5/7f5d=
+a715-b881-4b53-b3a2-4ffdd670c7dc" style=3D"font-family: Helvetica, Arial, s=
+ans-serif; font-size: 20px; color: #009cde; text-decoration: none; line-hei=
+ght: 20px; font-weight: bold;" target=3D"_blank"> <img class=3D"show" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/logo_big=2Ejpg" width=3D"140" alt=3D"=
+PayPal" style=3D"border:none; outline:none; text-decoration:none;"> </a>=20
+                                              </td>
+                                          </tr>
+                                        </tbody>
+                                      </table></td>
+                                       =20
+                                        <td width=3D"30" align=3D"left" va=
+lign=3D"top" bgcolor=3D"#ffffff"><table border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0">
+											<tbody>
+											  <tr>
+												<td width=3D"30" style=3D"font-size:0px; line-height:0px;"><im=
+g src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplat=
+e_and_common_content/edm_baseplate/_common/spacer=2Egif" width=3D"30" heigh=
+t=3D"1" alt=3D"" style=3D"display:block; border:none; outline:none; text-de=
+coration:none;"></td>
+											  </tr>
+											</tbody>
+										  </table></td>
+                                      </tr>
+                                      <tr>
+                                        <td align=3D"left" valign=3D"top" =
+height=3D"15" colspan=3D"3" style=3D"font-size:0px; line-height:0px;">
+                                          <img src=3D"https://www=2Epaypal=
+objects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_base=
+plate/_common/spacer=2Egif" width=3D"1" height=3D"15" alt=3D"" style=3D"dis=
+play:block; border:none; outline:none; text-decoration:none;">
+                                        </td>
+                                      </tr>
+                                    </table>
+                                    <!-- //Content: Logo -->
+
+																		<!-- Content: Modules -->
+                                    <!-- H006 --><table width=3D"100%" bor=
+der=3D"0" cellspacing=3D"0" cellpadding=3D"0" class=3D"table contents #(mod=
+ule_code)#">
+<tbody>
+  <tr>
+    <td width=3D"29">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"29" border=3D"0" style=3D"display:block;height:1px;w=
+idth:29px;">
+    </td>
+    <td>
+      <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"=
+0">
+        <tbody>
+          <tr>
+            <td>
+              <img style=3D"display: block; width: 1px; height: 20px;" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"" w=
+idth=3D"1" height=3D"20">
+            </td>
+          </tr>
+          <tr>
+            <td align=3D"left" valign=3D"top" class=3D"font28" style=3D"fo=
+nt-family: Helvetica, Arial, sans-serif; font-size:42px; -webkit-font-smoot=
+hing: antialiased; color: #009cde; text-decoration: none; line-height: Norm=
+al; mso-line-height-rule:exactly;">
+              =E4=BD=A0=E7=9A=84 12 =E6=9C=88=E4=BB=BD=E5=B8=B3=E6=88=B6=
+=E6=9C=88=E7=B5=90=E5=96=AE=E5=B7=B2=E5=82=99=E5=A6=A5
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img style=3D"display: block; width: 1px; height: 15px;" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"" w=
+idth=3D"1" height=3D"15">
+            </td>
+          </tr>
+          <tr>
+            <td align=3D"left" valign=3D"top" class=3D"font13" style=3D"fo=
+nt-family: Helvetica, Arial, sans-serif; font-size:13px; -webkit-font-smoot=
+hing: antialiased; color: #666666; text-decoration: none; line-height: 20px=
+; mso-line-height-rule:exactly;">
+              =E6=88=91=E5=80=91=E6=AF=8F=E5=80=8B=E6=9C=88=E9=83=BD=E6=9C=
+=83=E7=82=BA=E4=BD=A0=E6=BA=96=E5=82=99=E5=B8=B3=E6=88=B6=E6=9C=88=E7=B5=90=
+=E5=96=AE=EF=BC=8C=E4=BB=A5=E4=BE=9B=E6=9F=A5=E9=96=B1=E6=A0=B8=E5=B0=8D=E3=
+=80=82=E4=BD=A0=E5=8F=AA=E9=9C=80=E5=9C=A8=E7=99=BB=E5=85=A5 PayPal =E5=B8=
+=B3=E6=88=B6=E5=BE=8C=EF=BC=8C=E6=8C=89=E4=B8=80=E4=B8=8B=E3=80=8C=E4=BA=A4=
+=E6=98=93=E6=B4=BB=E5=8B=95=E3=80=8D=EF=BC=8C=E5=8D=B3=E5=8F=AF=E6=AA=A2=E8=
+=A6=96=E8=A9=B2=E6=9C=88=E4=BB=BD=E7=9A=84=E4=BA=A4=E6=98=93=E7=B4=80=E9=8C=
+=84=E3=80=82<BR><BR>=E4=BD=A0=E5=8F=AF=E4=BB=A5=E9=9A=A8=E6=99=82=E7=9B=A3=
+=E6=B8=AC=E4=BD=A0=E7=9A=84=E6=B6=88=E8=B2=BB=E7=8B=80=E6=B3=81=EF=BC=8C=E6=
+=9F=A5=E7=9C=8B=E8=B3=BC=E7=89=A9=E7=B4=80=E9=8C=84=E3=80=82=E9=80=8F=E9=81=
+=8E PayPal =E4=BB=98=E6=AC=BE=EF=BC=8C=E6=89=80=E6=9C=89=E5=80=8B=E4=BA=BA=
+=E8=B3=87=E6=96=99=E5=8F=8A=E8=B2=A1=E5=8B=99=E8=B3=87=E6=96=99=E7=9A=86=E7=
+=B6=93=E9=81=8E=E5=AE=89=E5=85=A8=E5=8A=A0=E5=AF=86=EF=BC=8C=E7=B6=B2=E8=B7=
+=AF=E8=B3=BC=E7=89=A9=E8=87=AA=E7=84=B6=E6=9B=B4=E5=AE=89=E5=BF=83=E3=80=82
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img style=3D"display: block; width: 1px; height: 24px;" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"" w=
+idth=3D"1" height=3D"24">
+            </td>
+          </tr>
+          <tr>
+            <td align=3D"left" valign=3D"top" class=3D"font13" style=3D"fo=
+nt-family: Helvetica, Arial, sans-serif; font-size:13px; -webkit-font-smoot=
+hing: antialiased; color: #ffffff; text-decoration: none; mso-line-height-r=
+ule:exactly;">
+              <div style=3D"display:inline-block;vertical-align:top; min-w=
+idth:299px; max-width:100%; width:-webkit-calc(230400px - 48000%); width:ca=
+lc(230400px - 48000%);" class=3D"autowidth">
+               =20
+				<div  style=3D"vertical-align: top; width:100%; display: inline-block;=
+">
+			<table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D"0" =
+align=3D"center">
+				<tbody>
+					<tr>
+						<td style=3D"font-family: Helvetica,Arial,sans-serif; font-size: 13p=
+x; color: rgb(255, 255, 255); text-decoration: none; text-align: center!imp=
+ortant;">
+							 <a class=3D"cta_text" href=3D"https://epl=2Epaypal-communication=
+=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcc=
+6/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D"=E7=AB=8B=E5=8D=B3=E7=99=
+=BB=E5=85=A5" target=3D"_blank" style=3D"font-family: Helvetica,Arial,sans-=
+serif; font-size: 13px; text-decoration: none; font-weight: bold; color: rg=
+b(255, 255, 255); display: inline-block; width:100%;">
+							<!--[if mso]><table align=3D"left" border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0"><tr><td valign=3D"top"><![endif]-->
+							<table width=3D"100%" cellspacing=3D"0" cellpadding=3D"0" border=3D=
+"0" >
+							<tbody>
+							<tr>
+							<td width=3D"20">
+							<img style=3D"width: 20px; float:right; margin-right:-1px;" src=3D"=
+https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/02_paypal_apac_lvm--=
+-lvm-email-folder/generic/cta_left1=2Epng" alt=3D"" width=3D"20" height=3D"=
+40" border=3D"0">
+							</td>							=20
+							  <td class=3D"btntd" style=3D"color:#ffffff;font-size:13px; font-w=
+eight:bold; font-family:Helvetica,Arial,sans-serif;text-align:center!import=
+ant;mso-line-height-rule:exactly;" bgcolor=3D"#009CDE" border=3D"0">
+							 <!--[if mso]><table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" align=3D"left" width=3D"299"><tr><td align=3D"center" valign=3D"middle" =
+style=3D"color:#ffffff;font-size:13px; font-weight:bold; font-family:Helvet=
+ica,Arial,sans-serif; text-align:center!important;mso-line-height-rule:exac=
+tly; padding:0px 32px; height:36px; line-height:18px;">
+							 <a class=3D"cta_text" href=3D"https://epl=2Epaypal-communication=
+=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcc=
+7/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D"=E7=AB=8B=E5=8D=B3=E7=99=
+=BB=E5=85=A5" target=3D"_blank" style=3D"font-family:Helvetica,Arial,sans-s=
+erif; font-size:13px; text-decoration:none; font-weight:bold; color: #fffff=
+f; display:inline-block; width:100%;"><![endif]-->=E7=AB=8B=E5=8D=B3=E7=99=
+=BB=E5=85=A5<!--[if mso]></a></td></tr></table><![endif]--></td>
+							=20
+							=20
+							<td width=3D"20"><img style=3D"width:20px;float:left; margin-left:-=
+1px;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/02_payp=
+al_apac_lvm---lvm-email-folder/generic/cta_right1=2Epng" alt=3D"" width=3D"=
+20" height=3D"40"  border=3D"0"></td>
+							</tr>
+							</tbody>
+							</table>
+						=09
+                      <!--[if mso]></td></tr></table><![endif]-->
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+			=09
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img style=3D"display: block; width: 1px; height: 20px;" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"" w=
+idth=3D"1" height=3D"20">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+    <td width=3D"29">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"29" border=3D"0" style=3D"display:block;height:1px;w=
+idth:29px;">
+    </td>
+  </tr>
+</tbody>
+</table><!-- /H006 --><!-- P002 --><table width=3D"100%" border=3D"0" cell=
+spacing=3D"0" cellpadding=3D"0" class=3D"table contents #(module_code)#">
+   <tbody>
+     <tr>
+       <td width=3D"29">
+         <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APA=
+C/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=
+=3D"" height=3D"1" width=3D"29" border=3D"0" style=3D"display:block;height:=
+1px;width:29px;">
+       </td>
+       <td>
+         <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0">
+           <tbody>
+             <tr>
+               <td align=3D"left" valign=3D"top" class=3D"font13" style=3D=
+"mso-line-height-rule:exactly;">
+                 <br><strong style=3D"font-size:21px;font-family:Helvetica=
+,Arial,sans-serif;color:#666666; line-height:25px;-webkit-font-smoothing:an=
+tialiased;">=E7=AF=80=E6=85=B6=E8=B3=BC=E7=89=A9=E5=AD=A3=EF=BC=8C=E9=81=A9=
+=E5=90=88=E4=BD=A0=E3=80=81=E6=88=91=E3=80=81=E4=BB=96=E7=9A=84=E5=BF=83=E6=
+=A9=9F=E5=A5=BD=E7=A6=AE=E9=9D=88=E6=84=9F=EF=BC=81</strong>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+       </td>
+       <td width=3D"29">
+         <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APA=
+C/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=
+=3D"" height=3D"1" width=3D"29" border=3D"0" style=3D"display:block;height:=
+1px;width:29px;">
+       </td>
+     </tr>
+   </tbody>
+ </table><!-- /P002 --><!-- B007_s --><table width=3D"100%" border=3D"0" c=
+ellspacing=3D"0" cellpadding=3D"0" class=3D"table contents #(module_code)#"=
+>
+<tbody>
+  <tr>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+    <td valign=3D"top" style=3D"vertical-align:top;">
+      <div style=3D"width:100%;font-size:0">
+        <!--[if mso]><table width=3D"100%" border=3D"0" cellpadding=3D"0" =
+cellspacing=3D"0" align=3D"left" style=3D"width:100%;border-collapse:collap=
+se; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td valign=3D"top" wid=
+th=3D"50%"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:50%=
+; min-width:50%; max-width:100%; width:-webkit-calc(230400px - 48000%); min=
+-width:-webkit-calc(50%); width:calc(230400px - 48000%); min-width:calc(50%=
+);" class=3D"autowidth">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tr>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+                <td>
+                  <table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"left">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:29p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"29">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"center" valign=3D"top">
+                          <img class=3D"" src=3D"https://www=2Epaypalobjec=
+ts=2Ecom/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/koi/con=
+sumer/cpt011/hkt/klook=2Epng" title=3D"Klook" alt=3D"Klook" width=3D"306" b=
+order=3D"0" style=3D"width:306px; max-width: 100%;display:block;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:20p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"20">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top" width=3D"100%" s=
+tyle=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;font-size:16px=
+;font-weight:bold;line-height:22px;-webkit-font-smoothing:antialiased;heigh=
+t:48px;min-height:48px;">
+                          Klook
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" height=3D"60" valign=3D"top" wi=
+dth=3D"100%" style=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;=
+font-size:13px ;line-height:20px;-webkit-font-smoothing:antialiased;height:=
+60px; min-height: 60px;mso-line-height-rule:exactly">
+                          =E9=80=81=E4=B8=8A=E4=B8=80=E5=80=8B=E5=8D=B3=E8=
+=88=88=E6=97=85=E8=A1=8C=EF=BC=8C=E6=9C=89=E4=BD=95=E4=B8=8D=E5=8F=AF=EF=BC=
+=9F
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:10p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"10">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top">
+                          <a href=3D"https://epl=2Epaypal-communication=2E=
+com/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcc8/7=
+f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D"Klook" target=3D"_blank" styl=
+e=3D"font-family:Helvetica,Arial,sans-serif;color:#009CDE;font-size:13px;fo=
+nt-weight:bold;text-decoration:none;-webkit-font-smoothing:antialiased;">
+                            <span style=3D"font-family:Helvetica,Arial,san=
+s-serif;color:#009CDE;font-size:13px;font-weight:bold;text-decoration:none;=
+-webkit-font-smoothing:antialiased;">=E7=AB=8B=E5=8D=B3=E9=A0=90=E8=A8=82</=
+span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+              </tr>
+            </table>
+          </div>
+        <!--[if mso]></td><td valign=3D"top" width=3D"50%"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:50%=
+; min-width:50%; max-width:100%; width:-webkit-calc(230400px - 48000%); min=
+-width:-webkit-calc(50%); width:calc(230400px - 48000%); min-width:calc(50%=
+);" class=3D"autowidth">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tr>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+                <td>
+                  <table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"left">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img style=3D"display: block; width:1px; height:=
+29px" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_base=
+plate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" a=
+lt=3D"" width=3D"1" height=3D"29">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"center" valign=3D"top">
+                          <img class=3D"" src=3D"https://www=2Epaypalobjec=
+ts=2Ecom/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/koi/con=
+sumer/cpt011/hkt/nola=2Epng" title=3D"Nola Skinsentials" alt=3D"Nola Skinse=
+ntials" border=3D"0" width=3D"306" style=3D"width:306px; max-width: 100%;di=
+splay:block;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:20p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"20">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top" width=3D"100%" s=
+tyle=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;font-size:16px=
+ ;font-weight:bold;line-height:22px; -webkit-font-smoothing:antialiased;hei=
+ght:48px;min-height:48px;">
+                          Nola Skinsentials
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" height=3D"60" valign=3D"top" wi=
+dth=3D"100%" style=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;=
+font-size:13px ;line-height:20px ;-webkit-font-smoothing:antialiased;height=
+:60px; min-height: 60px;mso-line-height-rule:exactly">
+                          100% =E6=A4=8D=E7=89=A9=E6=80=A7=E3=80=81=E7=84=
+=A1=E5=8B=95=E7=89=A9=E5=AF=A6=E9=A9=97=E3=80=81=E4=B8=8D=E5=90=AB=E9=85=92=
+=E7=B2=BE=E3=80=81=E6=89=8B=E5=B7=A5=E8=A3=BD=E4=BD=9C=E7=9A=84 Vegan Kisse=
+s =E7=BE=8E=E5=94=87=E7=A3=A8=E7=A0=82=E8=86=8F=E3=80=82
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:10p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"10">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top">
+                          <a href=3D"https://epl=2Epaypal-communication=2E=
+com/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcc9/7=
+f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D" Nola Skinsentials" target=3D=
+"_blank" style=3D"font-family:Helvetica,Arial,sans-serif;color:#009CDE;font=
+-size:13px;font-weight:bold;text-decoration:none;-webkit-font-smoothing:ant=
+ialiased;">
+                            <span style=3D"font-family:Helvetica,Arial,san=
+s-serif;color:#009CDE;font-size:13px;font-weight:bold;text-decoration:none;=
+-webkit-font-smoothing:antialiased;">=E7=AB=8B=E5=8D=B3=E8=B3=BC=E8=B2=B7</=
+span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+              </tr>
+            </table>
+          </div>
+        <!--[if mso]></td></tr></table><![endif]-->
+      </div>
+    </td>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+  </tr>
+  <tr>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+    <td height=3D"15">
+      <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ecom/digitalasse=
+ts/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egi=
+f" alt=3D"" height=3D"29" width=3D"1" border=3D"0" style=3D"display:block;w=
+idth:1px;height:29px;">
+    </td>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+  </tr>
+</tbody>
+</table><!-- /B007_s --><!-- B007_s --><table width=3D"100%" border=3D"0" =
+cellspacing=3D"0" cellpadding=3D"0" class=3D"table contents #(module_code)#=
+">
+<tbody>
+  <tr>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+    <td valign=3D"top" style=3D"vertical-align:top;">
+      <div style=3D"width:100%;font-size:0">
+        <!--[if mso]><table width=3D"100%" border=3D"0" cellpadding=3D"0" =
+cellspacing=3D"0" align=3D"left" style=3D"width:100%;border-collapse:collap=
+se; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td valign=3D"top" wid=
+th=3D"50%"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:50%=
+; min-width:50%; max-width:100%; width:-webkit-calc(230400px - 48000%); min=
+-width:-webkit-calc(50%); width:calc(230400px - 48000%); min-width:calc(50%=
+);" class=3D"autowidth">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tr>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+                <td>
+                  <table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"left">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:29p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"29">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"center" valign=3D"top">
+                          <img class=3D"" src=3D"https://www=2Epaypalobjec=
+ts=2Ecom/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/koi/con=
+sumer/cpt011/hkt/insta=2Epng" title=3D"Insta360" alt=3D"Insta360" width=3D"=
+306" border=3D"0" style=3D"width:306px; max-width: 100%;display:block;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:20p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"20">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top" width=3D"100%" s=
+tyle=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;font-size:16px=
+;font-weight:bold;line-height:22px;-webkit-font-smoothing:antialiased;heigh=
+t:48px;min-height:48px;">
+                          Insta360
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" height=3D"60" valign=3D"top" wi=
+dth=3D"100%" style=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;=
+font-size:13px ;line-height:20px;-webkit-font-smoothing:antialiased;height:=
+60px; min-height: 60px;mso-line-height-rule:exactly">
+                          =E4=B8=96=E7=95=8C=E4=B8=8A=E6=9C=80=E5=AE=B9=E6=
+=98=93=E4=BD=BF=E7=94=A8=E4=B8=94=E5=8A=9F=E8=83=BD=E9=BD=8A=E5=85=A8=E7=9A=
+=84 360 =E5=BA=A6=E5=85=A8=E6=99=AF=E7=9B=B8=E6=A9=9F=EF=BC=8C=E8=AE=93=E4=
+=BD=A0=E8=A8=98=E4=BD=8F=E5=80=BC=E5=BE=97=E7=B4=80=E5=BF=B5=E7=9A=84=E6=AF=
+=8F=E4=B8=80=E5=88=BB=E3=80=82
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:10p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"10">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top">
+                          <a href=3D"https://epl=2Epaypal-communication=2E=
+com/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcca/7=
+f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D"Insta360" target=3D"_blank" s=
+tyle=3D"font-family:Helvetica,Arial,sans-serif;color:#009CDE;font-size:13px=
+;font-weight:bold;text-decoration:none;-webkit-font-smoothing:antialiased;"=
+>
+                            <span style=3D"font-family:Helvetica,Arial,san=
+s-serif;color:#009CDE;font-size:13px;font-weight:bold;text-decoration:none;=
+-webkit-font-smoothing:antialiased;">=E7=AB=8B=E5=8D=B3=E8=B3=BC=E8=B2=B7</=
+span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+              </tr>
+            </table>
+          </div>
+        <!--[if mso]></td><td valign=3D"top" width=3D"50%"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:50%=
+; min-width:50%; max-width:100%; width:-webkit-calc(230400px - 48000%); min=
+-width:-webkit-calc(50%); width:calc(230400px - 48000%); min-width:calc(50%=
+);" class=3D"autowidth">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tr>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+                <td>
+                  <table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"left">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img style=3D"display: block; width:1px; height:=
+29px" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_base=
+plate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" a=
+lt=3D"" width=3D"1" height=3D"29">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"center" valign=3D"top">
+                          <img class=3D"" src=3D"https://www=2Epaypalobjec=
+ts=2Ecom/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/koi/con=
+sumer/cpt011/hkt/gearbest=2Epng" title=3D"Gearbest" alt=3D"Gearbest" border=
+=3D"0" width=3D"306" style=3D"width:306px; max-width: 100%;display:block;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:20p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"20">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top" width=3D"100%" s=
+tyle=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;font-size:16px=
+ ;font-weight:bold;line-height:22px; -webkit-font-smoothing:antialiased;hei=
+ght:48px;min-height:48px;">
+                          Gearbest
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" height=3D"60" valign=3D"top" wi=
+dth=3D"100%" style=3D"font-family:Helvetica,Arial,sans-serif;color:#666666;=
+font-size:13px ;line-height:20px ;-webkit-font-smoothing:antialiased;height=
+:60px; min-height: 60px;mso-line-height-rule:exactly">
+                          =E7=AB=8B=E5=8D=B3=E5=8D=87=E7=B4=9A=EF=BC=8C=E6=
+=99=BA=E8=83=BD=E5=AE=B6=E5=B1=85=E5=AE=89=E5=85=A8=E7=B3=BB=E7=B5=B1=E6=8F=
+=90=E9=AB=98=E5=AE=B6=E5=B1=85=E5=AE=89=E5=85=A8=E3=80=82
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <img style=3D"display:block;width:1px;height:10p=
+x;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepl=
+ate_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"1" height=3D"10">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align=3D"left" valign=3D"top">
+                          <a href=3D"https://epl=2Epaypal-communication=2E=
+com/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bccb/7=
+f5da715-b881-4b53-b3a2-4ffdd670c7dc" title=3D" Gearbest" target=3D"_blank" =
+style=3D"font-family:Helvetica,Arial,sans-serif;color:#009CDE;font-size:13p=
+x;font-weight:bold;text-decoration:none;-webkit-font-smoothing:antialiased;=
+">
+                            <span style=3D"font-family:Helvetica,Arial,san=
+s-serif;color:#009CDE;font-size:13px;font-weight:bold;text-decoration:none;=
+-webkit-font-smoothing:antialiased;">=E7=AB=8B=E5=8D=B3=E8=B3=BC=E8=B2=B7</=
+span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+                <td width=3D"14">
+                  <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalass=
+ets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Eg=
+if" alt=3D"" height=3D"1" width=3D"14" border=3D"0" style=3D"display: block=
+; width:14px; height:1px">
+                </td>
+              </tr>
+            </table>
+          </div>
+        <!--[if mso]></td></tr></table><![endif]-->
+      </div>
+    </td>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+  </tr>
+  <tr>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+    <td height=3D"15">
+      <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ecom/digitalasse=
+ts/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egi=
+f" alt=3D"" height=3D"29" width=3D"1" border=3D"0" style=3D"display:block;w=
+idth:1px;height:29px;">
+    </td>
+    <td width=3D"15">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"15" border=3D"0" style=3D"display: block; width:15px=
+; height:1px">
+    </td>
+  </tr>
+</tbody>
+</table><!-- /B007_s --><!-- P001 --><table width=3D"100%" border=3D"0" ce=
+llspacing=3D"0" cellpadding=3D"0" class=3D"table contents B018a" bgcolor=3D=
+"#323232" style=3D"background-color: #323232;">
+<tbody>
+  <tr>
+    <td width=3D"20">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"20" border=3D"0" style=3D"display:block;width: 20px;=
+height: 1px;">
+    </td>
+    <td align=3D"center">
+      <!--[if mso]><table cellspacing=3D"0" cellpadding=3D"0" border=3D"0"=
+ align=3D"center" width=3D"456"><tbody><tr><td valign=3D"top"><![endif]-->
+      <div style=3D"display:inline-block;vertical-align:top; width:100%; m=
+ax-width:456px">
+        <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0">
+          <tbody>
+           =20
+            <tr>
+              <td align=3D"center" valign=3D"top" class=3D"font13" style=
+=3D"font-family: Helvetica, Arial, sans-serif; font-size:32px; -webkit-font=
+-smoothing: antialiased; color: #ffffff; text-decoration: none; line-height=
+: 36px; mso-line-height-rule:exactly;">
+               =20
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img style=3D"display: block; width: 1px; height: 30px" sr=
+c=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_an=
+d_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"" =
+width=3D"1" height=3D"30">
+              </td>
+            </tr>
+            <tr>
+              <td align=3D"center" valign=3D"top" class=3D"font13" style=
+=3D"font-family: Helvetica, Arial, sans-serif; font-size:13px; -webkit-font=
+-smoothing: antialiased; color: #ffffff; text-decoration: none; mso-line-he=
+ight-rule:exactly;">
+                <a href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400=
+000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bccc/7f5da715-b8=
+81-4b53-b3a2-4ffdd670c7dc" target=3D"_blank" style=3D"font-size:21px;font-f=
+amily:Helvetica,Arial,sans-serif;color:#ffffff; line-height:30px;-webkit-fo=
+nt-smoothing:antialiased; text-decoration:none; font-weight:bold;">=E6=8C=
+=89=E6=AD=A4=E6=9F=A5=E7=9C=8B=E6=9B=B4=E5=A4=9A=E7=8D=A8=E5=AE=B6=E5=84=AA=
+=E6=83=A0</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalasset=
+s/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif=
+" border=3D"0" alt=3D"" width=3D"1" height=3D"30" style=3D"display:block; h=
+eight:30px; width:1px;">
+              </td>
+            </tr>
+            <tr>
+              <td align=3D"center" valign=3D"top">
+                <a href=3D"" title=3D"" target=3D"_blank" style=3D"color:#=
+009CDE;font-size:13px;font-weight:bold;text-decoration:none;-webkit-font-sm=
+oothing:antialiased;">
+                  <span style=3D"font-family:Helvetica,Arial,sans-serif;co=
+lor:#009CDE;font-size:13px;line-height: 20px; font-weight:bold;text-decorat=
+ion:none;-webkit-font-smoothing:antialiased;">
+                   =20
+                  </span>
+                </a>
+              </td>
+            </tr>
+           =20
+          </tbody>
+        </table>
+      </div>
+      <!--[if mso]></td></tr></tbody></table><![endif]-->
+    </td>
+    <td width=3D"20">
+      <img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/0=
+0_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" alt=3D""=
+ height=3D"1" width=3D"20" border=3D"0" style=3D"display:block;width: 20px;=
+height: 1px;">
+    </td>
+  </tr>
+</tbody>
+</table><!-- /P001 --><!-- B012 --><table width=3D"100%" border=3D"0" cell=
+spacing=3D"0" cellpadding=3D"0" class=3D"table contents #(module_code)#" bg=
+color=3D"#009cde" style=3D"background-color:#009cde;">
+  <tbody>
+    <tr>
+      <td width=3D"28" class=3D"leftRightMargin28">
+        <img class=3D"leftRightMargin28" src=3D"https://www=2Epaypalobject=
+s=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/=
+_common/spacer=2Egif" alt=3D"" height=3D"1" width=3D"28" border=3D"0" style=
+=3D"display:block; width: 28px; height: 1px;">
+      </td>
+      <td valign=3D"top" style=3D"vertical-align:top;">
+        <div style=3D"width:100%;text-align:left;font-size:0">
+          <!--[if mso]><table cellspacing=3D"0" cellpadding=3D"0" border=
+=3D"0" align=3D"center" width=3D"100%"><tbody><tr><td width=3D"33%" valign=
+=3D"top"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:33=
+=2E3%; min-width:33=2E3%; max-width:100%; width:-webkit-calc(230400px - 480=
+00%); min-width:-webkit-calc(33=2E3%); width:calc(230400px - 48000%); min-w=
+idth:calc(33=2E3%);" class=3D"autowidth three-columns">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tbody>
+                <tr>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                </tr>
+                <tr>
+                  <td align=3D"center" valign=3D"top" width=3D"10">
+                    <img style=3D"display: block; width: 10px; height: 1px=
+;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepla=
+te_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"10" height=3D"1">
+                  </td>
+                  <td align=3D"center" valign=3D"top" width=3D"29">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/cpt010/w1/sea=
+/asia_monthly_statement_sea_w1_b012_5_1=2Epng" alt=3D"=E8=B2=B7=E5=AE=B6=E8=
+=B3=BC=E7=89=A9=E5=AE=89=E5=85=A8=E4=BF=9D=E9=9A=9C" title=3D"=E8=B2=B7=E5=
+=AE=B6=E8=B3=BC=E7=89=A9=E5=AE=89=E5=85=A8=E4=BF=9D=E9=9A=9C" width=3D"29" =
+border=3D"0" style=3D"width:29px;display:block;max-width:100%;">
+                  </td>
+                  <td align=3D"center" valign=3D"top" width=3D"10">
+                    <img style=3D"display: block; width: 10px; height: 1px=
+;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepla=
+te_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"10" height=3D"1">
+                  </td>
+                  <td align=3D"left" valign=3D"top" style=3D"font-family:H=
+elvetica,Arial,sans-serif;color:#ffffff;font-size:13px;line-height:20px;-we=
+bkit-font-smoothing:antialiased;">
+                    <p style=3D"font-family:Helvetica,Arial,sans-serif;col=
+or:#ffffff;font-size:13px;font-weight:bold;line-height:20px ;-webkit-font-s=
+moothing:antialiased; vertical-align: top; margin: 0;">=E8=B2=B7=E5=AE=B6=
+=E8=B3=BC=E7=89=A9=E5=AE=89=E5=85=A8=E4=BF=9D=E9=9A=9C</p>
+                    <br/>=E5=A6=82=E6=9E=9C=E4=BD=A0=E8=B3=BC=E8=B2=B7=E7=
+=9A=84=E5=95=86=E5=93=81=E6=9C=AA=E9=80=81=E9=81=94=E6=88=96=E6=94=B6=E5=88=
+=B0=E7=9A=84=E5=95=86=E5=93=81=E6=98=8E=E9=A1=AF=E8=88=87=E8=B3=A3=E5=AE=B6=
+=E8=AA=AA=E6=98=8E=E4=B8=8D=E7=AC=A6=EF=BC=8C=E7=AC=A6=E5=90=88=E6=A2=9D=E4=
+=BB=B6=E7=9A=84=E4=BA=A4=E6=98=93=E7=9A=86=E5=8F=AF=E4=BA=AB=E6=9C=89=E3=80=
+=8C=E8=B2=B7=E5=AE=B6=E8=B3=BC=E7=89=A9=E5=AE=89=E5=85=A8=E4=BF=9D=E9=9A=9C=
+=E3=80=8D=E7=8D=B2=E5=BE=97=E9=80=80=E6=AC=BE=E3=80=82<BR><br/><a href=3D"h=
+ttps://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a=
+0/7f5da715b8814b530000021ef3a0bccd/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" ta=
+rget=3D"_blank" style=3D"text-decoration:none; color:#FFFFFF; font-weight:b=
+old;">=E4=BA=86=E8=A7=A3=E6=9B=B4=E5=A4=9A</a><br/>
+                    <img style=3D"display: block;width:1px;height:20px;" s=
+rc=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_a=
+nd_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D""=
+ width=3D"1" height=3D"20">
+                  </td>
+                  <td width=3D"15" class=3D"leftRightMargin20">
+                    <img class=3D"leftRightMargin20" src=3D"https://www=2E=
+paypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/ed=
+m_baseplate/_common/spacer=2Egif" alt=3D"" height=3D"1" width=3D"15" border=
+=3D"0" style=3D"display:block; width: 15px; height: 1px;">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso]></td><td width=3D"33%" valign=3D"top"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:33=
+=2E3%; min-width:33=2E3%; max-width:100%; width:-webkit-calc(230400px - 480=
+00%); min-width:-webkit-calc(33=2E3%); width:calc(230400px - 48000%); min-w=
+idth:calc(33=2E3%);" class=3D"autowidth three-columns">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tbody>
+                <tr>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                </tr>
+                <tr>
+                  <td width=3D"15">
+                    <img style=3D"display: block; width: 15px; height: 1px=
+;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepla=
+te_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"15" height=3D"1">
+                  </td>
+                  <td align=3D"center" valign=3D"top" width=3D"29">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/cpt010/w1/sea=
+/asia_monthly_statement_sea_w1_b012_5_2=2Epng" alt=3D"=E9=80=80=E8=B2=A8=E9=
+=81=8B=E8=B2=BB=E8=B3=A0=E5=84=9F=E4=BF=9D=E9=9A=9C^" title=3D"=E9=80=80=E8=
+=B2=A8=E9=81=8B=E8=B2=BB=E8=B3=A0=E5=84=9F=E4=BF=9D=E9=9A=9C^" width=3D"29"=
+ border=3D"0" style=3D"width:29px;display:block;max-width:100%;">
+                  </td>
+                  <td width=3D"10">
+                    <img style=3D"display: block;width: 10px;height: 1px;"=
+ src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate=
+_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D=
+"" width=3D"10" height=3D"1">
+                  </td>
+                  <td align=3D"left" valign=3D"top" style=3D"font-family:H=
+elvetica,Arial,sans-serif;color:#ffffff;font-size:13px ;line-height:20px ;-=
+webkit-font-smoothing:antialiased;">
+                    <p style=3D"font-family:Helvetica,Arial,sans-serif;col=
+or:#ffffff;font-size:13px;font-weight:bold;line-height:20px ;-webkit-font-s=
+moothing:antialiased; vertical-align: top; margin: 0;">=E9=80=80=E8=B2=A8=
+=E9=81=8B=E8=B2=BB=E8=B3=A0=E5=84=9F=E4=BF=9D=E9=9A=9C^</p>
+                    <br/>=E5=A6=82=E6=9E=9C=E4=BA=A4=E6=98=93=E7=AC=A6=E5=
+=90=88=E6=A2=9D=E4=BB=B6=EF=BC=8C=E4=BD=A0=E5=8F=AA=E8=A6=81=E5=B0=87=E5=95=
+=86=E5=93=81=E9=80=80=E5=9B=9E=E7=B5=A6=E8=B3=A3=E5=AE=B6=EF=BC=8C=E6=88=91=
+=E5=80=91=E5=B0=87=E8=B3=A0=E5=84=9F=E4=BD=A0=E6=9C=80=E5=A4=9A <br/>US$20 =
+=E7=9A=84=E5=9C=8B=E9=9A=9B=E9=81=8B=E8=B2=BB=E3=80=82<br/><br/><br/><a hre=
+f=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e9=
+6c566a0/7f5da715b8814b530000021ef3a0bcce/7f5da715-b881-4b53-b3a2-4ffdd670c7=
+dc" target=3D"_blank" style=3D"text-decoration:none; color:#FFFFFF; font-we=
+ight:bold;">=E4=BA=86=E8=A7=A3=E6=9B=B4=E5=A4=9A</a><br/>
+                    <img style=3D"display: block;width:1px;height:20px;" s=
+rc=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_a=
+nd_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D""=
+ width=3D"1" height=3D"20">
+                  </td>
+                  <td width=3D"15" class=3D"leftRightMargin20">
+                    <img class=3D"leftRightMargin20" src=3D"https://www=2E=
+paypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/ed=
+m_baseplate/_common/spacer=2Egif" alt=3D"" height=3D"1" width=3D"15" border=
+=3D"0" style=3D"display:block;width: 15px; height: 1px;">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso]></td><td width=3D"33%" valign=3D"top"><![endif]-->
+          <div style=3D"display:inline-block;vertical-align:top; width:33=
+=2E3%; min-width:33=2E3%; max-width:100%; width:-webkit-calc(230400px - 480=
+00%); min-width:-webkit-calc(33=2E3%); width:calc(230400px - 48000%); min-w=
+idth:calc(33=2E3%);" class=3D"autowidth three-columns">
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"left">
+              <tbody>
+                <tr>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                  <td height=3D"20">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" alt=3D"" height=3D"20" width=3D"1" border=3D"0" style=3D"d=
+isplay:block;width:1px;height:20px;">
+                  </td>
+                </tr>
+                <tr>
+                  <td width=3D"15">
+                    <img style=3D"display: block; width: 15px; height: 1px=
+;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepla=
+te_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"15" height=3D"1">
+                  </td>
+                  <td align=3D"center" valign=3D"top" width=3D"29">
+                    <img class=3D"" src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/02_paypal_apac_lvm---lvm-email-folder/cpt010/w1/sea=
+/asia_monthly_statement_sea_w1_b012_5_3=2Epng" alt=3D"=E7=B4=AF=E7=A9=8D=E4=
+=BF=A1=E7=94=A8=E5=8D=A1=E7=B4=85=E5=88=A9=E9=BB=9E=E6=95=B8" title=3D"=E7=
+=B4=AF=E7=A9=8D=E4=BF=A1=E7=94=A8=E5=8D=A1=E7=B4=85=E5=88=A9=E9=BB=9E=E6=95=
+=B8" width=3D"29" border=3D"0" style=3D"width:29px;display:block;max-width:=
+100%;">
+                  </td>
+                  <td width=3D"10">
+                    <img style=3D"display: block; width: 10px; height: 1px=
+;" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_basepla=
+te_and_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=
+=3D"" width=3D"10" height=3D"1">
+                  </td>
+                  <td align=3D"left" valign=3D"top" style=3D"font-family:H=
+elvetica,Arial,sans-serif;color:#ffffff;font-size:13px;line-height:20px;-we=
+bkit-font-smoothing:antialiased;">
+                    <p style=3D"font-family:Helvetica,Arial,sans-serif;col=
+or:#ffffff;font-size:13px;font-weight:bold;line-height:20px ;-webkit-font-s=
+moothing:antialiased; vertical-align: top; margin: 0;">=E7=B4=AF=E7=A9=8D=
+=E4=BF=A1=E7=94=A8=E5=8D=A1=E7=B4=85=E5=88=A9=E9=BB=9E=E6=95=B8</p>
+                    <br/>=E5=B0=87=E4=BF=A1=E7=94=A8=E5=8D=A1=E9=80=A3=E7=
+=B5=90=E5=88=B0=E4=BD=A0=E7=9A=84 <br/>PayPal =E5=B8=B3=E6=88=B6=E4=BD=9C=
+=E7=82=BA=E6=94=AF=E4=BB=98=E8=B3=BC=E7=89=A9=E6=AC=BE=E9=A0=85=E7=9A=84=E6=
+=96=B9=E5=BC=8F=EF=BC=8C=E5=B0=B1=E8=83=BD=E7=B9=BC=E7=BA=8C=E7=B4=AF=E7=A9=
+=8D=E7=B4=85=E5=88=A9=E9=BB=9E=E6=95=B8=E3=80=82
+                    <img style=3D"display: block;width:1px;height:20px;" s=
+rc=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_a=
+nd_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D""=
+ width=3D"1" height=3D"20">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!--[if mso]></td></tr></tbody></table><![endif]-->
+        </div>
+      </td>
+      <td width=3D"28" class=3D"leftRightMargin28">
+        <img class=3D"leftRightMargin28" src=3D"https://www=2Epaypalobject=
+s=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/=
+_common/spacer=2Egif" alt=3D"" height=3D"1" width=3D"28" border=3D"0" style=
+=3D"display:block; width: 28px; height: 1px;">
+      </td>
+    </tr>
+  </tbody>
+</table><!-- /B012 -->
+																		<!-- //Content: Modules -->
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+
+                    <!-- Content: Bottom Border -->
+										<tr>
+                      <td align=3D"left" valign=3D"bottom" width=3D"100%" =
+height=3D"9" style=3D"font-size:0px; line-height:0px;">
+                        <table width=3D"100%" border=3D"0" align=3D"center=
+" cellpadding=3D"0" cellspacing=3D"0" style=3D"width: 100%; max-width: 700p=
+x;" bgcolor=3D"#fff">
+                          <tr>
+                            <td align=3D"left" valign=3D"bottom" width=3D"=
+5" height=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <img src=3D"https://www=2Epaypalobjects=2Eco=
+m/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_commo=
+n/main-border-bottom-left=2Ejpg" width=3D"5" height=3D"9" alt=3D"PayPal" st=
+yle=3D"display:block; border:none; outline:none; text-decoration:none; widt=
+h: 5px; height: 9px;">
+                            </td>
+                            <td align=3D"center" valign=3D"bottom" height=
+=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <table width=3D"100%" border=3D"0" align=3D"=
+center" cellpadding=3D"0" cellspacing=3D"0" bgcolor=3D"#ffffff" style=3D"wi=
+dth: 100%; border-bottom: 1px solid #E8E8E8;background-color:#ffffff;">
+                                <tr>
+                                  <td align=3D"center" valign=3D"bottom" h=
+eight=3D"8" style=3D"font-size:0px; line-height:0px;">
+
+                                  </td>
+                                </tr>
+                              </table>
+                            </td>
+                            <td align=3D"right" valign=3D"bottom" width=3D=
+"5" height=3D"9" style=3D"font-size:0px; line-height:0px;">
+                              <img src=3D"https://www=2Epaypalobjects=2Eco=
+m/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_commo=
+n/main-border-bottom-right=2Ejpg" width=3D"5" height=3D"9" alt=3D"PayPal" s=
+tyle=3D"display:block; border:none; outline:none; text-decoration:none; wid=
+th: 5px; height: 9px;">
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+										<!-- //Content: Bottom Border -->
+				=09
+				=09
+                    <tr>
+                      <td style=3D"font-family:Helvetica,Arial,sans-serif;=
+ -webkit-font-smoothing: antialiased; font-size:11px; color:#666; text-alig=
+n:left;">
+                        <table width=3D"100%" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center" class=3D"table footer-utility">
+                          <tbody>
+                            <tr>
+                              <td align=3D"left" style=3D"padding: 0px; fo=
+nt-family: Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialiased;=
+ font-size:11px; line-height:15px; color:#666666;">
+                                										<!--[if mso]><table border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" align=3D"left"><tr><td valign=3D"top">=
+<![endif]-->
+											<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=
+=3D"left" style=3D"width: 100%; max-width: 580px;" class=3D"autowidth">
+												<tbody>
+													<tr>
+														<td>
+															<table class=3D"utility_nav" border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" align=3D"left" style=3D"margin: 0;padding: 0;border-spac=
+ing: 0;border-collapse: collapse;mso-table-lspace: 0;mso-table-rspace: 0;te=
+xt-align: left">
+																<tbody style=3D"margin: 0;padding: 0;">
+																	<tr style=3D"margin: 0;padding: 0;">
+																		<td style=3D"padding: 18px 0 18px 20px;font-family: Helv=
+etica,Arial,sans-serif;-webkit-font-smoothing: antialiased;font-size: 13px;=
+color: #666;font-weight: bold;text-align: center;margin: 0;border-collapse:=
+ collapse;">
+																			<a class=3D"utility_nav =E5=B8=B3=E6=88=B6" href=3D"htt=
+ps://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/=
+7f5da715b8814b530000021ef3a0bccf/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" targ=
+et=3D"_blank" style=3D"font-family:Helvetica,Arial,sans-serif;font-size:13p=
+x; color:#666; font-weight:bold; text-decoration:none;margin:0;padding:0;te=
+xt-align:left;white-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E5=B8=B3=E6=88=B6">=E5=B8=B3=E6=88=B6</span>
+</a>
+<img class=3D"utility_nav_spacer =E5=B8=B3=E6=88=B6" src=3D"https://www=2E=
+paypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/ed=
+m_baseplate/_common/spacer=2Egif" height=3D"1" width=3D"9" border=3D"0" sty=
+le=3D"display:inline;"><a class=3D"utility_nav =E6=9F=A5=E8=A9=A2=E4=B8=AD=
+=E5=BF=83" href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25=
+a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcd0/7f5da715-b881-4b53-b=
+3a2-4ffdd670c7dc" target=3D"_blank" style=3D"font-family:Helvetica,Arial,sa=
+ns-serif;font-size:13px; color:#666; font-weight:bold; text-decoration:none=
+;margin:0;padding:0;text-align:left;white-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E6=9F=A5=E8=A9=A2=E4=B8=AD=E5=BF=83">=E6=9F=A5=E8=A9=A2=E4=B8=AD=E5=BF=
+=83</span>
+</a>
+<img class=3D"utility_nav_spacer =E6=9F=A5=E8=A9=A2=E4=B8=AD=E5=BF=83" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" height=3D"1" width=3D"9=
+" border=3D"0" style=3D"display:inline;"><a class=3D"utility_nav =E8=B2=BB=
+=E7=94=A8" href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25=
+a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcd1/7f5da715-b881-4b53-b=
+3a2-4ffdd670c7dc" target=3D"_blank" style=3D"font-family:Helvetica,Arial,sa=
+ns-serif;font-size:13px; color:#666; font-weight:bold; text-decoration:none=
+;margin:0;padding:0;text-align:left;white-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E8=B2=BB=E7=94=A8">=E8=B2=BB=E7=94=A8</span>
+</a>
+<img class=3D"utility_nav_spacer =E8=B2=BB=E7=94=A8" src=3D"https://www=2E=
+paypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/ed=
+m_baseplate/_common/spacer=2Egif" height=3D"1" width=3D"9" border=3D"0" sty=
+le=3D"display:inline;"><a class=3D"utility_nav =E4=BA=A4=E6=98=93=E5=AE=89=
+=E5=85=A8" href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25=
+a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcd2/7f5da715-b881-4b53-b=
+3a2-4ffdd670c7dc" target=3D"_blank" style=3D"font-family:Helvetica,Arial,sa=
+ns-serif;font-size:13px; color:#666; font-weight:bold; text-decoration:none=
+;margin:0;padding:0;text-align:left;white-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E4=BA=A4=E6=98=93=E5=AE=89=E5=85=A8">=E4=BA=A4=E6=98=93=E5=AE=89=E5=85=
+=A8</span>
+</a>
+<img class=3D"utility_nav_spacer =E4=BA=A4=E6=98=93=E5=AE=89=E5=85=A8" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" height=3D"1" width=3D"9=
+" border=3D"0" style=3D"display:inline;"><a class=3D"utility_nav =E5=85=A8=
+=E7=90=83=E8=B3=BC=E7=89=A9=E5=84=AA=E6=83=A0" href=3D"https://epl=2Epaypal=
+-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530=
+000021ef3a0bcd3/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" target=3D"_blank" sty=
+le=3D"font-family:Helvetica,Arial,sans-serif;font-size:13px; color:#666; fo=
+nt-weight:bold; text-decoration:none;margin:0;padding:0;text-align:left;whi=
+te-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E5=85=A8=E7=90=83=E8=B3=BC=E7=89=A9=E5=84=AA=E6=83=A0">=E5=85=A8=E7=90=
+=83=E8=B3=BC=E7=89=A9=E5=84=AA=E6=83=A0</span>
+</a>
+<img class=3D"utility_nav_spacer =E5=85=A8=E7=90=83=E8=B3=BC=E7=89=A9=E5=
+=84=AA=E6=83=A0" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/A=
+PAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" hei=
+ght=3D"1" width=3D"9" border=3D"0" style=3D"display:inline;"><a class=3D"ut=
+ility_nav =E8=AA=9E=E8=A8=80=E5=81=8F=E5=A5=BD" href=3D"https://epl=2Epaypa=
+l-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b53=
+0000021ef3a0bcd4/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" target=3D"_blank" st=
+yle=3D"font-family:Helvetica,Arial,sans-serif;font-size:13px; color:#666; f=
+ont-weight:bold; text-decoration:none;margin:0;padding:0;text-align:left;wh=
+ite-space:nowrap;">
+<span style=3D"font-family:Helvetica,Arial,sans-serif; font-size:12px; col=
+or:#666; font-weight:bold;text-decoration:none;margin:0;padding:0;" title=
+=3D"=E8=AA=9E=E8=A8=80=E5=81=8F=E5=A5=BD">=E8=AA=9E=E8=A8=80=E5=81=8F=E5=A5=
+=BD</span>
+</a>
+<img class=3D"utility_nav_spacer =E8=AA=9E=E8=A8=80=E5=81=8F=E5=A5=BD" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" height=3D"1" width=3D"9=
+" border=3D"0" style=3D"display:inline;">
+																		</td>
+																		<td align=3D"center" style=3D"padding: 18px 0 18px 20px;=
+font-family: Helvetica,Arial,sans-serif;-webkit-font-smoothing: antialiased=
+;font-size: 13px;color: #666;font-weight: bold;text-align: center;margin: 0=
+;border-collapse: collapse;">
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+                          </tr>
+												</tbody>
+											</table>
+										<!--[if mso]></td></tr></table><![endif]-->
+										<table border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D=
+"left" style=3D"max-width:100%; width:-webkit-calc(360000px - 60000%); widt=
+h:calc(360000px - 60000%);" class=3D"nodesktop">
+											<tbody>
+												<tr>
+													<td align=3D"center" style=3D"font-size:0px;line-height:0px;"=
+>
+														<img class=3D"horizontal_rule" src=3D"https://www=2Epaypalob=
+jects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_basepl=
+ate/_common/hr=2Ejpg" width=3D"100%" height=3D"2" alt=3D"PayPal" border=3D"=
+0" style=3D"display:block;">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<table class=3D"nomob" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"left" style=3D"max-width: 7px;width: calc(230400px - 48000=
+%);width: -webkit-calc(360000px - 60000%);overflow:hidden">
+											<tbody>
+												<tr>
+													<td>
+														<img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/=
+c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" =
+alt=3D"" style=3D"border:none; outline:none; text-decoration:none;width: 10=
+0%">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									=09
+                                																<table class=3D"social_nav=
+ autowidth" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"right=
+" style=3D"font-family: Helvetica, Arial, sans-serif;font-size: 12px;color:=
+ #666666;text-decoration: none;line-height: 15px;max-width: calc(100% - 7px=
+); max-width: -webkit-calc(100% - 7px);width: calc(230400px - 48000%);margi=
+n: 0;padding: 0;border-spacing: 0;border-collapse: collapse;mso-table-lspac=
+e: 0;mso-table-rspace: 0;text-align: right;overflow: hidden;">
+																	<tbody style=3D"margin: 0;padding: 0;">
+																		<tr style=3D"margin: 0;padding: 0;">
+																			<td align=3D"center" style=3D"padding: 18px 20px 18px 0=
+;font-family: Helvetica,Arial,sans-serif;-webkit-font-smoothing: antialiase=
+d;font-size: 0px;line-height: 0; color: #666;font-weight: bold;text-align: =
+center;margin: 0;border-collapse: collapse;white-space:nowrap;">
+																				                                      <img src=3D"http=
+s://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_=
+content/edm_baseplate/_common/spacer=2Egif" width=3D"13" alt=3D"" style=3D"=
+border:none; outline:none; text-decoration:none;">
+                                      <a href=3D"https://epl=2Epaypal-comm=
+unication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b53000002=
+1ef3a0bcd5/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" target=3D"_blank"><img cla=
+ss=3D"" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_ba=
+seplate_and_common_content/edm_baseplate/_common/icon_facebook=2Ejpg" title=
+=3D"Facebook" alt=3D"Facebook" border=3D"0" style=3D"margin:0;padding:0;bor=
+der:0;"></a>                                      <img src=3D"https://www=
+=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content=
+/edm_baseplate/_common/spacer=2Egif" width=3D"13" alt=3D"" style=3D"border:=
+none; outline:none; text-decoration:none;">
+                                      <a href=3D"https://epl=2Epaypal-comm=
+unication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715b8814b53000002=
+1ef3a0bcd6/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" target=3D"_blank"><img cla=
+ss=3D"" src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/01_pa=
+ypal_apac_adhoc_email/2016_500_generic-images/icon_twitter=2Egif" title=3D"=
+Twitter" alt=3D"Twitter" border=3D"0" style=3D"margin:0;padding:0;border:0;=
+"></a>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+									=09
+																				<tr>
+                      <td style=3D"font-family:Helvetica,Arial,sans-serif;=
+ -webkit-font-smoothing: antialiased; font-size:11px; color:#666; text-alig=
+n:left;">
+                        <table width=3D"100%" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center" class=3D"table">
+                          <tbody>
+                            <tr>
+                              <td align=3D"left" style=3D"padding:0 0 15px=
+ 0; font-family: Helvetica,Arial,sans-serif; -webkit-font-smoothing: antial=
+iased; font-size:11px; line-height:14px; color:#666666;">
+                                <table border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0">
+																	<tbody>
+																		<tr>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																			<td style=3D"font-family: Helvetica,Arial,sans-serif;  =
+-webkit-font-smoothing: antialiased; font-size:11px; color:#666666; text-al=
+ign:left;">
+																				<div style=3D"padding-top: 0px; font-family: Helvetica=
+,Arial,sans-serif;; -webkit-font-smoothing: antialiased; font-size:11px; li=
+ne-height:13px; color:#666666;">^2018 =E5=B9=B4 12 =E6=9C=88 31 =E6=97=A5=
+=E5=89=8D=EF=BC=8C=E4=BD=A0=E5=8F=AF=E4=BA=AB=E6=9C=89=E6=9C=80=E5=A4=9A 3 =
+=E6=AC=A1 US$20 =E7=9A=84=E9=81=8B=E8=B2=BB=E8=B3=A0=E5=84=9F=EF=BC=8C=E5=
+=8F=97<a href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8=
+eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcd7/7f5da715-b881-4b53-b3a=
+2-4ffdd670c7dc" target=3D"_blank" style=3D"text-decoration:none; color:#009=
+cde; font-weight:bold;">=E6=A2=9D=E6=AC=BE=E5=8F=8A=E7=B4=B0=E5=89=87</a>=
+=E7=B4=84=E6=9D=9F=E3=80=82</div>
+																			</td>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+										<!-- <div><img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"1" heig=
+ht=3D"20"></div> -->
+
+										<tr>
+                      <td style=3D"font-family:Helvetica,Arial,sans-serif;=
+ -webkit-font-smoothing: antialiased; font-size:11px; color:#666; text-alig=
+n:left;">
+                        <table width=3D"100%" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center" class=3D"table">
+                          <tbody>
+                            <tr>
+                              <td align=3D"center" style=3D"font-size:0px;=
+line-height:0px;">
+                                <img class=3D"horizontal_rule" src=3D"http=
+s://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_=
+content/edm_baseplate/_common/hr=2Ejpg" width=3D"100%" height=3D"2" alt=3D"=
+PayPal" border=3D"0" style=3D"display:block;">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align=3D"left" style=3D"padding: 15px 0;=
+ font-family: Helvetica,Arial,sans-serif; -webkit-font-smoothing: antialias=
+ed; font-size:11px; line-height:14px; color:#666666;">
+                                <table border=3D"0" cellspacing=3D"0" cell=
+padding=3D"0">
+																	<tbody>
+																		<tr>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																			<td style=3D"font-family: Helvetica,Arial,sans-serif;  =
+-webkit-font-smoothing: antialiased; font-size:11px; color:#666666; text-al=
+ign:left;">
+																				<span class=3D"safesender">=E7=82=BA=E7=A2=BA=E4=BF=9D=
+=E4=BD=A0=E5=8F=AF=E6=94=B6=E5=88=B0 PayPal =E7=9A=84=E9=9B=BB=E5=AD=90=E9=
+=83=B5=E4=BB=B6=EF=BC=8C=E8=AB=8B=E5=B0=87 <span style=3D"color:#666666;fon=
+t-weight:bold;"><a href=3D"#" style=3D"text-decoration:none !important; tex=
+t-decoration:none; color:#666666;">@mail=2Epaypal=2Ecom</a></span> =E6=96=
+=B0=E5=A2=9E=E8=87=B3=E4=BD=A0=E7=9A=84=E5=AE=89=E5=85=A8=E5=AF=84=E4=BB=B6=
+=E8=80=85=E6=B8=85=E5=96=AE=E3=80=82=E6=9B=B4=E5=A4=9A=E8=A9=B3=E6=83=85=EF=
+=BC=8C<a href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8=
+eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcd8/7f5da715-b881-4b53-b3a=
+2-4ffdd670c7dc" style=3D"color: #009cde; text-decoration:none; font-weight:=
+ bold;" target=3D"_blank">=E8=AB=8B=E6=8C=89=E6=AD=A4</a>=E3=80=82</span>
+																			</td>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+			 =20
+										<tr>   <td style=3D"font-family:Helvetica,Arial,sans-serif; -web=
+kit-font-smoothing: antialiased; font-size:11px; color:#666; text-align:lef=
+t;">     <table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" align=3D"center" class=3D"table">       <tbody>         <tr>        =
+   <td align=3D"center" style=3D"font-size:0px;line-height:0px;">          =
+   <img class=3D"horizontal_rule" src=3D"https://www=2Epaypalobjects=2Ecom/=
+digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/=
+hr=2Ejpg" width=3D"100%" height=3D"2" alt=3D"PayPal" border=3D"0" style=3D"=
+display:block;">           </td>         </tr>         <tr>           <td a=
+lign=3D"left" style=3D"padding: 18px 0; font-family: Helvetica,Arial,sans-s=
+erif; -webkit-font-smoothing: antialiased; font-size:11px; line-height:14px=
+; color:#666666;">             <table border=3D"0" cellspacing=3D"0" cellpa=
+dding=3D"0">               <tbody>               	<tr>               		<td =
+style=3D"font-size:0px;line-height:0px;"><img style=3D"display: block" src=
+=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and=
+_common_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"Pay=
+Pal" width=3D"20" height=3D"1"></td>               		<td style=3D"font-fami=
+ly: Helvetica,Arial,sans-serif;  -webkit-font-smoothing: antialiased; font-=
+size:11px; color:#666666; text-align:left;"><span style=3D"font-weight:bold=
+;font-size:11px;color:#666666;">=E6=88=91=E8=A9=B2=E5=A6=82=E4=BD=95=E5=88=
+=A4=E6=96=B7=E9=80=99=E5=B0=81=E9=83=B5=E4=BB=B6=E7=9A=84=E7=9C=9F=E5=AF=A6=
+=E6=80=A7?</span><br><span style=3D"font-size:11px;color:#666666;">=E4=BE=
+=86=E8=87=AA PayPal =E7=9A=84=E9=83=B5=E4=BB=B6=E9=83=BD=E6=9C=83=E4=BB=A5=
+=E4=BD=A0=E7=9A=84=E5=A7=93=E5=90=8D=E4=BE=86=E7=A8=B1=E5=91=BC=E4=BD=A0=EF=
+=BC=8C=E8=80=8C=E8=99=9B=E5=81=87=E6=88=96 =E2=80=9C=E9=87=A3=E9=AD=9A=E2=
+=80=9D=E9=83=B5=E4=BB=B6=E9=80=9A=E5=B8=B8=E5=8F=AA=E6=9C=83=E4=BD=BF=E7=94=
+=A8=E2=80=9C=E8=A6=AA=E6=84=9B=E7=9A=84 PayPal =E6=9C=83=E5=93=A1=E2=80=9D=
+=E7=AD=89=E6=99=AE=E9=80=9A=E7=9A=84=E5=95=8F=E5=80=99=E8=AA=9E=E3=80=82=E5=
+=A6=82=E6=9E=9C=E4=BD=A0=E6=87=B7=E7=96=91=E8=87=AA=E5=B7=B1=E6=94=B6=E5=88=
+=B0=E7=B6=B2=E8=B7=AF=E9=87=A3=E9=AD=9A=E9=83=B5=E4=BB=B6=EF=BC=8C=E8=AB=8B=
+=E5=B0=87=E6=95=B4=E5=B0=81=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E8=BD=89=E5=
+=AF=84=E8=87=B3<a href=3D"mailto:spoof@paypal=2Ecom" style=3D"color: #009cd=
+e; text-decoration:none; font-weight: bold;" target=3D"_blank">spoof@paypal=
+=2Ecom</a>=EF=BC=8C=E6=88=91=E5=80=91=E6=9C=83=E5=8D=94=E5=8A=A9=E4=BD=A0=
+=E7=A2=BA=E8=AA=8D=E8=A9=B2=E9=83=B5=E4=BB=B6=E6=98=AF=E5=90=A6=E7=A2=BA=E5=
+=AF=A6=E4=BE=86=E8=87=AA PayPal =E3=80=82</span><br><a href=3D"https://epl=
+=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34dc66e96c566a0/7f5da715=
+b8814b530000021ef3a0bcd9/7f5da715-b881-4b53-b3a2-4ffdd670c7dc" style=3D"col=
+or: #009cde; text-decoration:none; font-weight: bold;" target=3D"_blank">=
+=E4=BA=86=E8=A7=A3=E6=9B=B4=E5=A4=9A=E9=97=9C=E6=96=BC=E9=87=A3=E9=AD=9A=E9=
+=83=B5=E4=BB=B6=E7=9A=84=E8=B3=87=E8=A8=8A</a></td> 									<td style=3D"f=
+ont-size:0px;line-height:0px;"><img style=3D"display: block" src=3D"https:/=
+/www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_con=
+tent/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=
+=3D"20" height=3D"1"></td> 								</tr> 							</tbody> 						</table>    =
+       </td>         </tr>       </tbody>     </table>   </td> </tr>
+  										=09
+                    <tr>
+                      <td style=3D"font-family:Helvetica,Arial,sans-serif;=
+  -webkit-font-smoothing: antialiased; font-size:11px; color:#666; text-ali=
+gn:left;">
+                        <table width=3D"100%" border=3D"0" align=3D"left" =
+cellpadding=3D"0" cellspacing=3D"0" class=3D"table">
+                          <tbody>
+                            <tr>
+                              <td align=3D"center" style=3D"font-size:0px;=
+line-height:0px;">
+                                <img class=3D"horizontal_rule" src=3D"http=
+s://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_=
+content/edm_baseplate/_common/hr=2Ejpg" width=3D"100%" height=3D"2" alt=3D"=
+PayPal" border=3D"0" style=3D"display:block;">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align=3D"left" valign=3D"top" style=3D"p=
+adding-top:18px; font-family:Helvetica,Arial,sans-serif; -webkit-font-smoot=
+hing: antialiased; font-size:11px; line-height:14px; color:#666; text-align=
+:left;">
+																<table border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+																	<tbody>
+																		<tr>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																			<td style=3D"font-family: Helvetica,Arial,sans-serif;  =
+-webkit-font-smoothing: antialiased; font-size:11px; color:#666666; text-al=
+ign:left;">
+																				<div class=3D"masterfooter" style=3D"line-height:13px;=
+">=E5=85=8D=E8=B2=AC=E8=81=B2=E6=98=8E =E2=80=93 =E4=BB=BB=E4=BD=95=E7=94=
+=B1=E7=AC=AC=E4=B8=89=E6=96=B9=E6=89=80=E6=8F=90=E4=BE=9B=E7=9A=84=E4=BF=83=
+=E9=8A=B7=E6=B4=BB=E5=8B=95=EF=BC=8C PayPal =E6=A6=82=E4=B8=8D=E8=B2=A0=E8=
+=B2=AC=EF=BC=8C=E6=9C=89=E9=97=9C=E6=B4=BB=E5=8B=95=E7=9B=B8=E9=97=9C=E6=A2=
+=9D=E6=AC=BE=E5=8F=8A=E7=B4=B0=E5=89=87=EF=BC=8C=E8=AB=8B=E5=8F=83=E7=85=A7=
+=E6=B4=BB=E5=8B=95=E5=95=86=E5=BA=97=E7=B6=B2=E7=AB=99=E8=AA=AA=E6=98=8E=E3=
+=80=82     <div><img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets=
+/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif"=
+ height=3D"20" width=3D"1" border=3D"0" style=3D"display:block;"></div>    =
+ =E6=AD=A4=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E8=A2=AB=E5=AF=84=E8=87=B3 <=
+a href=3D"mailto:cfgchouhang@gmail=2Ecom" style=3D"font-family: Helvetica, =
+Arial,sans-serif; font-size: 11px; color: #666666; text-decoration: none;">=
+cfgchouhang@gmail=2Ecom</a>=EF=BC=8C=E5=9B=A0=E7=82=BA=E4=BD=A0=E5=9C=A8=E9=
+=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E9=80=9A=E7=9F=A5=E5=81=8F=E5=A5=BD=E8=A8=
+=AD=E5=AE=9A=E4=B8=AD=E9=81=B8=E6=93=87=E6=8E=A5=E6=94=B6 PayPal =E5=95=86=
+=E5=BA=97=E8=88=87=E5=90=88=E4=BD=9C=E5=A4=A5=E4=BC=B4=E5=84=AA=E6=83=A0=E3=
+=80=82=E5=A6=82=E4=BD=A0=E8=A6=81=E6=9B=B4=E6=94=B9=E9=9B=BB=E5=AD=90=E9=83=
+=B5=E4=BB=B6=E9=80=9A=E7=9F=A5=E5=81=8F=E5=A5=BD=E8=A8=AD=E5=AE=9A=EF=BC=8C=
+<a href=3D"https://epl=2Epaypal-communication=2Ecom/T/v400000167f25a8eccc34=
+dc66e96c566a0/7f5da715b8814b530000021ef3a0bcda/7f5da715-b881-4b53-b3a2-4ffd=
+d670c7dc" class=3D"unsub" style=3D"color: #009cde; text-decoration:none; fo=
+nt-weight: bold;" target=3D"_blank">=E8=AB=8B=E6=8C=89=E6=AD=A4</a>=E3=80=
+=82     <div><img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets/c/=
+APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif" he=
+ight=3D"20" width=3D"1" border=3D"0" style=3D"display:block;"></div>     =
+=E6=AD=A4=E9=9B=BB=E5=AD=90=E9=83=B5=E4=BB=B6=E6=98=AF=E7=94=B1 PayPal =E7=
+=B3=BB=E7=B5=B1=E8=87=AA=E5=8B=95=E7=94=A2=E7=94=9F=E8=88=87=E7=99=BC=E9=80=
+=81,=E8=AB=8B=E5=8B=BF=E7=9B=B4=E6=8E=A5=E5=9B=9E=E8=A6=86=E3=80=82=E8=8B=
+=A5=E4=BD=A0=E6=9C=89=E4=BB=BB=E4=BD=95=E7=96=91=E5=95=8F=E9=9C=80=E8=A6=81=
+=E5=8D=B3=E6=99=82=E8=A7=A3=E7=AD=94=EF=BC=8C=E8=AB=8B=E9=BB=9E=E9=81=B8 Pa=
+yPal =E7=B6=B2=E7=AB=99=E4=BB=BB=E4=B8=80=E9=A0=81=E9=9D=A2=E4=B8=8B=E6=96=
+=B9=E7=9A=84=E3=80=8C=E6=9F=A5=E8=A9=A2=E4=B8=AD=E5=BF=83=E5=8F=8A=E8=81=AF=
+=E7=B5=A1=E6=88=91=E5=80=91=E3=80=8D=E5=B0=8B=E6=89=BE=E7=AD=94=E6=A1=88=E3=
+=80=82     <div><img src=3D"https://www=2Epaypalobjects=2Ecom/digitalassets=
+/c/APAC/00_baseplate_and_common_content/edm_baseplate/_common/spacer=2Egif"=
+ height=3D"20" width=3D"1" border=3D"0" style=3D"display:block;"></div>    =
+ =E6=95=AC=E5=91=8A=E6=B6=88=E8=B2=BB=E8=80=85 =E2=80=94 PayPal Pte=2E Ltd=
+=2E =E6=98=AF PayPal =E5=84=B2=E5=80=BC=E5=B7=A5=E5=85=B7=E7=9A=84=E6=8C=81=
+=E6=9C=89=E8=80=85=EF=BC=8C=E7=84=A1=E9=A0=88=E7=B6=93=E9=81=8E=E6=96=B0=E5=
+=8A=A0=E5=9D=A1=E9=87=91=E8=9E=8D=E7=AE=A1=E7=90=86=E5=B1=80=E7=9A=84=E6=A0=
+=B8=E5=87=86=E3=80=82=E5=BB=BA=E8=AD=B0=E7=94=A8=E6=88=B6=E4=BB=94=E7=B4=B0=
+=E9=96=B1=E8=AE=80<a href=3D"https://epl=2Epaypal-communication=2Ecom/T/v40=
+0000167f25a8eccc34dc66e96c566a0/7f5da715b8814b530000021ef3a0bcdb/7f5da715-b=
+881-4b53-b3a2-4ffdd670c7dc" style=3D"color: #009cde; text-decoration:none; =
+font-weight: bold;" target=3D"_blank">=E6=A2=9D=E6=AC=BE=E5=92=8C=E7=B4=B0=
+=E5=89=87</a>=E3=80=82     <div><img src=3D"https://www=2Epaypalobjects=2Ec=
+om/digitalassets/c/APAC/00_baseplate_and_common_content/edm_baseplate/_comm=
+on/spacer=2Egif" height=3D"20" width=3D"1" border=3D"0" style=3D"display:bl=
+ock;"></div>     =E7=89=88=E6=AC=8A=E6=89=80=E6=9C=89 =C2=A9 2018 PayPal=E3=
+=80=82=E4=BF=9D=E7=95=99=E6=89=80=E6=9C=89=E6=AC=8A=E5=88=A9=E3=80=82</div>
+																			</td>
+																			<td style=3D"font-size:0px;line-height:0px;">
+																				<img style=3D"display: block" src=3D"https://www=2Epay=
+palobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_common_content/edm_b=
+aseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" width=3D"20" hei=
+ght=3D"1">
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+									<div><img style=3D"display:block;width:1px;height:20px;" src=3D"h=
+ttps://www=2Epaypalobjects=2Ecom/digitalassets/c/APAC/00_baseplate_and_comm=
+on_content/edm_baseplate/_common/spacer=2Egif" border=3D"0" alt=3D"PayPal" =
+width=3D"1" height=3D"20"></div>
+                </td>
+					</tr>
+					  </tbody>
+							</table>
+						<!--[if mso]></td></tr></table><![endif]-->
+          </td>
+        </tr>
+      </table>
+
+<img src=3D'https://epl=2Epaypal-communication=2Ecom/O/v400000167f25a8eccc=
+34dc66e96c566a0/7f5da715b8814b5300004c5a42963aa1' style=3D"display:none; ma=
+x-height: 0px; font-size: 0px; overflow: hidden; mso-hide: all"/></body>
+</html>
+
+---=Part.9f646c5.f493532c601e8f0a.167f25b7f5a.1d6026ccda660f6d=---
+

@@ -1,0 +1,381 @@
+Delivered-To: cfgchouhang@gmail.com
+Received: by 2002:a17:90a:9202:0:0:0:0 with SMTP id m2-v6csp10599393pjo;
+        Mon, 31 Dec 2018 23:15:54 -0800 (PST)
+X-Google-Smtp-Source: ALg8bN5EDLsrwvjtYc+GxwH1gnVJIkKSKgsARJYuh8po7f7tze9tMJ8CslerbeVp1PQwG/0agk6C
+X-Received: by 2002:a25:cd47:: with SMTP id d68mr28602481ybf.90.1546326954790;
+        Mon, 31 Dec 2018 23:15:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1546326954; cv=none;
+        d=google.com; s=arc-20160816;
+        b=PlytqKS9S5pxD2X5fZSHfEDGRV5pr2X3mgeyJwLfsJAQdIYhPk0ATerfzYdYwFFN6Y
+         FEpccq34aXUcRzbPDXJoon/UZ4XFHvNMHZqQ1mXBvBSJCGJi/vXPijmJ62xo5h9mEpgx
+         iRADPNCtpMNPus6IHcv5yjZqtSz+8+Xie4g7hmG2vx6PYBSRYhqsq+zQlydbmbkjbJ+9
+         m7SDtg7dRD+qhrbrpJK/wiiyh7WcDI4bqT4lh710TsulJpLhtqFZ66bc2nDMkYxUOZeq
+         GjQD2J3uovzfgEqO+jlwG2LIFPnk6pPmg4HPioFW3rKDdyGHpjs0LZ82Kq83c9sn0pnr
+         SyGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:message-id:list-id:mime-version:list-unsubscribe:date
+         :subject:to:from:dkim-signature;
+        bh=N0toLCrt1dW/+rmvj94Q5EypShSPe7TpuVO630TQiF4=;
+        b=lzUvZNIVGnqmCPBucEeEKKN+E+TGFP5NhgNuC5rrR0AHFkLUgArGWhR8fwyWOmniDe
+         +p7yVOLXB1WWtbLeQC4be2oIKMk2H8hgjeZZ8JoHVdbvb9t82Tx35rE7hJaN/ey25cTb
+         +vupWWzfbq4THu3ELUcCdf10y/anJtHegOMtTTgsoDoCFAvjKxWWoVjlyr+sf4h6DDIW
+         PKUag8JJDEZewHtWbYTAs1kj1W/sPWxsOHh0RPd427XZGMyRC4yQUd0DzvmJt0yxF9CR
+         N10l+bOZrU9FMttrCB7LJZxuR+QhQiclSAeHi0berzMbwiShPVBiiviRbfnG0cK4UIiD
+         XKeg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@ccg.nintendo.com header.s=200608 header.b=NxRsoeaS;
+       spf=pass (google.com: domain of bounce-672_html-57917887-736934-7230701-84@bounce.ccg.nintendo.com designates 136.147.185.72 as permitted sender) smtp.mailfrom=bounce-672_HTML-57917887-736934-7230701-84@bounce.ccg.nintendo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nintendo.com
+Return-Path: <bounce-672_HTML-57917887-736934-7230701-84@bounce.ccg.nintendo.com>
+Received: from dd72.mta.exacttarget.com (mta21.ccg.nintendo.net. [136.147.185.72])
+        by mx.google.com with ESMTPS id m36si31371875ywh.198.2018.12.31.23.15.54
+        for <cfgchouhang@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 31 Dec 2018 23:15:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce-672_html-57917887-736934-7230701-84@bounce.ccg.nintendo.com designates 136.147.185.72 as permitted sender) client-ip=136.147.185.72;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@ccg.nintendo.com header.s=200608 header.b=NxRsoeaS;
+       spf=pass (google.com: domain of bounce-672_html-57917887-736934-7230701-84@bounce.ccg.nintendo.com designates 136.147.185.72 as permitted sender) smtp.mailfrom=bounce-672_HTML-57917887-736934-7230701-84@bounce.ccg.nintendo.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=nintendo.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=200608; d=ccg.nintendo.com;
+ h=From:To:Subject:Date:List-Unsubscribe:MIME-Version:List-ID:Message-ID:
+ Content-Type; i=nintendo-noreply@ccg.nintendo.com;
+ bh=N0toLCrt1dW/+rmvj94Q5EypShSPe7TpuVO630TQiF4=;
+ b=NxRsoeaS6mCrTZ9WHV4mphmWW78IxDW27crlcBAWg+mQt7wrijZ4A0E3EiIYtbeqk6+alTt0WX8J
+   FEWjPDSditf3tjGcHCW9n0lcVrtfggtS7dK3J3auKeftuI90GVfdmi8XHaQi3iP6RRp0WSjBce2Q
+   L5e2v+JR/+ovbrp9KfE=
+Received: by dd72.mta.exacttarget.com id h5c9qk2fmd4d for <cfgchouhang@gmail.com>; Tue, 1 Jan 2019 07:15:54 +0000 (envelope-from <bounce-672_HTML-57917887-736934-7230701-84@bounce.ccg.nintendo.com>)
+From: "Nintendo" <nintendo-noreply@ccg.nintendo.com>
+To: <cfgchouhang@gmail.com>
+Subject: =?UTF-8?B?UGV0ZXLmp5gg5paw5bm044Gu44GU5oyo5ou244KS55Sz44GX5LiK?=
+ =?UTF-8?B?44GS44G+44GZ44CC5paw5pil44K744O844Or44CB44Kt44Oj44Oz44Oa44O8?=
+ =?UTF-8?B?44Oz5oOF5aCx44KC6ZaL5YKs5Lit?=
+Date: Tue, 01 Jan 2019 01:15:54 -0600
+List-Unsubscribe: <mailto:leave-fd4c1277770b5c392848-fe4b11777c6503757d13-febf1373736d0779-fe9b13727664037d74-ff931c74@leave.ccg.nintendo.com>
+MIME-Version: 1.0
+List-ID: <7207004.xt.local>
+X-CSA-Complaints: whitelistcomplaints@eco.de
+x-job: 7230701_736934
+Message-ID: <bc82a27b-e81b-4e4f-a558-b7571a7fc3f0@atl1s07mta780.xt.local>
+Feedback-ID: 7230701:736934:136.147.185.72:sfmktgcld
+Content-Type: multipart/alternative;
+	boundary="2iFakv5SZCDc=_?:"
+
+This is a multi-part message in MIME format.
+
+--2iFakv5SZCDc=_?:
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+Peter 様
+
+新年のご挨拶を申し上げます
+皆さまにとって2019年が 笑顔あふれる晴れやかな年になりますように
+本年もどうぞよろしくお願いいたします
+
+■□━━━━━━━━━
+2019年 特別デザインの壁紙プレゼント！
+━━━━━━━━━■□
+マイニンテンドーポイントプログラムでは、イノシシ年にぴったりの「PC・スマートフォン用壁紙」を、2019月1月31日（木）までの期間限定で無料配布中です。
+
+▼壁紙をダウンロードする↓
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd80010910d6443f52f777f208818a74468b0e7e3a90cf3b7c270f49c9266f8f433ebf6f0e87919019e9b8edc3031a696d
+※ニンテンドーアカウントでのログインが必要です。
+
+
+
+■□━━━━━━━━━
+マイニンテンドーより
+「100プラチナポイント」プレゼント！
+━━━━━━━━━■□
+マイニンテンドーのページでログイン後、以下の番号を「ポイント番号入力」から入力すると、ポイントを受け取ることができます。ぜひ、いろいろなギフトと交換してみてください。
+
+【ポイント番号】
+==================
+「NY33SLPG8Y54GDYY」
+==================
+※番号の有効期限は、2019年1月31日（木）までです。
+
+▼今すぐポイントを受け取る↓
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd34ed1a7f4a6aa5bcce225c93dc263143b847db15b30cf6ff2e7e05f4dbc3ec3a9423aafeaeb6b3ad7ee136a4533e11df
+
+
+▼ポイント番号の使用方法について↓
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdaf0a0e7aad4a1b1f90a8c211475e883ca09a9d844c7a4756ed54c4550979b5ea194aa02a1be6b5d3b4d6e7943e7aad3a
+
+
+
+■□━━━━━━━━━
+Nintendo Switch 新春初売りセール開催中！
+━━━━━━━━━■□
+期間中は、『マリオカート8 デラックス』、『マリオテニスエース』、『FIFA 19』など、みんなでワイワイ盛り上がれるソフトが、最大30％オフでお買い求めいただけます
+
+ご購入は、マイニンテンドーストア、またはNintendo Switch本体の「ニンテンドーeショップ」よりいただけます。
+
+▼新春初売りセール会場へ（マイニンテンドーストア）
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdd573cb6b8b74770c97ff1d5a0092f49081c7962d0195074bb8bc125665c1467fbcbfe802b753b8e2bb11889f8be7e3bb
+
+
+
+■□━━━━━━━━━
+1月は無料開放デー＆お得なチケット
+『カラオケJOYSOUND for Nintendo Switch』
+━━━━━━━━━■□
+1月5日（土）、1月12日（土）の2日間は、10:00～19:59の間、どなたでも無料でカラオケをお楽しみいただける無料開放デーを実施いたします。
+
+また、1月14日（月）までの期間限定でお得なウィンターチケットを販売中です。
+既に30日、90日券をお持ちの方も、追加でご購入をいただけます。
+
+▼『カラオケJOYSOUND for Nintendo Switch』冬のキャンペーンについて
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd301e4292abe93096cad659157726630ce17ba345294c26384cb332052214263146bf69e6075892e604c09c7d0246ae29
+
+
+
+■□━━━━━━━━━
+ニンテンドー3DS ウィンターセール開催中！
+1月8日（木）まで！
+━━━━━━━━━■□
+ニンテンドーeショップでは、ニンテンドー3DSソフトのウィンターセールを実施中です。期間中、3DSの人気シリーズを、ニンテンドーeショップにてお得な価格でお買い求めいただけます。
+ゼルダの伝説、ファイアーエムブレム、世界樹の迷路、ドラゴンクエスト、星のカービィ、ピクロス等のシリーズ作品が対象です。
+
+ご購入はニンテンドー3DSのニンテンドーeショップよりご購入ください。
+
+▼ウィンターセール公式ページへ
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd6b8079309babd10d160309541ffdfbd2b0b1ab6b9e88fa4c8f0333f3b8a57615f81aaf6350ebe778170b9ede2fea7b52
+
+
+
+■□━━━━━━━━━
+スマホアプリで
+お正月イベント開催中！
+━━━━━━━━━■□
+●ファイアーエムブレム ヒーローズ
+超英雄召喚イベント「氷と炎のお正月」（1/1 16:00〜）
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdfa79fc9ccd93822c4190f7db92a7a666034036bf177e68b6d296afc1ab018ae32e3c0fc49d4a0a2c026ed8942ab1c90b
+
+●ドラガリアロスト
+お正月ログボ実施中（1/1 15:00〜1/25 14:59）
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd74f2927cca2db00563241ba9d619d29835c7311e7badf2c95386b39f77c753da6204b35c955f40860e5ae8ae1e0b23c6
+
+●どうぶつの森 ポケットキャンプ
+お正月イベント開催中！
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd624d4c2caa295245138495a5140dd1f28d17a15de4a2d0e29292c011b46a0ea6c712d6dedfa48e91f595116d24926177
+
+
+
+〓〓〓〓〓〓〓〓〓〓〓
+▽配信停止はこちら
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdcff2b186a937ccabd4f79c911da6cbe1586898526743214a5f164759a42f300110ccd1bc72652917f4a6d6595c3eb5aa
+▽オンラインお問い合わせ窓口
+http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdc524123de71c501ccbac0f138ca1ef5d6ef35569d35f49ab909c9ac0c7b96e7d74dbe951854ceca8df1212ac37b15fdf
+▽お客様ご相談窓口：0570-011-120
+※IP電話、携帯電話の定額通話をご利用の方は：075-662-9611
+※土・日・祝日・会社設定休日を除く
+〓〓〓〓〓〓〓〓〓〓〓
+配信元：任天堂株式会社　京都市南区上鳥羽鉾立町11-1
+
+--2iFakv5SZCDc=_?:
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="format-detection" content="telephone=no,address=no,email=no,date=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>任天堂からのおしらせ</title>
+<style type="text/css"><!--
+body { margin:0;padding:0; }
+img { border:0;line-height:0; }
+--></style>
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="background-color:#ffffff;font-family:'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ', Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', 'sans-serif'" bgcolor="#ffffff">
+<table border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td width="640" colspan="2"><span style="color:#ffffff;font-size:0;line-height:0;">特別壁紙、ポイントプレゼント、年始のキャンペーン情報</span></td>
+</tr>
+<tr>
+<td width="320" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="320" height="10" alt="" border="0" style="display:block;" /></td>
+<td width="320" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="320" height="10" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table>
+<table border="0" align="center" cellpadding="0" cellspacing="0" style="width:auto;color:#666666;">
+<tr>
+<td width="640" align="left" style="font-size:13px;line-height:120%;">Peter 様</td>
+</tr>
+<tr>
+<td width="640" align="right" style="font-size:11px;line-height:130%;">※うまく表示されない方は<a href="http://view.ccg.nintendo.com/?qs=0877aab084f063949594fb8b5aa56a84854b46623e4645efc2f965555e8b1356c62c9c8c489eb680b886f36ace398a9e8311da64db049d4a95737dffdc5628cf0b0bdb9c4fe9bd9fd18023028a455915" target="_blank" style="color:#4284d2;" >こちら</a>をご覧ください。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="10" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd1caaa8db1c233f90c0e1df83ce8914c9bb7dee89d4b02cf8c787c3b34ea2d67e197ab73c813d1caea18476110b02f7cf" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_logo.jpg" width="640" height="80" border="0" style="font-size:13px;" alt="Nintendo" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img01.jpg" width="640" height="870" border="0" style="display:block;font-size:13px;" alt="新年のご挨拶申し上げます　みなさまにとって、2019年が笑顔あふれる晴れやかな年になりますように。本年もどうぞよろしくお願いいたします。" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img02.jpg" width="640" height="80" border="0" style="display:block;font-size:13px;" alt="マイニンテンドー　期間限定！特別壁紙プレゼント" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img03.jpg" width="640" height="200" border="0" style="display:block;font-size:13px;" alt="特別壁紙をマイニンテンドーで無料配布中！期間限定：1月31日まで　※壁紙はPC用・スマートフォン用があります。※ニンテンドーアカウントでのログインが必要です。" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd2c3e59229249e37b16cb0062edf66ce932466ca1cecbd0579c4801bcdd2f839a13e18bc5ec3a28845b7438132ec451a1" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_btn01.jpg" width="640" height="168" border="0" style="display:block;font-size:13px;" alt="壁紙をダウンロード" /></a></td>
+</tr>
+<!-- ▼▼▼メール限定！プラチナポイントプレゼントここから▼▼▼ -->
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img04.jpg" width="640" height="80" border="0" style="display:block;font-size:13px;" alt="メール限定！プラチナポイントプレゼント" /></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img05.jpg" width="640" height="160" border="0" style="display:block;font-size:13px;" alt="マイニンテンドーのページでログイン後、以下の番号を「ポイント番号入力」に入力すると、100ポイントを受け取ることができます。" /></td>
+</tr>
+<tr>
+<td bgcolor="#fffef9" align="center"><table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td width="104" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" width="10" height="1" style="display:block;"></td>
+<td width="432" align="center"><table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td width="432" height="64" align="center" bgcolor="#ffffff"><table border="0" cellpadding="0" cellspacing="0" style="border:3px solid #e52319;">
+<tr>
+<td width="426" height="58" align="center"><span style="display:block;padding:0;color:#e52319;font-size:27px;font-weight:bold;line-height:58px;text-decoration:none;" alias="">NY33SLPG8Y54GDYY</span></td>
+</tr>
+</table></td>
+</tr>
+</table></td>
+<td width="104" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" width="10" height="1" style="display:block;"></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd8285336e34904671e24cae2682c5abe4dbba815747a8742939774ec70081ea6e23a8653b359fb66610df2c66d158227e" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_btn02.jpg" width="640" height="144" border="0" style="font-size:13px;" alt="ポイントを受け取る" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd3ccded2057f4e1cdaa1a47fbe7c588050275fee5d6036fe936a167776dcfe0046dfcbea16712a5be1f9ac4ba294779d5" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img06.jpg" width="640" height="100" border="0" style="display:block;font-size:13px;" alt="※「メニュー」&rarr;「ポイントをためる」&rarr;「ポイント番号を入力して受け取る場合はこちら」&rarr;上記番号を入力　※番号の有効期限は、2019年1月31日です。" /></a></td>
+</tr>
+<!-- ▲▲▲メール限定！プラチナポイントプレゼントここまで▲▲▲ -->
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img07.jpg" width="640" height="330" border="0" style="display:block;font-size:13px;" alt="新春ピックアップニュース" /></td>
+</tr>
+<!-- ▼▼▼各バナーここから▼▼▼ -->
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd73ef126c985919c74b544683fba14b521820a2fd8f60c0f84e6b6557df4c94d78204ca38bf0f2f6122dbe5199d140da1" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img08.jpg" width="640" height="376" border="0" style="display:block;font-size:13px;" alt="Nintendo Switch 新春セール　友達や家族と一緒に遊べるタイトルが最大30％オフ！2019年1月14日（月）23時59分まで" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd3c0d4a504a87133d7548ed12e543d7b027be53819f46d257c5ed1db9cf1238bb3c3c44fe20b1546bdc25382f41da3b84" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img09.jpg" width="640" height="375" border="0" style="display:block;font-size:13px;" alt="Nintendo Switch カラオケ 冬のキャンペーン" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdac3aa60c982eb0b69a06611aac8c060e3a1eb8fc07095ea816cf78f0496d01e348e2de3a1c0faa4329caf4d1a5ad9c05" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img10.jpg" width="640" height="376" border="0" style="display:block;font-size:13px;" alt="Nintendo 3DSウィンターセール　2019年1月8日（火）23時59分まで　人気シリーズを遊びつくそう！" /></a></td>
+</tr>
+
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd4122c065a91fc6481ea169e7c012a8b9aeffe2b2060e0d5be778e83d8b7fbe0cb1eee786910b77b39da3b356ab2612ad" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img11.jpg" width="640" height="376" border="0" style="display:block;font-size:13px;" alt="どうぶつの森ポケットキャンプ　お正月イベント開催中！" /></a></td>
+</tr>
+
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdfb966af621997ab7baa5883bff0a69f4fea233139d2f3b4314d3c6691e1f1f4ced8e8074863b9a53ecff3bd04128e2e1" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img12.jpg" width="640" height="376" border="0" style="display:block;font-size:13px;" alt="ドラガリアロスト　お正月ログボ実施中！開催期間2019年1月1日15時から2019年1月25日14時39分まで" /></a></td>
+</tr>
+<tr>
+<td style="font-size:0;"><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd804ad4dfbb576830c5e4b15330c6ff797a98bcacc877bf50703bb8c68e9e74d265dda27ca9e65d25aa9a959faf143c54" target="_blank" ><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/1901_1_img13.jpg" width="640" height="376" border="0" style="display:block;font-size:13px;" alt="ファイアーエムブレム ヒーローズ　超英雄召喚イベント「氷と炎のお正月」1月1日16時から" /></a></td>
+</tr>
+
+<!-- ▲▲▲各バナーここまで▲▲▲ -->
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="40" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td><table width="640" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr>
+<td colspan="5" bgcolor="#DDDDDD" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="1" bgcolor="#DDDDDD" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="8" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="8" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="622"><table cellspacing="0" border="0" align="left" cellpadding="0" style="font-size:13px; color:#666666; line-height:120%;">
+<tr>
+<td colspan="2" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="8" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="17" valign="top">○</td>
+<td width="605">このメールは、ニンテンドーアカウントを登録し、おしらせメールの設定を「受け取ります」にされたお客様に配信しています。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="17" alt="" border="0" style="display:block;" /></td>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td valign="top">○</td>
+<td>今後、任天堂からのおしらせの配信を希望されない場合は<a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bd44be6977d3673a530b164901f05a0a56be2e8b4d2c52338c85a43cc8a49fa4c088154e78d0ce70929db8e708573eb67a" target="_blank" style="color:#4284d2;" >こちら</a>より解除をしてください。</td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="17" alt="" border="0" style="display:block;" /></td>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="5" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td valign="top">○</td>
+<td>このメールアドレスには返信できません。<br />
+ご不明な点等がございましたら、下記までお問い合わせください。<br />
+<table cellspacing="0" border="0" align="left" cellpadding="0" style="font-size:13px; color:#666666;">
+<tr>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="17" /></td>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="1" /></td>
+</tr>
+<tr>
+<td>▽</td>
+<td width="100%">インターネット（PC、スマートフォン）で</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td><a href="http://click.ccg.nintendo.com/?qs=8c54f3dfece9d3bdbf2163974f1dbcaaa9b3b5f41a8da03cd7ac08c192191dad77b8773e80157494c6ba87dd4804b970b808fe667518fed3" target="_blank" style="color:#4284d2;" >オンラインお問い合わせ窓口</a></td>
+</tr>
+<tr>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="17" /></td>
+<td style="font-size: 0; line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" alt="" height="5" width="1" /></td>
+</tr>
+<tr>
+<td>▽</td>
+<td>お電話で</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td style="line-height:140%">・お客様ご相談窓口：0570-011-120<br />
+※IP電話、携帯電話の定額通話をご利用の方は：075-662-9611<br />
+・受付時間　10:00～18:00（土・日・祝日・会社設定休日を除く）</td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td colspan="2" align="center" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/line_10.gif" width="613" height="23" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td colspan="2" style="font-size:13px; color:#666666; line-height:150%;">配信元：任天堂株式会社<br />
+住所：京都市南区上鳥羽鉾立町11-1</td>
+</tr>
+<tr>
+<td colspan="2" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="8" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table></td>
+<td width="8" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="8" height="1" alt="" border="0" style="display:block;" /></td>
+<td width="1" bgcolor="#DDDDDD" style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td colspan="5" bgcolor="#DDDDDD" style="font-size:0;line-height:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" width="1" height="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+</table></td>
+</tr>
+<tr>
+<td style="font-size:0;"><img src="http://image.ccg.nintendo.com/lib/fe9b13727664037d74/m/6/spacer_10.gif" height="10" width="1" alt="" border="0" style="display:block;" /></td>
+</tr>
+<tr>
+<td width="640" style="font-size:13px; color:#8d8d8d; line-height:120%; text-align:center;">&copy; 2019 Nintendo</td>
+</tr>
+</table>
+<img src="http://click.ccg.nintendo.com/open.aspx?ffcb10-febf1373736d0779-fe3315717c63057f731471-fe9b13727664037d74-ff60127777-fe4b11777c6503757d13-ff931c74" width="1" height="1">
+</body>
+</html>
+
+--2iFakv5SZCDc=_?:--
+
