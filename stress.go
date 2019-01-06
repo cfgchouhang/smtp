@@ -21,9 +21,10 @@ type Job struct {
 }
 
 func main() {
-	max_chan := 4
+	max_workers := 2
+	max_jobs := 100
 	if len(os.Args) < 5 {
-		fmt.Println("usgae: ./go ip port rcpt mail_dir [max_threads]")
+		fmt.Println("usgae: ./go ip port rcpt mail_dir [max_workers]")
 		return
 	}
 	service := os.Args[1] + ":" + os.Args[2]
@@ -38,13 +39,15 @@ func main() {
 	dir := os.Args[4] + "/"
 	rcpt := os.Args[3]
 	if len(os.Args) == 6 {
-		max_chan, _ = strconv.Atoi(os.Args[5])
+		max_workers, _ = strconv.Atoi(os.Args[5])
 	}
 
-	jobChan := make(chan Job, max_chan)
+	jobChan := make(chan Job, max_jobs)
 
-	wg.Add(1)
-	go worker(jobChan)
+	for w := 1; w <= max_workers; w++ {
+		wg.Add(1)
+		go worker(w, jobChan, tcpAddr)
+	}
 
 	for _, file := range files {
 		if file.IsDir() {
@@ -53,38 +56,37 @@ func main() {
 		jobChan <- Job{tcpAddr, dir + file.Name(), rcpt}
 	}
 	close(jobChan)
-
 	wg.Wait()
 }
 
-func worker(jobChan <-chan Job) {
-	defer wg.Done()
-	for job := range jobChan {
-		sendMail(job.tcpAddr, job.mail, job.rcpt)
-	}
-}
-
-func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
-	var conn *net.TCPConn
-	var err error
-	resp := make([]byte, 1024)
-	retryCnt := 0
-	cmdSet := []string{"helo test.com\r\n", "mail from:<>\r\n",
-		"rcpt to: <" + rcpt + ">\r\n", "data\r\n"}
-
-	for retryCnt < 4 {
-		conn, err = net.DialTCP("tcp", nil, tcpAddr)
-		if err == nil {
-			break
-		}
+func worker(id int, jobChan <-chan Job) {
+	conn, err = net.DialTCP("tcp", nil, job.tcpAddr)
+	if err == nil {
 		fmt.Println(err.Error())
-		retryCnt++
-	}
-	if conn == nil {
 		return
 	}
 	n, _ := conn.Read(resp)
 	fmt.Println(string(resp[:n]))
+
+	for job := range jobChan {
+		fmt.Printf("worker%d starts sending mail %s\n", id, job.mail)
+		sendMail(conn, job.mail, job.rcpt)
+		fmt.Printf("worker%d finishs sending mail %s\n", id, job.mail)
+	}
+	conn.Write([]byte("quit\r\n"))
+	n, _ = conn.Read(resp)
+	fmt.Println(string(resp[:n]))
+
+	wg.Done()
+}
+
+func sendMail(conn *net.TCPConn, mailFile string, rcpt string) {
+	var conn *net.TCPConn
+	var err error
+	resp := make([]byte, 1024)
+	cmdSet := []string{"helo test.com\r\n", "mail from:<>\r\n",
+		"rcpt to: <" + rcpt + ">\r\n", "data\r\n"}
+
 	for _, cmd := range cmdSet {
 		fmt.Print(cmd)
 		_, err = conn.Write([]byte(cmd))
@@ -118,9 +120,6 @@ func sendMail(tcpAddr *net.TCPAddr, mailFile string, rcpt string) {
 		i++
 	}
 	conn.Write([]byte(".\r\n"))
-	n, _ = conn.Read(resp)
-	fmt.Println(string(resp[:n]))
-	conn.Write([]byte("quit\r\n"))
 	n, _ = conn.Read(resp)
 	fmt.Println(string(resp[:n]))
 }

@@ -140,7 +140,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 				checkError(err, true)
 			}
 			info.mail = mailFile
-			fmt.Fprintf(info.mail, "MAIL FROM:%s\n%RCPT TO:%s\n", info.from, info.rcpt)
+			fmt.Fprintf(info.mail, "MAIL FROM:%s\nRCPT TO:%s\n", info.from, info.rcpt)
 		} else {
 			logger.Println(param)
 			info.mail.WriteString(param + "\r\n")
