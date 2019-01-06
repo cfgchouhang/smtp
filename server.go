@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"regexp"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -19,6 +20,11 @@ type SessionInfo struct {
 	mail              *os.File
 }
 
+type Job struct {
+	conn  net.Conn
+	valid bool
+}
+
 var (
 	logFile, _ = os.OpenFile("smtp.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	logger     = log.New(logFile, "", 0)
@@ -26,8 +32,9 @@ var (
 )
 
 func main() {
+	max_conns := 10
 	if len(os.Args) < 3 {
-		fmt.Println("usage: ./go port mail_dir")
+		fmt.Println("usage: ./go port mail_dir [max_sessions]")
 		return
 	}
 
@@ -37,15 +44,25 @@ func main() {
 	checkError(err, true)
 	defer logFile.Close()
 
+	if len(os.Args) == 4 {
+		max_conns, _ = strconv.Atoi(os.Args[3])
+	}
+
 	printLog("server starts")
 
+	jobChan := make(chan Job, max_conns)
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, os.Interrupt)
 	go func() {
 		<-sigc
+		close(jobChan)
 		printLog("server closed")
 		os.Exit(0)
 	}()
+
+	for m := 1; m <= max_conns; m++ {
+		go worker(jobChan)
+	}
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err, true)
@@ -55,7 +72,30 @@ func main() {
 			checkError(err, false)
 			continue
 		}
-		go handleClient(conn)
+		fmt.Println("client arrived")
+		job := Job{conn, true}
+		if tryEnqueue(job, jobChan) {
+			jobChan <- Job{conn, false}
+		} else {
+			conn.Write([]byte("421 reached session limits, try latter\n"))
+			conn.Close()
+		}
+	}
+}
+
+func tryEnqueue(job Job, jobChan chan<- Job) bool {
+	select {
+	case jobChan <- job:
+		return true
+	default:
+		return false
+	}
+}
+func worker(jobChan <-chan Job) {
+	for job := range jobChan {
+		if job.valid {
+			handleClient(job.conn)
+		}
 	}
 }
 
@@ -140,7 +180,7 @@ func doRequest(cmd string, param string, info *SessionInfo) string {
 				checkError(err, true)
 			}
 			info.mail = mailFile
-			fmt.Fprintf(info.mail, "MAIL FROM:%s\nRCPT TO:%s\n", info.from, info.rcpt)
+			//fmt.Fprintf(info.mail, "MAIL FROM:%s\nRCPT TO:%s\n", info.from, info.rcpt)
 		} else {
 			logger.Println(param)
 			info.mail.WriteString(param + "\r\n")
