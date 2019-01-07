@@ -32,7 +32,7 @@ var (
 )
 
 func main() {
-	max_conns := 10
+	max_conns := 2
 	if len(os.Args) < 3 {
 		fmt.Println("usage: ./go port mail_dir [max_sessions]")
 		return
@@ -51,6 +51,7 @@ func main() {
 	printLog("server starts")
 
 	jobChan := make(chan Job, max_conns)
+	releaseChan := make(chan Job, max_conns)
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, os.Interrupt)
 	go func() {
@@ -61,7 +62,7 @@ func main() {
 	}()
 
 	for m := 1; m <= max_conns; m++ {
-		go worker(jobChan)
+		go worker(jobChan, releaseChan)
 	}
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
@@ -72,30 +73,29 @@ func main() {
 			checkError(err, false)
 			continue
 		}
-		fmt.Println("client arrived")
 		job := Job{conn, true}
-		if tryEnqueue(job, jobChan) {
-			jobChan <- Job{conn, false}
+		if tryEnqueue(job, releaseChan) {
+			jobChan <- job
 		} else {
+			printLog("session is full, reject client: " + conn.RemoteAddr().String())
 			conn.Write([]byte("421 reached session limits, try latter\n"))
 			conn.Close()
 		}
 	}
 }
 
-func tryEnqueue(job Job, jobChan chan<- Job) bool {
+func tryEnqueue(job Job, Chan chan<- Job) bool {
 	select {
-	case jobChan <- job:
+	case Chan <- job:
 		return true
 	default:
 		return false
 	}
 }
-func worker(jobChan <-chan Job) {
+func worker(jobChan <-chan Job, releaseChan <-chan Job) {
 	for job := range jobChan {
-		if job.valid {
-			handleClient(job.conn)
-		}
+		handleClient(job.conn)
+		<-releaseChan
 	}
 }
 
