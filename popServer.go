@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -13,21 +14,21 @@ import (
 	"time"
 )
 
-type SessionInfo struct {
-	from, rcpt        string
-	greeting, dataing bool
-	needReset         bool
-	mail              *os.File
-}
-
 type Job struct {
 	conn net.Conn
+}
+
+type Mail struct {
+	uid     string
+	size    int
+	deleted bool
 }
 
 var (
 	logFile, _ = os.OpenFile("pop.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	logger     = log.New(logFile, "", 0)
-	dir        = ""
+	mailDir    = ""
+	authPath   = ""
 )
 
 func main() {
@@ -38,7 +39,8 @@ func main() {
 	}
 
 	service := ":" + os.Args[1]
-	dir = os.Args[2]
+	authPath = os.Args[2]
+	mailDir = os.Args[3]
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", service)
 	checkError(err, true)
 	defer logFile.Close()
@@ -60,8 +62,10 @@ func main() {
 		os.Exit(0)
 	}()
 
+	auth := getAuth(authPath)
+
 	for m := 1; m <= max_conns; m++ {
-		go worker(jobChan, releaseChan)
+		go worker(jobChan, releaseChan, auth)
 	}
 
 	listener, err := net.ListenTCP("tcp", tcpAddr)
@@ -72,7 +76,7 @@ func main() {
 			checkError(err, false)
 			continue
 		}
-		job := Job{conn, true}
+		job := Job{conn}
 		if tryEnqueue(job, releaseChan) {
 			jobChan <- job
 		} else {
@@ -91,9 +95,9 @@ func tryEnqueue(job Job, Chan chan<- Job) bool {
 		return false
 	}
 }
-func worker(jobChan <-chan Job, releaseChan <-chan Job) {
+func worker(jobChan <-chan Job, releaseChan <-chan Job, auth map[string]string) {
 	for job := range jobChan {
-		handleClient(job.conn)
+		handleClient(job.conn, auth)
 		<-releaseChan
 	}
 }
@@ -118,18 +122,45 @@ func getAuth(path string) map[string]string {
 	return m
 }
 
+func getList(dir string, mbox string) ([]Mail, int) {
+	var mails []Mail
+	size := 0
+	files, err := ioutil.ReadDir(dir + "/" + mbox)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, file := range files {
+		mails = append(mails, Mail{file.Name(), int(file.Size()), false})
+		size += int(file.Size())
+	}
+	return mails, size
+}
+
+func checkMsgNum(conn net.Conn, param string, total int) int {
+	var err error
+	i := -1
+	if i, err = strconv.Atoi(param); err != nil {
+		conn.Write([]byte("-ERR invalid argument\n"))
+	} else if i >= total {
+		conn.Write([]byte("-ERR no such message\n"))
+	}
+	return i
+}
 func handleClient(conn net.Conn, auth map[string]string) {
 	//conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
 	defer conn.Close()
 
+	var mails []Mail
+	size := 0
 	cmd, param, user := "", "", ""
-	tmp := strings.ToLower(request)
 	cmdSet := []string{"user", "pass", "stat",
 		"list", "uidl", "retr", "dele", "quit"}
 	state := "auth"
 
 	conn.Write([]byte("+OK POP3 server ready\n"))
 	printLog("incoming client: " + conn.RemoteAddr().String())
+	mails, size = getList(mailDir, user)
 
 	reader := bufio.NewReader(conn)
 	for {
@@ -141,13 +172,14 @@ func handleClient(conn net.Conn, auth map[string]string) {
 		}
 		request = strings.Trim(request, "\r\n")
 		printLog("client request:" + request)
+		request = strings.ToLower(request)
 		tmp := strings.Split(request, " ")
 		if len(tmp) > 1 {
 			param = tmp[1]
 		}
 
 		for _, c := range cmdSet {
-			if tmp == c {
+			if tmp[0] == c {
 				cmd = c
 				break
 			}
@@ -175,13 +207,54 @@ func handleClient(conn net.Conn, auth map[string]string) {
 			if state != "authu" {
 				conn.Write([]byte("-ERR wrong sequence\n"))
 				continue
+			} else if param == "" {
+				conn.Write([]byte("-ERR no password\n"))
+				continue
 			}
 			if auth[user] == param {
 				conn.Write([]byte("+OK\n"))
 				state = "trans"
 			} else {
-				conn.Write([]byte("+ERR wrong password\n"))
+				conn.Write([]byte("-ERR wrong password\n"))
 				state = "auth"
+			}
+		} else if cmd == "stat" || cmd == "uidl" || cmd == "list" {
+			if state != "trans" {
+				conn.Write([]byte("-ERR invalid state\n"))
+				continue
+			}
+			if cmd == "stat" {
+				conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", len(mails), size)))
+			} else if cmd == "uidl" {
+				if param != "" {
+					i := 0
+					if i = checkMsgNum(conn, param, len(mails)); i < 0 {
+						continue
+					}
+					conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", i, mails[i].uid)))
+				} else {
+					conn.Write([]byte("+OK\n"))
+					for i, m := range mails {
+						if !m.deleted {
+							conn.Write([]byte(fmt.Sprintf("%d %d\n", i, m.uid)))
+						}
+					}
+				}
+			} else if cmd == "list" {
+				if param != "" {
+					i := 0
+					if i = checkMsgNum(conn, param, len(mails)); i < 0 {
+						continue
+					}
+					conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", i, mails[i].size)))
+				} else {
+					conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", len(mails), size)))
+					for i, m := range mails {
+						if !m.deleted {
+							conn.Write([]byte(fmt.Sprintf("%d %d\n", i, m.size)))
+						}
+					}
+				}
 			}
 		}
 

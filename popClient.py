@@ -62,6 +62,7 @@ def delMail(s, msg):
 if __name__ == '__main__':
     if len(sys.argv) < 6:
         print("Usage: ./clent ip port user pwd cmd <arg1> <arg2>")
+        exit(0)
 
     ip = sys.argv[1]
     port = int(sys.argv[2])
