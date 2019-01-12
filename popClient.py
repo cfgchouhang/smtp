@@ -1,7 +1,8 @@
 import socket
 import sys, os
 
-gotMail = {}
+uids_file = "uids.txt"
+uids = list()
 
 def my_print(s):
     print(s, end='')
@@ -28,20 +29,6 @@ def connect(ip, port, user, pwd):
             return None
 
     return s
-
-def request(sock, cmd, multi_line=False):
-    sock.send(b"{0}\n".format(cmd))
-    r = ''
-    while '\n' not in r:
-        r += sock.recv(1024).decode()
-
-    if 'OK' not in r:
-        return r
-    
-    if multi_line:
-        while '\n.\n' not in r:
-            r += sock.recv(1024).decode()
-    return r
 
 def listMail(s):
     ls = list()
@@ -70,11 +57,14 @@ def listMail(s):
         return ls
 
     for m in a[1:-2]:
+        a = m.split(' ')
+        if a[1] in uids:
+            continue
         ls.append(m.split(' '))
 
     return ls
 
-def retrMail(s, msg, path):
+def retrMail(s, msg, path, uid):
     s.send('RETR {0}\n'.format(msg).encode())
     r = ''
     while '\n' not in r:
@@ -91,6 +81,8 @@ def retrMail(s, msg, path):
         a = r.split('\n')
         if len(a) > 2:
             my_print("get message %s\n%s" % (msg, r[r.find('\n')+1:-2]))
+            with open(uids_file, 'a') as t:
+                t.write(uid+'\n')
             f.write(r[r.find('\n')+1:-2])
 
 def delMail(s, msg):
@@ -121,22 +113,29 @@ if __name__ == '__main__':
     sock = connect(ip, port, user, pwd)
     if sock == None:
         exit(0)
-
+    
+    if os.path.exists(uids_file):
+        with open(uids_file) as f:
+            s = f.read()
+            for u in s.split('\n'):
+                uids.append(u)
+    msgs = listMail(sock)
     if cmd == 'list':
-        a = listMail(sock)
-        print("%d messages" % len(a))
-        for m in a:
+        print("%d messages" % len(msgs))
+        for m in msgs:
             print(m[0], m[1])
     elif cmd == 'count':
-        a = listMail(sock)
-        print('%d messages' % len(a))
+        print('%d messages' % len(msgs))
     elif cmd == 'get':
         if len(sys.argv) < 8:
             my_print("should give message number and file path\n")
             exit(0)
         msg = int(sys.argv[6])
         path = sys.argv[7]
-        retrMail(sock, msg, path)
+        if msg >= len(msgs):
+            print("no %d message" % msg)
+            exit(0)
+        retrMail(sock, msg, path, msgs[msg][1])
     elif cmd == 'getall':
         if len(sys.argv) < 7:
             my_print("should give dir path\n")
@@ -148,7 +147,7 @@ if __name__ == '__main__':
             exit(0)
         
         for m in msgs:
-            retrMail(sock, m[0], Dir+"/"+m[1])
+            retrMail(sock, m[0], Dir+"/"+m[1], m[1])
     elif cmd == 'delete':
         if len(sys.argv) < 7:
             my_print("should give message number")
