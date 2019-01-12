@@ -243,7 +243,7 @@ func handleClient(conn net.Conn, auth map[string]string) {
 						conn.Write([]byte(fmt.Sprintf("+OK %d %s\n", i, mails[i].uid)))
 					}
 				} else {
-					conn.Write([]byte("+OK\n"))
+					conn.Write([]byte(fmt.Sprintf("+OK %d\n", total)))
 					hasMail := false
 					for i, m := range mails {
 						if !m.deleted {
@@ -309,6 +309,7 @@ func handleClient(conn net.Conn, auth map[string]string) {
 				conn.Write([]byte(fmt.Sprintf("+OK message %d deleted\n", i)))
 			}
 		} else if cmd == "quit" {
+			conn.Write([]byte("+OK\n"))
 			state = "update"
 			break
 		}
