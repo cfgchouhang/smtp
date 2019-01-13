@@ -45,7 +45,7 @@ def listMail(s):
     mails = int(r.split('\n')[0].split(' ')[1])
 
     a = r.split('\n')
-    while len(a) != mails+3: # first response line + mails# lines + .
+    while mails > 0 and len(a) != mails+3: # first response line + mails# lines + .
         r += s.recv(1024).decode()
         a = r.split('\n')
     
@@ -101,7 +101,7 @@ def quit(s):
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
-        my_print("Usage: ./clent ip port user pwd cmd <arg1> <arg2>")
+        print("Usage: ./clent ip port user pwd cmd <arg1> <arg2>")
         exit(0)
 
     ip = sys.argv[1]
@@ -113,12 +113,15 @@ if __name__ == '__main__':
     sock = connect(ip, port, user, pwd)
     if sock == None:
         exit(0)
+
+    uids_file += "."+user
     
     if os.path.exists(uids_file):
         with open(uids_file) as f:
             s = f.read()
             for u in s.split('\n'):
                 uids.append(u)
+
     msgs = listMail(sock)
     if cmd == 'list':
         print("%d messages" % len(msgs))
