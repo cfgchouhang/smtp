@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"strconv"
 	"strings"
+	"syscall"
 )
 
 type Job struct {
@@ -130,6 +131,9 @@ func getList(mbox string) ([]Mail, int) {
 	}
 
 	for _, file := range files {
+		if strings.HasPrefix(file.Name(), ".") {
+			continue
+		}
 		mails = append(mails, Mail{file.Name(), int(file.Size()), false})
 		size += int(file.Size())
 	}
@@ -149,11 +153,25 @@ func checkMsgNum(conn net.Conn, param string, total int) int {
 	return i
 }
 
+func getLock(path string) *os.File {
+	f, err := os.Create(path)
+	if err != nil {
+		return nil
+	}
+	err = syscall.Flock(int(f.Fd()), syscall.LOCK_EX|syscall.LOCK_NB)
+	if err != nil {
+		f.Close()
+		return nil
+	}
+	return f
+}
+
 func handleClient(conn net.Conn, auth map[string]string) {
 	//conn.SetReadDeadline(time.Now().Add(10 * time.Minute))
 	defer conn.Close()
 
 	var mails []Mail
+	var lock *os.File
 	total, size := 0, 0
 	cmd, param, user := "", "", ""
 	cmdSet := []string{"user", "pass", "stat",
@@ -215,19 +233,22 @@ func handleClient(conn net.Conn, auth map[string]string) {
 			}
 		} else if cmd == "pass" {
 			if state != "authu" {
-				conn.Write([]byte("-ERR wrong sequence\n"))
-				continue
-			} else if param == "" {
-				conn.Write([]byte("-ERR no password\n"))
+				conn.Write([]byte("-ERR wrong sequence, give user first\n"))
 				continue
 			}
 			if auth[user] == param {
+				mbox = mailDir + "/" + user + "/"
+				if lock = getLock(mbox + ".lock"); lock == nil {
+					conn.Write([]byte("-ERR unable to lock maildrop\n"))
+					break
+				}
 				conn.Write([]byte("+OK\n"))
 				state = "trans"
-				mbox = mailDir + "/" + user + "/"
 				mails, size = getList(mbox)
 				total = len(mails)
 			} else {
+				state = "auth"
+				user = ""
 				conn.Write([]byte("-ERR wrong password\n"))
 			}
 		} else if cmd == "stat" || cmd == "uidl" || cmd == "list" {
@@ -324,6 +345,10 @@ func handleClient(conn net.Conn, auth map[string]string) {
 				//os.Remove(mbox+m.uid)
 			}
 		}
+	}
+	if lock != nil {
+		syscall.Flock(int(lock.Fd()), syscall.LOCK_UN)
+		lock.Close()
 	}
 }
 
