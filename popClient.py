@@ -36,7 +36,7 @@ def listMail(s):
     r = s.recv(1024).decode()
     
     while '\n' not in r:
-        r += s.recv(1024).decode()
+        r += s.recv(1024).decode().replace('\r', '')
 
     if 'OK' not in r:
         my_print(r)
@@ -46,7 +46,7 @@ def listMail(s):
 
     a = r.split('\n')
     while mails > 0 and len(a) != mails+3: # first response line + mails# lines + .
-        r += s.recv(1024).decode()
+        r += s.recv(1024).decode().replace('\r', '')
         a = r.split('\n')
     
 
@@ -68,14 +68,14 @@ def retrMail(s, msg, path, uid):
     s.send('RETR {0}\n'.format(msg).encode())
     r = ''
     while '\n' not in r:
-        r += sock.recv(1024).decode()
+        r += sock.recv(1024).decode().replace('\r', '')
 
     if 'OK' not in r:
         my_print("S: %s " % r)
         return
     
-    while '\n.\n' not in r:
-        r += sock.recv(1024).decode()
+    while '\n.\n' not in r and '\n.\r\n' not in r:
+        r += sock.recv(1024).decode().replace('\r', '')
 
     with open(path, 'w') as f:
         a = r.split('\n')
