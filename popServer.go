@@ -141,7 +141,8 @@ func checkMsgNum(conn net.Conn, param string, total int) int {
 	i := -1
 	if i, err = strconv.Atoi(param); err != nil {
 		conn.Write([]byte("-ERR invalid argument\n"))
-	} else if i >= total {
+		i = -1
+	} else if i > total || i == 0 {
 		conn.Write([]byte("-ERR no such message\n"))
 		i = -1
 	}
@@ -176,7 +177,8 @@ func handleClient(conn net.Conn, auth map[string]string) {
 		request = strings.ToLower(request)
 		tmp := strings.Split(request, " ")
 		if len(tmp) > 1 {
-			param = tmp[1]
+			param = strings.Trim(tmp[1], " ")
+			param = strings.TrimLeft(tmp[1], " ")
 		} else {
 			param = ""
 		}
@@ -237,17 +239,17 @@ func handleClient(conn net.Conn, auth map[string]string) {
 					if i = checkMsgNum(conn, param, len(mails)); i < 0 {
 						continue
 					}
-					if mails[i].deleted {
+					if mails[i-1].deleted {
 						conn.Write([]byte(fmt.Sprintf("-ERR %d already deleted\n", i)))
 					} else {
-						conn.Write([]byte(fmt.Sprintf("+OK %d %s\n", i, mails[i].uid)))
+						conn.Write([]byte(fmt.Sprintf("+OK %d %s\n", i, mails[i-1].uid)))
 					}
 				} else {
 					conn.Write([]byte(fmt.Sprintf("+OK %d\n", total)))
 					hasMail := false
 					for i, m := range mails {
 						if !m.deleted {
-							conn.Write([]byte(fmt.Sprintf("%d %s\n", i, m.uid)))
+							conn.Write([]byte(fmt.Sprintf("%d %s\n", i+1, m.uid)))
 							hasMail = true
 						}
 					}
@@ -261,17 +263,17 @@ func handleClient(conn net.Conn, auth map[string]string) {
 					if i = checkMsgNum(conn, param, len(mails)); i < 0 {
 						continue
 					}
-					if mails[i].deleted {
+					if mails[i-1].deleted {
 						conn.Write([]byte(fmt.Sprintf("-ERR %d already deleted\n", i)))
 					} else {
-						conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", i, mails[i].size)))
+						conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", i, mails[i-1].size)))
 					}
 				} else {
 					conn.Write([]byte(fmt.Sprintf("+OK %d %d\n", total, size)))
 					hasMail := false
 					for i, m := range mails {
 						if !m.deleted {
-							conn.Write([]byte(fmt.Sprintf("%d %d\n", i, m.size)))
+							conn.Write([]byte(fmt.Sprintf("%d %d\n", i+1, m.size)))
 							hasMail = true
 						}
 					}
@@ -284,11 +286,11 @@ func handleClient(conn net.Conn, auth map[string]string) {
 			i := 0
 			if i = checkMsgNum(conn, param, len(mails)); i < 0 {
 				continue
-			} else if mails[i].deleted {
+			} else if mails[i-1].deleted {
 				conn.Write([]byte("-ERR already deleted\n"))
 			} else {
-				conn.Write([]byte(fmt.Sprintf("+OK %d bytes\n", mails[i].size)))
-				m, err := ioutil.ReadFile(mbox + mails[i].uid)
+				conn.Write([]byte(fmt.Sprintf("+OK %d bytes\n", mails[i-1].size)))
+				m, err := ioutil.ReadFile(mbox + mails[i-1].uid)
 				if err != nil {
 					conn.Write([]byte("-ERR mail read error\n"))
 				} else {
@@ -300,12 +302,12 @@ func handleClient(conn net.Conn, auth map[string]string) {
 			i := 0
 			if i = checkMsgNum(conn, param, len(mails)); i < 0 {
 				continue
-			} else if mails[i].deleted {
+			} else if mails[i-1].deleted {
 				conn.Write([]byte("-ERR already deleted\n"))
 			} else {
-				mails[i].deleted = true
+				mails[i-1].deleted = true
 				total -= 1
-				size -= mails[i].size
+				size -= mails[i-1].size
 				conn.Write([]byte(fmt.Sprintf("+OK message %d deleted\n", i)))
 			}
 		} else if cmd == "quit" {
