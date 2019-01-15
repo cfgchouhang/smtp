@@ -167,11 +167,12 @@ if __name__ == '__main__':
             my_print("should give dir path\n")
             exit(0)
         Dir = sys.argv[6]
-        msgs = listMail(sock)
+        if not os.path.isdir(Dir):
+            print("invalid directory")
+            exit(0)
         if len(msgs) == 0:
             print("no messages")
             exit(0)
-        
         for m in msgs:
             retrMail(sock, m[0], Dir+"/", True) 
         quit(sock)
@@ -183,7 +184,6 @@ if __name__ == '__main__':
         delMail(sock, msg)
         quit(sock)
     elif cmd == 'deleteall':
-        msgs = listMail(sock)
         for m in msgs:
             delMail(sock, m[0])
         quit(sock)
