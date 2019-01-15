@@ -16,8 +16,8 @@ def connect(ip, port, user, pwd):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((ip, port))
     resp = s.recv(1024).decode()
-    my_print('S: %s' % resp)
     if 'OK' not in resp:
+        my_print('S: %s' % resp)
         s.close()
         return None
     for r in req:
@@ -42,20 +42,20 @@ def listMail(s):
         my_print(r)
         return ls
 
-    #while '\n.\n' not in r and '\r\n.\r\n' not in r:
-    #    r += sock.recv(1024).decode().replace('\r', '')
-
+    while '\n.\n' not in r and '\r\n.\r\n' not in r:
+        r += sock.recv(1024).decode().replace('\r', '')
+    '''
     mails = int(r.split('\n')[0].split(' ')[1])
 
     a = r.split('\n')
     while mails > 0 and len(a) != mails+3: # first response line + mails# lines + .
         r += s.recv(1024).decode().replace('\r', '')
         a = r.split('\n')
-    
+    ''' 
 
     #print(r)
-    a = r.split('\n')
-    if len(a) == 1:
+    a = r.strip('\n').split('\n')
+    if len(a) <= 2:
         my_print(r)
         return ls
 
@@ -67,7 +67,7 @@ def listMail(s):
 
     return ls
 
-def retrMail(s, msg, path, uid):
+def retrMail(s, msg, path, useUid=False):
     s.send('RETR {0}\r\n'.format(msg).encode())
     r = ''
     while '\n' not in r:
@@ -80,10 +80,21 @@ def retrMail(s, msg, path, uid):
     while '\n.\n' not in r and '\n.\r\n' not in r:
         r += sock.recv(1024).decode().replace('\r', '')
 
+    s.send('UIDL {0}\r\n'.format(msg).encode())
+    u = ''
+    while '\n' not in u:
+        u += sock.recv(1024).decode().replace('\r', '')
+    if 'OK' not in u:
+        my_print("S: %s " % u)
+        return
+    uid = u.strip('\n').split(' ')[2]
+
+    if useUid:
+        path += uid
     with open(path, 'w') as f:
         a = r.split('\n')
         if len(a) > 2:
-            my_print("get message %s\n%s" % (msg, r[r.find('\n')+1:-2]))
+            my_print(r[r.find('\n')+1:-2])
             with open(uids_file, 'a') as t:
                 t.write(uid+'\n')
             f.write(r[r.find('\n')+1:-2])
@@ -93,14 +104,20 @@ def delMail(s, msg):
     r = s.recv(1024).decode()
     while '\n' not in r:
         r += sock.recv(1024).decode()
-    my_print("S: %s" % r)
+    #my_print("S: %s" % r)
 
 def quit(s):
     s.send(b'QUIT\r\n')
     r = s.recv(1024).decode()
     while '\n' not in r:
         r += sock.recv(1024).decode()
-    my_print("S: %s" % r)
+    #my_print("S: %s" % r)
+
+def inList(ls, m):
+    for a in ls:
+        if m == a[0]:
+            return True
+    return False
 
 if __name__ == '__main__':
     if len(sys.argv) < 6:
@@ -140,10 +157,10 @@ if __name__ == '__main__':
             exit(0)
         msg = int(sys.argv[6])
         path = sys.argv[7]
-        if msg > len(msgs):
+        if not inList(msgs, str(msg)):
             print("no %d message" % msg)
             exit(0)
-        retrMail(sock, msg, path, msgs[msg-1][1])
+        retrMail(sock, msg, path)
         quit(sock)
     elif cmd == 'getall':
         if len(sys.argv) < 7:
@@ -156,7 +173,7 @@ if __name__ == '__main__':
             exit(0)
         
         for m in msgs:
-            retrMail(sock, m[0], Dir+"/"+m[1], m[1])
+            retrMail(sock, m[0], Dir+"/", True) 
         quit(sock)
     elif cmd == 'delete':
         if len(sys.argv) < 7:
