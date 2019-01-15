@@ -32,7 +32,7 @@ def connect(ip, port, user, pwd):
 
 def listMail(s):
     ls = list()
-    s.send(b"UIDL\n")
+    s.send(b"UIDL\r\n")
     r = s.recv(1024).decode()
     
     while '\n' not in r:
@@ -41,6 +41,9 @@ def listMail(s):
     if 'OK' not in r:
         my_print(r)
         return ls
+
+    #while '\n.\n' not in r and '\r\n.\r\n' not in r:
+    #    r += sock.recv(1024).decode().replace('\r', '')
 
     mails = int(r.split('\n')[0].split(' ')[1])
 
@@ -65,7 +68,7 @@ def listMail(s):
     return ls
 
 def retrMail(s, msg, path, uid):
-    s.send('RETR {0}\n'.format(msg).encode())
+    s.send('RETR {0}\r\n'.format(msg).encode())
     r = ''
     while '\n' not in r:
         r += sock.recv(1024).decode().replace('\r', '')
@@ -86,14 +89,14 @@ def retrMail(s, msg, path, uid):
             f.write(r[r.find('\n')+1:-2])
 
 def delMail(s, msg):
-    s.send('DELE {0}\n'.format(msg).encode())
+    s.send('DELE {0}\r\n'.format(msg).encode())
     r = s.recv(1024).decode()
     while '\n' not in r:
         r += sock.recv(1024).decode()
     my_print("S: %s" % r)
 
 def quit(s):
-    s.send(b'QUIT\n')
+    s.send(b'QUIT\r\n')
     r = s.recv(1024).decode()
     while '\n' not in r:
         r += sock.recv(1024).decode()
@@ -127,18 +130,21 @@ if __name__ == '__main__':
         print("%d messages" % len(msgs))
         for m in msgs:
             print(m[0], m[1])
+        quit(sock)
     elif cmd == 'count':
         print('%d messages' % len(msgs))
+        quit(sock)
     elif cmd == 'get':
         if len(sys.argv) < 8:
             my_print("should give message number and file path\n")
             exit(0)
         msg = int(sys.argv[6])
         path = sys.argv[7]
-        if msg >= len(msgs):
+        if msg > len(msgs):
             print("no %d message" % msg)
             exit(0)
-        retrMail(sock, msg, path, msgs[msg][1])
+        retrMail(sock, msg, path, msgs[msg-1][1])
+        quit(sock)
     elif cmd == 'getall':
         if len(sys.argv) < 7:
             my_print("should give dir path\n")
@@ -151,6 +157,7 @@ if __name__ == '__main__':
         
         for m in msgs:
             retrMail(sock, m[0], Dir+"/"+m[1], m[1])
+        quit(sock)
     elif cmd == 'delete':
         if len(sys.argv) < 7:
             my_print("should give message number")
